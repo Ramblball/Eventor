@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "eventor_schema.\"user\"")
 public class User {
 
     @Id
