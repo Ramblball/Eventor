@@ -1,6 +1,5 @@
 package database.utils;
 
-import database.model.Category;
 import database.model.Event;
 import database.model.User;
 import org.hibernate.SessionFactory;
@@ -19,7 +18,6 @@ public class HibernateSessionFactory {
                 Configuration configuration = new Configuration().configure();
                 configuration.addAnnotatedClass(User.class);
                 configuration.addAnnotatedClass(Event.class);
-                configuration.addAnnotatedClass(Category.class);
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
                 sessionFactory = configuration.buildSessionFactory(builder.build());
             } catch (Exception e) {
