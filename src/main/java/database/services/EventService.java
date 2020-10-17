@@ -10,20 +10,12 @@ public class EventService {
 
     public EventService() {}
 
-    public Event findEvent(int id) {
+    public Event findEventById(int id) {
         return EventDAO.findById(id);
     }
 
-    public void saveEvent(Event event) {
-        EventDAO.save(event);
-    }
-
-    public void deleteEvent(Event event) {
-        EventDAO.delete(event);
-    }
-
-    public void updateEvent(Event event) {
-        EventDAO.update(event);
+    public Event findEventByName(String name) {
+        return EventDAO.findByName(name);
     }
 
     public List<Event> findAll() {

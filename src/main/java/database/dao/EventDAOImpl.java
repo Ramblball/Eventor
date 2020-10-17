@@ -3,7 +3,6 @@ package database.dao;
 import database.model.Event;
 import database.utils.HibernateSessionFactory;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import java.util.List;
 
@@ -14,33 +13,15 @@ public class EventDAOImpl {
         }
     }
 
-    public void save(Event Event) {
+    public Event findByName(String name) {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            Transaction transaction = session.beginTransaction();
-            session.save(Event);
-            transaction.commit();
-        }
-    }
-
-    public void update(Event Event) {
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()){
-            Transaction transaction = session.beginTransaction();
-            session.update(Event);
-            transaction.commit();
-        }
-    }
-
-    public void delete(Event Event) {
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            Transaction transaction = session.beginTransaction();
-            session.delete(Event);
-            transaction.commit();
+            return session.createQuery("FROM Event WHERE name=:name", Event.class).setParameter("name", name).getSingleResult();
         }
     }
 
     public List<Event> findAll() {
         try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            return (List<Event>) session.createQuery("FROM Event").list();
+            return session.createQuery("FROM Event", Event.class).getResultList();
         }
     }
 }
