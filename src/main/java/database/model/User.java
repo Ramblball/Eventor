@@ -1,19 +1,24 @@
 package database.model;
 
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.FetchProfile;
+
 import javax.persistence.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
-@Table(name = "eventor_schema.\"user\"")
+@FetchProfile(name = "users_with_subscribes", fetchOverrides = {
+        @FetchProfile.FetchOverride(entity = User.class, association = "subscribes", mode = FetchMode.JOIN)
+})
+@FetchProfile(name = "user_with_created", fetchOverrides = {
+        @FetchProfile.FetchOverride(entity = User.class, association = "createdEvents", mode = FetchMode.JOIN)
+})
+@Table(name = "\"user\"", schema = "eventor_schema")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -21,25 +26,28 @@ public class User {
     private byte[] salt;
     private byte[] hash;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "orgUser", orphanRemoval = true)
-    private List<Event> ownEvents = new LinkedList<>();
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Event> createdEvents;
 
-
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany
     @JoinTable(
-            name = "users_events",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "event_id")}
-    )
-    Set<Event> subEvents = new HashSet<>();
-
+            name = "users_events", schema = "eventor_schema",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id"))
+    List<Event> subscribes;
 
     public User() {
     }
 
-    public User(String name, String password) {
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
         this.name = name;
-        setPassword(password);
     }
 
     private void setPassword(String password) {
@@ -55,7 +63,6 @@ public class User {
             e.printStackTrace();
         }
     }
-
     public boolean checkPassword(String pass) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -67,47 +74,34 @@ public class User {
         }
     }
 
-    public int getId() {
-        return id;
+    public List<Event> getCreatedEvents() {
+        return createdEvents;
+    }
+    public void setCreatedEvents(List<Event> createdEvents) {
+        this.createdEvents = createdEvents;
+    }
+    public void addCreatedEvent(Event event) {
+        event.setUserId(this.id);
+        event.setUser(this);
+        this.getCreatedEvents().add(event);
+    }
+    public void removeCreatedEvent(Event event) {
+        event.setUser(null);
+        this.getCreatedEvents().remove(event);
     }
 
-    public String getName() {
-        return name;
+    public List<Event> getSubscribes() {
+        return subscribes;
     }
-
-    public byte[] getSalt() {
-        return salt;
+    public void setSubscribes(List<Event> subscribes) {
+        this.subscribes = subscribes;
     }
-
-    public byte[] getHash() {
-        return hash;
+    public void addSubscribe(Event event) {
+        this.getSubscribes().add(event);
+        event.getSubscribers().add(this);
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Event> getOwnEvents() {
-        return ownEvents;
-    }
-
-    public void addOwnEvent(Event event) {
-        ownEvents.add(event);
-    }
-
-    public void removeOwnEvent(Event event) {
-        ownEvents.remove(event);
-    }
-
-    public Set<Event> getSubEvents() {
-        return subEvents;
-    }
-
-    public void addSubEvents(Event event) {
-        subEvents.add(event);
-    }
-
-    public void removeSubEvents(Event event) {
-        subEvents.remove(event);
+    public void removeSubscribe(Event event) {
+        this.getSubscribes().remove(event);
+        event.getSubscribers().remove(this);
     }
 }
