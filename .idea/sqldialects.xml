@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$USER_HOME$/hibernate_cfg_xml_Hibernate-2020_10_16_12_14_06-dump.sql" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/Postgres_eventor_schema_dump.sql" dialect="PostgreSQL" />
   </component>
 </project>
