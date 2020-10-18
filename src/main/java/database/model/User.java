@@ -50,7 +50,7 @@ public class User {
         this.name = name;
     }
 
-    private void setPassword(String password) {
+    public void setPassword(String password) {
         try {
             SecureRandom random = new SecureRandom();
             this.salt = new byte[16];
