@@ -20,16 +20,20 @@ import java.util.List;
 @Table(name = "\"user\"", schema = "eventor_schema")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "user_id_seq",
+            sequenceName = "user_id_seq",
+            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "user_id_seq")
     private int id;
     private String name;
     private byte[] salt;
     private byte[] hash;
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     private List<Event> createdEvents;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_events", schema = "eventor_schema",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -37,6 +41,7 @@ public class User {
     List<Event> subscribes;
 
     public User() {
+        setPassword("pass");
     }
 
     public int getId() {
@@ -46,6 +51,7 @@ public class User {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -63,28 +69,32 @@ public class User {
             e.printStackTrace();
         }
     }
-    public boolean checkPassword(String pass) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            md.update(salt);
-            return hash == md.digest(pass.getBytes(StandardCharsets.UTF_8));
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
+//
+//    public boolean checkPassword(String pass) {
+//        try {
+//            MessageDigest md = MessageDigest.getInstance("SHA-256");
+//            md.update(salt);
+//            return hash == md.digest(pass.getBytes(StandardCharsets.UTF_8));
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 
     public List<Event> getCreatedEvents() {
         return createdEvents;
     }
+
     public void setCreatedEvents(List<Event> createdEvents) {
         this.createdEvents = createdEvents;
     }
+
     public void addCreatedEvent(Event event) {
         event.setUserId(this.id);
         event.setUser(this);
         this.getCreatedEvents().add(event);
     }
+
     public void removeCreatedEvent(Event event) {
         event.setUser(null);
         this.getCreatedEvents().remove(event);
@@ -93,15 +103,19 @@ public class User {
     public List<Event> getSubscribes() {
         return subscribes;
     }
+
     public void setSubscribes(List<Event> subscribes) {
         this.subscribes = subscribes;
     }
+
     public void addSubscribe(Event event) {
         this.getSubscribes().add(event);
         event.getSubscribers().add(this);
     }
+
     public void removeSubscribe(Event event) {
         this.getSubscribes().remove(event);
         event.getSubscribers().remove(this);
     }
 }
+
