@@ -4,25 +4,24 @@ import database.model.Event;
 import database.model.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import database.utils.HibernateSessionFactory;
 
-public class UserDAOImpl {
+public class UserDAOImpl extends DAO{
 
     public User findById(int id) {
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+        try (Session session = openSession()) {
             session.enableFetchProfile("users_with_subscribes");
             return session.get(User.class, id);
         }
     }
 
     public User findByName(String name) {
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+        try (Session session = openSession()) {
             return session.createQuery("FROM User WHERE name=:name", User.class).setParameter("name", name).getSingleResult();
         }
     }
 
     public void save(User user) {
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+        try (Session session = openSession()) {
             Transaction transaction = session.beginTransaction();
             session.save(user);
             transaction.commit();
@@ -30,7 +29,7 @@ public class UserDAOImpl {
     }
 
     public void update(User user) {
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()){
+        try (Session session = openSession()){
             Transaction transaction = session.beginTransaction();
             session.update(user);
             transaction.commit();
@@ -38,7 +37,7 @@ public class UserDAOImpl {
     }
 
     public void delete(User user) {
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+        try (Session session = openSession()) {
             Transaction transaction = session.beginTransaction();
             session.delete(user);
             transaction.commit();
@@ -46,7 +45,7 @@ public class UserDAOImpl {
     }
 
     public void createEvent(User user, Event event) {
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+        try (Session session = openSession()) {
             Transaction transaction = session.beginTransaction();
             session.refresh(user);
             user.addCreatedEvent(event);
@@ -55,11 +54,11 @@ public class UserDAOImpl {
         }
     }
     public void removeEvent(User user, Event event) {
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+        try (Session session = openSession()) {
             session.refresh(user);
             user.removeCreatedEvent(event);
         }
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+        try (Session session = openSession()) {
             Transaction transaction = session.beginTransaction();
             session.delete(event);
             transaction.commit();
@@ -67,7 +66,7 @@ public class UserDAOImpl {
     }
 
     public void subscribe(User user, Event event) {
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+        try (Session session = openSession()) {
             Transaction transaction = session.beginTransaction();
             session.refresh(user);
             session.refresh(event);
@@ -76,7 +75,7 @@ public class UserDAOImpl {
         }
     }
     public void unsubscribe(User user, Event event) {
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+        try (Session session = openSession()) {
             Transaction transaction = session.beginTransaction();
             session.refresh(user);
             session.refresh(event);
