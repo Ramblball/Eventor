@@ -69,17 +69,18 @@ public class User {
             e.printStackTrace();
         }
     }
-//
-//    public boolean checkPassword(String pass) {
-//        try {
-//            MessageDigest md = MessageDigest.getInstance("SHA-256");
-//            md.update(salt);
-//            return hash == md.digest(pass.getBytes(StandardCharsets.UTF_8));
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
+
+    public boolean checkPassword(String pass) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(salt);
+            byte[] checkedHash = md.digest(pass.getBytes(StandardCharsets.UTF_8));
+            return java.util.Arrays.equals(this.hash, checkedHash);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public List<Event> getCreatedEvents() {
         return createdEvents;
