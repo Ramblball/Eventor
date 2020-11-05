@@ -8,8 +8,6 @@ import java.util.List;
 public class EventService {
     EventDAOImpl EventDAO = new EventDAOImpl();
 
-    public EventService() {}
-
     public Event findEventById(int id) {
         return EventDAO.findById(id);
     }

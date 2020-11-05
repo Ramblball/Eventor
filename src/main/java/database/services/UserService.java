@@ -8,9 +8,6 @@ public class UserService {
 
     UserDAOImpl userDAO = new UserDAOImpl();
 
-    public UserService() {
-    }
-
     public User findUserById(int id) {
         return userDAO.findById(id);
     }

@@ -40,9 +40,7 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "event_id"))
     List<Event> subscribes;
 
-    public User() {
-        setPassword("pass");
-    }
+    public User() {}
 
     public int getId() {
         return id;
