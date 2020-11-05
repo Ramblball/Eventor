@@ -20,7 +20,7 @@ public class Console {
                     }
                     break;
                 case "login":
-                    System.out.println(controller.logIn(input[1]));
+                    System.out.println(controller.logIn(input[1], input[2]));
                     break;
                 case "help":
                     System.out.println(controller.getHelp());
