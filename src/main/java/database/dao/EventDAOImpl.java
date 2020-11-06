@@ -1,5 +1,6 @@
 package database.dao;
 
+import database.DBLiterals;
 import database.model.Event;
 import org.hibernate.Session;
 
@@ -15,7 +16,7 @@ public class EventDAOImpl extends DAO{
 
     public Event findByName(String name) {
         try (Session session = openSession()) {
-            return session.createQuery("FROM Event WHERE name=:name", Event.class).setParameter("name", name).getSingleResult();
+            return session.createQuery("FROM Event WHERE name=:name", Event.class).setParameter(DBLiterals.name, name).getSingleResult();
         }
     }
 

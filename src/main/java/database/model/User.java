@@ -10,34 +10,36 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.List;
 
+import static database.DBLiterals.*;
+
 @Entity
-@FetchProfile(name = "users_with_subscribes", fetchOverrides = {
-        @FetchProfile.FetchOverride(entity = User.class, association = "subscribes", mode = FetchMode.JOIN)
+@FetchProfile(name = usersWithSubscribes, fetchOverrides = {
+        @FetchProfile.FetchOverride(entity = User.class, association = subscribes, mode = FetchMode.JOIN)
 })
-@FetchProfile(name = "user_with_created", fetchOverrides = {
-        @FetchProfile.FetchOverride(entity = User.class, association = "createdEvents", mode = FetchMode.JOIN)
+@FetchProfile(name = userWithCreated, fetchOverrides = {
+        @FetchProfile.FetchOverride(entity = User.class, association = createdEvents, mode = FetchMode.JOIN)
 })
-@Table(name = "\"user\"", schema = "eventor_schema")
+@Table(name = userTable, schema = eventorSchema)
 public class User {
     @Id
-    @SequenceGenerator(name = "user_id_seq",
-            sequenceName = "user_id_seq",
+    @SequenceGenerator(name = userIdSeq,
+            sequenceName = userIdSeq,
             allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
-            generator = "user_id_seq")
+            generator = userIdSeq)
     private int id;
     private String name;
     private byte[] salt;
     private byte[] hash;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = user, orphanRemoval = true)
     private List<Event> createdEvents;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "users_events", schema = "eventor_schema",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id"))
+            name = usersEvents, schema = eventorSchema,
+            joinColumns = @JoinColumn(name = userId),
+            inverseJoinColumns = @JoinColumn(name = eventId))
     List<Event> subscribes;
 
     public User() {}

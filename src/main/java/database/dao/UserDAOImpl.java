@@ -1,5 +1,6 @@
 package database.dao;
 
+import database.DBLiterals;
 import database.model.Event;
 import database.model.User;
 import org.hibernate.Session;
@@ -9,14 +10,14 @@ public class UserDAOImpl extends DAO{
 
     public User findById(int id) {
         try (Session session = openSession()) {
-            session.enableFetchProfile("users_with_subscribes");
+            session.enableFetchProfile(DBLiterals.usersWithSubscribes);
             return session.get(User.class, id);
         }
     }
 
     public User findByName(String name) {
         try (Session session = openSession()) {
-            return session.createQuery("FROM User WHERE name=:name", User.class).setParameter("name", name).getSingleResult();
+            return session.createQuery("FROM User WHERE name=:name", User.class).setParameter(DBLiterals.name, name).getSingleResult();
         }
     }
 
