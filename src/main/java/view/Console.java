@@ -5,7 +5,7 @@ import controller.Controller;
 import java.util.Scanner;
 
 public class Console {
-    private static Controller controller = new Controller();
+    private final Controller controller = new Controller();
 
     public void execute() {
         Scanner scanner = new Scanner(System.in);
@@ -20,7 +20,7 @@ public class Console {
                     }
                     break;
                 case "login":
-                    System.out.println(controller.logIn(input[1]));
+                    System.out.println(controller.logIn(input[1], input[2]));
                     break;
                 case "help":
                     System.out.println(controller.getHelp());
@@ -31,6 +31,8 @@ public class Console {
                 case "signup":
                     System.out.println(controller.signUp(input[1]));
                     break;
+                case "exit":
+                    return;
                 default:
                     System.out.println("Unknown command. Try to type \"help\"");
                     break;

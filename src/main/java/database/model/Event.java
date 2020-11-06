@@ -1,5 +1,6 @@
 package database.model;
 
+import database.DBLiterals;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -7,13 +8,15 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import static database.DBLiterals.*;
+
 @Entity
-@Table(name = "event", schema = "eventor_schema")
+@Table(name = eventTable, schema = eventorSchema)
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "user_id")
+    @Column(name = DBLiterals.userId)
     private int userId;
     private String name;
     private String place;
@@ -21,13 +24,13 @@ public class Event {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    @Type(type = "database.type.EnumTypePostgreSQL")
+    @Type(type = enumTypePostgreSQL)
     private Category category;
     @ManyToOne
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = DBLiterals.userId, insertable = false, updatable = false)
     private User user;
 
-    @ManyToMany(mappedBy = "subscribes")
+    @ManyToMany(mappedBy = subscribes)
     private Set<User> subscribers = new HashSet<>();
 
     public Event() {

@@ -15,7 +15,7 @@ public class Controller {
 
     public String getHelp() {
         return "This is a bot for creating events.\nTo create a user, type: \"Create user *name* *password*\"\n" +
-                "To log in, type: \"Login *name*\"\nTo create an event, type: \"Create event *name* *description*\"\n" +
+                "To log in, type: \"Login *name* *password*\"\nTo create an event, type: \"Create event *name* *description*\"\n" +
                 "To find an event/user, type: \"Find *eventName|userName*\"\n" +
                 "To sign up for an event, type: \"Signup *eventName*\"";
     }
@@ -46,10 +46,12 @@ public class Controller {
         return current.getName() + " signed up for " + name;
     }
 
-    public String logIn(String name) {
+    public String logIn(String name, String password) {
         var user = userService.findUserByName(name);
         if (user == null)
             return "No such user";
+        if (!user.checkPassword(password))
+            return "Invalid password";
         current = user;
         return "Welcome, " + current.getName();
     }
