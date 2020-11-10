@@ -12,10 +12,19 @@ public class EventController {
     private final EventService eventService = new EventService();
     private StringBuilder stringBuilder = new StringBuilder();
 
+    /**
+     * @return manual
+     */
     public String getHelp() {
         return Keywords.help;
     }
 
+    /**
+     * @param name of new event
+     * @param place of new event
+     * @param description detailed information of new event
+     * @return success of adding new event for current user
+     */
     public String create(String name, String place, String description) {
         var event = new Event(name, "", LocalDateTime.now(), Category.Прогулка, "");
         userService.createEvent(UserController.getCurrent(), event);
@@ -26,6 +35,10 @@ public class EventController {
         return stringBuilder.toString();
     }
 
+    /**
+     * @param name of sought event
+     * @return success of finding event
+     */
     public String findEvent(String name) {
         var event = eventService.findEventByName(name);
         stringBuilder = new StringBuilder();
