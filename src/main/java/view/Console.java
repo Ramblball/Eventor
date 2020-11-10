@@ -1,11 +1,13 @@
 package view;
 
-import controller.Controller;
+import controller.EventController;
+import controller.UserController;
 
 import java.util.Scanner;
 
 public class Console {
-    private final Controller controller = new Controller();
+    private final UserController userController = new UserController();
+    private final EventController eventController = new EventController();
 
     public void execute() {
         Scanner scanner = new Scanner(System.in);
@@ -14,22 +16,22 @@ public class Console {
             switch (input[0]) {
                 case "create":
                     if (input[1].equals("event")) {
-                        System.out.println(controller.createEvent(input[2], input[3], input[4]));
+                        System.out.println(eventController.create(input[2], input[3], input[4]));
                     } else {
-                        System.out.println(controller.createUser(input[2], input[3]));
+                        System.out.println(userController.create(input[2], input[3]));
                     }
                     break;
                 case "login":
-                    System.out.println(controller.logIn(input[1], input[2]));
+                    System.out.println(userController.logIn(input[1], input[2]));
                     break;
                 case "help":
-                    System.out.println(controller.getHelp());
+                    System.out.println(eventController.getHelp());
                     break;
                 case "find":
-                    System.out.println(controller.findEvent(input[1]));
+                    System.out.println(eventController.findEvent(input[1]));
                     break;
                 case "signup":
-                    System.out.println(controller.signUp(input[1]));
+                    System.out.println(userController.signUp(input[1]));
                     break;
                 case "exit":
                     return;

@@ -1,26 +1,16 @@
 package controller;
 
-import database.model.Category;
-import database.model.Event;
 import database.model.User;
 import database.services.EventService;
 import database.services.UserService;
-import javassist.compiler.ast.Keyword;
 
-import java.security.Key;
-import java.time.LocalDateTime;
-
-public class Controller {
-    private User current;
-    private final UserService userService = new UserService();
+public class UserController {
+    private static User current;
     private final EventService eventService = new EventService();
+    private final UserService userService = new UserService();
     private StringBuilder stringBuilder = new StringBuilder();
 
-    public String getHelp() {
-        return Keywords.help;
-    }
-
-    public String createUser(String name, String password) {
+    public String create(String name, String password) {
         var user = new User();
         user.setName(name);
         user.setPassword(password);
@@ -29,31 +19,6 @@ public class Controller {
         stringBuilder.append(Keywords.user);
         stringBuilder.append(user.getName());
         stringBuilder.append(Keywords.added);
-        return stringBuilder.toString();
-    }
-
-    public String createEvent(String name, String place, String description) {
-        var event = new Event(name, "", LocalDateTime.now(), Category.Прогулка, "");
-        userService.createEvent(current, event);
-        stringBuilder = new StringBuilder();
-        stringBuilder.append(Keywords.event);
-        stringBuilder.append(event.getName());
-        stringBuilder.append(Keywords.added);
-        return stringBuilder.toString();
-    }
-
-    public String findEvent(String name) {
-        var event = eventService.findEventByName(name);
-        stringBuilder = new StringBuilder();
-        stringBuilder.append(Keywords.found);
-        stringBuilder.append(Keywords.event);
-        stringBuilder.append(event.getName());
-        stringBuilder.append(' ');
-        stringBuilder.append(event.getPlace());
-        stringBuilder.append(' ');
-        stringBuilder.append(event.getTime());
-        stringBuilder.append(' ');
-        stringBuilder.append(event.getDescription());
         return stringBuilder.toString();
     }
 
@@ -78,5 +43,9 @@ public class Controller {
         stringBuilder.append(Keywords.welcome);
         stringBuilder.append(current.getName());
         return stringBuilder.toString();
+    }
+
+    public static User getCurrent(){
+        return current;
     }
 }
