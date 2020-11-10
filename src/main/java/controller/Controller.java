@@ -5,19 +5,19 @@ import database.model.Event;
 import database.model.User;
 import database.services.EventService;
 import database.services.UserService;
+import javassist.compiler.ast.Keyword;
 
+import java.security.Key;
 import java.time.LocalDateTime;
 
 public class Controller {
     private User current;
     private final UserService userService = new UserService();
     private final EventService eventService = new EventService();
+    private StringBuilder stringBuilder = new StringBuilder();
 
     public String getHelp() {
-        return "This is a bot for creating events.\nTo create a user, type: \"Create user *name* *password*\"\n" +
-                "To log in, type: \"Login *name* *password*\"\nTo create an event, type: \"Create event *name* *description*\"\n" +
-                "To find an event/user, type: \"Find *eventName|userName*\"\n" +
-                "To sign up for an event, type: \"Signup *eventName*\"";
+        return Keywords.help;
     }
 
     public String createUser(String name, String password) {
@@ -25,34 +25,58 @@ public class Controller {
         user.setName(name);
         user.setPassword(password);
         userService.saveUser(user);
-        return "user " + user.getName() + " added";
+        stringBuilder = new StringBuilder();
+        stringBuilder.append(Keywords.user);
+        stringBuilder.append(user.getName());
+        stringBuilder.append(Keywords.added);
+        return stringBuilder.toString();
     }
 
     public String createEvent(String name, String place, String description) {
         var event = new Event(name, "", LocalDateTime.now(), Category.Прогулка, "");
         userService.createEvent(current, event);
-        return "event " + event.getName() + " added";
+        stringBuilder = new StringBuilder();
+        stringBuilder.append(Keywords.event);
+        stringBuilder.append(event.getName());
+        stringBuilder.append(Keywords.added);
+        return stringBuilder.toString();
     }
 
     public String findEvent(String name) {
         var event = eventService.findEventByName(name);
-        return "Found an event: " + event.getName() + " " + event.getPlace() +
-                " " + " " + event.getTime() + " " + event.getDescription();
+        stringBuilder = new StringBuilder();
+        stringBuilder.append(Keywords.found);
+        stringBuilder.append(Keywords.event);
+        stringBuilder.append(event.getName());
+        stringBuilder.append(' ');
+        stringBuilder.append(event.getPlace());
+        stringBuilder.append(' ');
+        stringBuilder.append(event.getTime());
+        stringBuilder.append(' ');
+        stringBuilder.append(event.getDescription());
+        return stringBuilder.toString();
     }
 
     public String signUp(String name) {
         var event = eventService.findEventByName(name);
         userService.subscribe(current, event);
-        return current.getName() + " signed up for " + name;
+        stringBuilder = new StringBuilder();
+        stringBuilder.append(current.getName());
+        stringBuilder.append(Keywords.signed);
+        stringBuilder.append(name);
+        return stringBuilder.toString();
     }
 
     public String logIn(String name, String password) {
         var user = userService.findUserByName(name);
         if (user == null)
-            return "No such user";
+            return Keywords.wrongUser;
         if (!user.checkPassword(password))
-            return "Invalid password";
+            return Keywords.wrongPass;
         current = user;
-        return "Welcome, " + current.getName();
+        stringBuilder = new StringBuilder();
+        stringBuilder.append(Keywords.welcome);
+        stringBuilder.append(current.getName());
+        return stringBuilder.toString();
     }
 }
