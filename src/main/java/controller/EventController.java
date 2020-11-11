@@ -20,13 +20,13 @@ public class EventController {
     }
 
     /**
-     * @param name of new event
-     * @param place of new event
+     * @param name        of new event
+     * @param place       of new event
      * @param description detailed information of new event
      * @return success of adding new event for current user
      */
     public String create(String name, String place, String description) {
-        var event = new Event(name, "", LocalDateTime.now(), Category.Прогулка, "");
+        var event = new Event(name, place, LocalDateTime.now(), Category.Прогулка, description);
         userService.createEvent(UserController.getCurrent(), event);
         stringBuilder = new StringBuilder();
         stringBuilder.append(Keywords.event);

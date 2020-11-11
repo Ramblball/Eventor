@@ -11,7 +11,7 @@ public class UserController {
     private StringBuilder stringBuilder = new StringBuilder();
 
     /**
-     * @param name of new user
+     * @param name     of new user
      * @param password of new user
      * @return success of adding user
      */
@@ -42,7 +42,7 @@ public class UserController {
     }
 
     /**
-     * @param name of existing user
+     * @param name     of existing user
      * @param password of existing user
      * @return success of logging
      */
@@ -62,7 +62,7 @@ public class UserController {
     /**
      * @return current User object for eventController
      */
-    public static User getCurrent(){
+    public static User getCurrent() {
         return current;
     }
 }
