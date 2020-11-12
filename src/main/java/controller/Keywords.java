@@ -16,6 +16,7 @@ public final class Keywords {
     public final static String longPlace = "Too much long place name";
     public final static String longDesc = "Too much long description";
     public final static String exception = "Something going wrong...";
+    public final static String unLogin = "You need to login";
 
     public final static String help = "This is a bot for creating events.\nTo create a user, type: \"Create user *name* *password*\"\nTo log in, type: \"Login *name* *password*\"\nTo create an event, type: \"Create event *name* *place* *description*\"\nTo find an event/user, type: \"Find *eventName|userName*\"\nTo sign up for an event, type: \"Signup *eventName*\"";
 }

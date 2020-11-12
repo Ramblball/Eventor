@@ -26,6 +26,9 @@ public class EventController {
      * @return success of adding new event for current user
      */
     public String create(String name, String place, String description) {
+        if (UserController.getCurrent() == null) {
+            return Keywords.unLogin;
+        }
         if (name.length() > 32) {
             return Keywords.longName;
         }
@@ -42,7 +45,7 @@ public class EventController {
         }
         stringBuilder = new StringBuilder();
         stringBuilder.append(Keywords.event);
-        stringBuilder.append(event.getName());
+        stringBuilder.append(event.getName().trim());
         stringBuilder.append(Keywords.added);
         return stringBuilder.toString();
     }
@@ -59,13 +62,13 @@ public class EventController {
         stringBuilder = new StringBuilder();
         stringBuilder.append(Keywords.found);
         stringBuilder.append(Keywords.event);
-        stringBuilder.append(event.getName());
+        stringBuilder.append(event.getName().trim());
         stringBuilder.append(' ');
-        stringBuilder.append(event.getPlace());
+        stringBuilder.append(event.getPlace().trim());
         stringBuilder.append(' ');
         stringBuilder.append(event.getTime());
         stringBuilder.append(' ');
-        stringBuilder.append(event.getDescription());
+        stringBuilder.append(event.getDescription().trim());
         return stringBuilder.toString();
     }
 }

@@ -41,6 +41,9 @@ public class UserController {
      * @return success of signing up for an event
      */
     public String signUp(String name) {
+        if (current == null) {
+            return Keywords.unLogin;
+        }
         var event = eventService.findEventByName(name);
         if (event == null) {
             return Keywords.exception;
@@ -50,7 +53,7 @@ public class UserController {
             return Keywords.exception;
         }
         stringBuilder = new StringBuilder();
-        stringBuilder.append(current.getName());
+        stringBuilder.append(current.getName().trim());
         stringBuilder.append(Keywords.signed);
         stringBuilder.append(name);
         return stringBuilder.toString();
@@ -70,7 +73,7 @@ public class UserController {
         current = user;
         stringBuilder = new StringBuilder();
         stringBuilder.append(Keywords.welcome);
-        stringBuilder.append(current.getName());
+        stringBuilder.append(current.getName().trim());
         return stringBuilder.toString();
     }
 
