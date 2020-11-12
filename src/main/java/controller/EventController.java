@@ -26,8 +26,20 @@ public class EventController {
      * @return success of adding new event for current user
      */
     public String create(String name, String place, String description) {
+        if (name.length() > 32) {
+            return Keywords.longName;
+        }
+        if (place.length() > 128) {
+            return Keywords.longPlace;
+        }
+        if (description.length() > 256) {
+            return Keywords.longDesc;
+        }
         var event = new Event(name, place, LocalDateTime.now(), Category.Прогулка, description);
-        userService.createEvent(UserController.getCurrent(), event);
+        boolean result = userService.createEvent(UserController.getCurrent(), event);
+        if (!result) {
+            return Keywords.exception;
+        }
         stringBuilder = new StringBuilder();
         stringBuilder.append(Keywords.event);
         stringBuilder.append(event.getName());
@@ -41,6 +53,9 @@ public class EventController {
      */
     public String findEvent(String name) {
         var event = eventService.findEventByName(name);
+        if (event == null) {
+            return Keywords.exception;
+        }
         stringBuilder = new StringBuilder();
         stringBuilder.append(Keywords.found);
         stringBuilder.append(Keywords.event);

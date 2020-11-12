@@ -16,10 +16,19 @@ public class UserController {
      * @return success of adding user
      */
     public String create(String name, String password) {
+        if (password.length() < 4) {
+            return Keywords.shortPass;
+        }
+        if (name.length() > 64) {
+            return Keywords.longName;
+        }
         var user = new User();
         user.setName(name);
         user.setPassword(password);
-        userService.saveUser(user);
+        boolean result = userService.saveUser(user);
+        if (!result) {
+            return Keywords.exception;
+        }
         stringBuilder = new StringBuilder();
         stringBuilder.append(Keywords.user);
         stringBuilder.append(user.getName());
@@ -33,7 +42,13 @@ public class UserController {
      */
     public String signUp(String name) {
         var event = eventService.findEventByName(name);
-        userService.subscribe(current, event);
+        if (event == null) {
+            return Keywords.exception;
+        }
+        boolean result = userService.subscribe(current, event);
+        if (!result) {
+            return Keywords.exception;
+        }
         stringBuilder = new StringBuilder();
         stringBuilder.append(current.getName());
         stringBuilder.append(Keywords.signed);
