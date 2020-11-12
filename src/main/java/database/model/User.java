@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.List;
 
 import static database.DBLiterals.*;
@@ -22,7 +23,7 @@ import static database.DBLiterals.*;
 @Table(name = userTable, schema = eventorSchema)
 public class User {
     @Id
-    @SequenceGenerator(name = userIdSeq,
+    @SequenceGenerator(name = userIdSeq, schema = eventorSchema,
             sequenceName = userIdSeq,
             allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
