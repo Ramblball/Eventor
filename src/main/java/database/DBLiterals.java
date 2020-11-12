@@ -7,6 +7,7 @@ public class DBLiterals {
     public static final String usersEvents = "users_events";
 
     public static final String userIdSeq = "user_id_seq";
+    public static final String eventIdSeq = "event_id_seq";
 
     public static final String enumTypePostgreSQL = "database.type.EnumTypePostgreSQL";
 

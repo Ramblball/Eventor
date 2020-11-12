@@ -14,7 +14,11 @@ import static database.DBLiterals.*;
 @Table(name = eventTable, schema = eventorSchema)
 public class Event {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = eventIdSeq, schema = eventorSchema,
+            sequenceName = eventIdSeq,
+            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = eventIdSeq)
     private int id;
     @Column(name = DBLiterals.userId)
     private int userId;
