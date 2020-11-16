@@ -1,9 +1,7 @@
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
-import telegram.EventorBot;
-import view.Console;
+import view.Chat;
 
 
 public class Main {
@@ -11,7 +9,7 @@ public class Main {
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
-            telegramBotsApi.registerBot(new EventorBot());
+            telegramBotsApi.registerBot(new Chat());
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
