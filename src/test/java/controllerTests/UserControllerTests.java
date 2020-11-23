@@ -29,7 +29,7 @@ public class UserControllerTests {
 
     @Test
     public void createUserLongName(){
-        var result = userController.create("dbTestikdbTestikdbTestikdbTestikdbTestikdbTestikdbTestikdbTestikdbTestikdbTestikdbTestikdbTestikdbTestikdbTestikdbTestikdbTestikdbTestikdbTestik", "12");
+        var result = userController.create("dbTestikdbTestikdbTestikdbTestikdbTestikdbTestikdbTestikdbTestikd", "12");
         assertEquals(Keywords.longName, result);
     }
 
