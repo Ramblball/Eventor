@@ -13,7 +13,7 @@ public class Chat extends TelegramLongPollingBot {
     private final EventController eventController = new EventController();
     private final static String fewArgumentsOutput = "Too few arguments. Try to type \"help\"";
 
-    private String execute(String message) {
+    public String execute(String message) {
         var input = message.split(" ");
         switch (input[0]) {
             case "create":
