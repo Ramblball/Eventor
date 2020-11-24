@@ -2,11 +2,12 @@ package database.services;
 
 import database.dao.EventDAOImpl;
 import database.model.Event;
+import database.utils.EventQuery;
 
 import java.util.List;
 
 public class EventService {
-    EventDAOImpl EventDAO = new EventDAOImpl();
+    EventDAOImpl eventDAO = new EventDAOImpl();
 
     /**
      * Return Event by provided ID
@@ -15,9 +16,9 @@ public class EventService {
      * @return founded event
      * @see Event
      */
-    public Event findEventById(int id) {
+    public Event findById(int id) {
         try {
-            return EventDAO.findById(id);
+            return eventDAO.findById(id);
         } catch (Exception e) {
             return null;
         }
@@ -30,9 +31,24 @@ public class EventService {
      * @return founded event
      * @see Event
      */
-    public Event findEventByName(String name) {
+    public Event findByName(String name) {
         try {
-            return EventDAO.findByName(name);
+            return eventDAO.findByName(name);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Return Events by provided query params
+     *
+     * @param query Query with setted search params
+     * @return List of founded events
+     * @see EventQuery
+     */
+    public List<Event> find(EventQuery query) {
+        try {
+            return eventDAO.find(query);
         } catch (Exception e) {
             return null;
         }
@@ -46,7 +62,7 @@ public class EventService {
      */
     public List<Event> findAll() {
         try {
-            return EventDAO.findAll();
+            return eventDAO.findAll();
         } catch (Exception e) {
             return null;
         }
