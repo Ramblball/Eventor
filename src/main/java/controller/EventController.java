@@ -35,7 +35,7 @@ public class EventController {
         if (place.length() > 128) {
             return Keywords.longPlace;
         }
-        if (description.length() > 256) {
+        if (description.length() > 512) {
             return Keywords.longDesc;
         }
         var event = new Event(name, place, LocalDateTime.now(), Category.Прогулка, description);
@@ -45,7 +45,7 @@ public class EventController {
         }
         stringBuilder = new StringBuilder();
         stringBuilder.append(Keywords.event);
-        stringBuilder.append(event.getName().trim());
+        stringBuilder.append(event.getName());
         stringBuilder.append(Keywords.added);
         return stringBuilder.toString();
     }
@@ -55,20 +55,14 @@ public class EventController {
      * @return success of finding event
      */
     public String findEvent(String name) {
-        var event = eventService.findEventByName(name);
+        var event = eventService.findByName(name);
         if (event == null) {
             return Keywords.exception;
         }
         stringBuilder = new StringBuilder();
         stringBuilder.append(Keywords.found);
         stringBuilder.append(Keywords.event);
-        stringBuilder.append(event.getName().trim());
-        stringBuilder.append(' ');
-        stringBuilder.append(event.getPlace().trim());
-        stringBuilder.append(' ');
-        stringBuilder.append(event.getTime());
-        stringBuilder.append(' ');
-        stringBuilder.append(event.getDescription().trim());
+        stringBuilder.append(event.toString());
         return stringBuilder.toString();
     }
 }
