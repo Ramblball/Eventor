@@ -1,5 +1,6 @@
 package database.model;
 
+import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.FetchProfile;
 
@@ -10,6 +11,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static database.DBLiterals.*;
 
@@ -118,6 +120,19 @@ public class User {
     public void removeSubscribe(Event event) {
         this.getSubscribes().remove(event);
         event.getSubscribers().remove(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return getId() == user.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }
 

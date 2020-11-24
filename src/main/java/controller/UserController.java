@@ -44,7 +44,7 @@ public class UserController {
         if (current == null) {
             return Keywords.unLogin;
         }
-        var event = eventService.findEventByName(name);
+        var event = eventService.findByName(name);
         if (event == null) {
             return Keywords.exception;
         }

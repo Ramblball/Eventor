@@ -1,12 +1,13 @@
 package database.model;
 
 import database.DBLiterals;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import java.util.StringJoiner;
 
 import static database.DBLiterals.*;
 
@@ -14,6 +15,7 @@ import static database.DBLiterals.*;
 @Table(name = eventTable, schema = eventorSchema)
 public class Event {
     @Id
+    @PrimaryKeyJoinColumn
     @SequenceGenerator(name = eventIdSeq, schema = eventorSchema,
             sequenceName = eventIdSeq,
             allocationSize = 1)
@@ -27,9 +29,7 @@ public class Event {
     private LocalDateTime time;
     private String description;
 
-    @Enumerated(EnumType.STRING)
-    @Type(type = enumTypePostgreSQL)
-    private Category category;
+    private int category;
     @ManyToOne
     @JoinColumn(name = DBLiterals.userId, insertable = false, updatable = false)
     private User user;
@@ -44,7 +44,7 @@ public class Event {
         this.name = name;
         this.place = place;
         this.time = time;
-        this.category = category;
+        this.category = category.ordinal();
         this.description = description;
     }
 
@@ -71,6 +71,9 @@ public class Event {
 
     public int getId() {
         return id;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -101,10 +104,33 @@ public class Event {
         this.description = description;
     }
 
-    public Category getCategory() {
+    public Integer getCategory() {
         return category;
     }
     public void setCategory(Category category) {
-        this.category = category;
+        this.category = category.ordinal();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return getId() == event.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString() {
+        StringJoiner joiner = new StringJoiner(" ");
+        joiner.add(getName());
+        joiner.add(getPlace());
+        joiner.add(getTime().toString());
+        joiner.add(getDescription());
+        return joiner.toString();
     }
 }

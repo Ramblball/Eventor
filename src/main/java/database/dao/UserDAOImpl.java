@@ -17,7 +17,9 @@ public class UserDAOImpl extends DAO{
 
     public User findByName(String name) {
         try (Session session = openSession()) {
-            return session.createQuery("FROM User WHERE name=:name", User.class).setParameter(DBLiterals.name, name).getSingleResult();
+            return session.createQuery(DBLiterals.findByNameQuery, User.class)
+                    .setParameter(DBLiterals.name, name)
+                    .getSingleResult();
         }
     }
 
@@ -51,6 +53,12 @@ public class UserDAOImpl extends DAO{
             session.refresh(user);
             user.addCreatedEvent(event);
             session.save(event);
+            transaction.commit();
+            transaction.begin();
+            session.createSQLQuery(DBLiterals.createEventSetVectorQuery)
+                    .setParameter(DBLiterals.eventId, event.getId())
+                    .setParameter(DBLiterals.description, event.getDescription())
+                    .executeUpdate();
             transaction.commit();
         }
     }
