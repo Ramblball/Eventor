@@ -28,5 +28,5 @@ public final class Keywords {
 
     public final static String dateTimeFormat = "yyyy-MM-dd HH:mm";
 
-    public final static String help = "This is a bot for creating events.\nTo create a user, type: \"create user *name* *password*\"\nTo log in, type: \"login *name* *password*\"\nTo create an event, type: \"create event *name* *time:(yyyy-MM-dd HH:mm)* *place* *description*\"\nTo find an event, type: \"find *eventName\"\nTo sign up for an event, type: \"signup *event id*\"";
+    public final static String help = "This is a bot for creating events.\nTo create a user, type: \"create user *name* *password*\"\nTo log in, type: \"login *name* *password*\"\nTo create an event, type:\n \"create event *name* *time:(yyyy-MM-dd HH:mm)* *place* *description*\"\nTo find an event by name, type: \"find *eventName\"\nTo subscribe for an event, type: \"signup *event id*\"\nTo unsubscribe, type: \"unsubscribe *event id*\"\nTo remove event, type: \"*event id*\"\nTo find events by parameters (all are optional), type: \n\"findp *name* *place* *time:(yyyy-MM-dd HH:mm)* *description* *category*\"\nTo update event, type: \"update *name* *time:(yyyy-MM-dd HH:mm)* *place* *description*\"";
 }

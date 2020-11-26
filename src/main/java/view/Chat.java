@@ -53,7 +53,7 @@ public class Chat extends TelegramLongPollingBot {
                 eventQuery.setPlace(params[1]);
                 eventQuery.setTime(params[2]);
                 eventQuery.setDescription(params[3]);
-                eventQuery.setDescription(params[4]);
+                eventQuery.setCategory(params[4]);
                 return eventController.find(eventQuery);
             case "update":
                 if (input.length < 7)
