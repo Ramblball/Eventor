@@ -17,11 +17,11 @@ public class Console {
             switch (input[0]) {
                 case "create":
                     if (input[1].equals("event")) {
-                        if (input.length < 5) {
+                        if (input.length < 7) {
                             System.out.println(fewArgumentsOutput);
                             break;
                         }
-                        System.out.println(eventController.create(input[2], input[3], input[4]));
+                        System.out.println(eventController.create(input[2], input[3] + " " + input[4], input[5], input[6]));
                     } else {
                         if (input.length < 4) {
                             System.out.println(fewArgumentsOutput);
@@ -45,14 +45,14 @@ public class Console {
                         System.out.println(fewArgumentsOutput);
                         break;
                     }
-                    System.out.println(eventController.findEvent(input[1]));
+                    System.out.println(eventController.findByName(input[1]));
                     break;
                 case "signup":
                     if (input.length < 2) {
                         System.out.println(fewArgumentsOutput);
                         break;
                     }
-                    System.out.println(userController.signUp(input[1]));
+                    System.out.println(userController.signIn(input[1]));
                     break;
                 case "exit":
                     return;
