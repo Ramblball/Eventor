@@ -4,6 +4,7 @@ import database.DBLiterals;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -130,7 +131,8 @@ public class Event {
         joiner.add(getId().toString());
         joiner.add(getName());
         joiner.add(getPlace());
-        joiner.add(getTime().toString());
+        joiner.add(getTime().toLocalDate().toString()+ " " +
+                getTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
         joiner.add(getDescription());
         return joiner.toString();
     }
