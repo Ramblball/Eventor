@@ -151,4 +151,15 @@ public class UserController extends Controller{
         stringBuilder.append(currentUser.getName());
         return stringBuilder.toString();
     }
+
+    /**
+     * Logs out
+     * @return status of log
+     */
+    public String logOut(){
+        if(currentUser == null)
+            return "You are not logged in";
+        currentUser = null;
+        return "You are logged out";
+    }
 }

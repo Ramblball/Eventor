@@ -2,19 +2,16 @@ package view;
 
 import controller.EventController;
 import controller.UserController;
+import database.utils.EventQuery;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.StrictMath.toIntExact;
 
 
 public class Chat extends TelegramLongPollingBot {
@@ -27,9 +24,9 @@ public class Chat extends TelegramLongPollingBot {
         switch (input[0]) {
             case "create":
                 if (input[1].equals("event")) {
-                    if (input.length < 5)
+                    if (input.length < 7)
                         return fewArgumentsOutput;
-                    return eventController.create(input[2], input[3], input[4]);
+                    return eventController.create(input[2], input[3] + " " + input[4], input[5], input[6]);
                 } else {
                     if (input.length < 4)
                         return fewArgumentsOutput;
@@ -44,13 +41,38 @@ public class Chat extends TelegramLongPollingBot {
             case "find":
                 if (input.length < 2)
                     return fewArgumentsOutput;
-                return eventController.findEvent(input[1]);
+                return eventController.findByName(input[1]);
+            case "findp":
+                if (input.length < 3)
+                    return fewArgumentsOutput;
+                var eventQuery = new EventQuery();
+                var params = new String[5];
+                if (input.length < 7)
+                    System.arraycopy(input, 2, params, 0, input.length - 2);
+                eventQuery.setName(params[0]);
+                eventQuery.setPlace(params[1]);
+                eventQuery.setTime(params[2]);
+                eventQuery.setDescription(params[3]);
+                eventQuery.setDescription(params[4]);
+                return eventController.find(eventQuery);
+            case "update":
+                if (input.length < 7)
+                    return fewArgumentsOutput;
+                return eventController.update(input[2], input[3], input[4] + " " + input[5], input[6], input[7]);
             case "signup":
                 if (input.length < 2)
                     return fewArgumentsOutput;
-                return userController.signUp(input[1]);
+                return userController.signIn(input[1]);
+            case "unsubscribe":
+                if (input.length < 2)
+                    return fewArgumentsOutput;
+                return userController.signOut(input[1]);
+            case "remove":
+                if (input.length < 2)
+                    return fewArgumentsOutput;
+                return eventController.remove(input[1]);
             case "exit":
-                return "¯\\_(ツ)_/¯";
+                return userController.logOut();
             default:
                 return "Unknown command. Try to type \"help\"";
         }
@@ -62,17 +84,29 @@ public class Chat extends TelegramLongPollingBot {
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         List<InlineKeyboardButton> secondRow = new ArrayList<>();
         List<InlineKeyboardButton> thirdRow = new ArrayList<>();
+        List<InlineKeyboardButton> fourthRow = new ArrayList<>();
+        List<InlineKeyboardButton> fifthRow = new ArrayList<>();
+        List<InlineKeyboardButton> sixthRow = new ArrayList<>();
+
 
         firstRow.add(Buttons.getHelp);
         secondRow.add(Buttons.createUser);
         secondRow.add(Buttons.logIn);
         thirdRow.add(Buttons.createEvent);
         thirdRow.add(Buttons.signUp);
-        thirdRow.add(Buttons.find);
+        thirdRow.add(Buttons.signOut);
+        fourthRow.add(Buttons.find);
+        fourthRow.add(Buttons.findParams);
+        fifthRow.add(Buttons.remove);
+        fifthRow.add(Buttons.update);
+        sixthRow.add(Buttons.logOut);
 
         rowsInline.add(firstRow);
         rowsInline.add(secondRow);
         rowsInline.add(thirdRow);
+        rowsInline.add(fourthRow);
+        rowsInline.add(fifthRow);
+        rowsInline.add(sixthRow);
 
         markupInline.setKeyboard(rowsInline);
 

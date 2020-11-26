@@ -11,7 +11,7 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.StringJoiner;
 
-public class EventController extends Controller{
+public class EventController extends Controller {
     private final EventService eventService = new EventService();
     private StringBuilder stringBuilder = new StringBuilder();
 
@@ -25,8 +25,8 @@ public class EventController extends Controller{
     /**
      * Validate events params before save
      *
-     * @param name Name of event
-     * @param place Place of event
+     * @param name        Name of event
+     * @param place       Place of event
      * @param description Description of event
      * @return Result of validation
      */
@@ -55,6 +55,7 @@ public class EventController extends Controller{
      * Create new event
      *
      * @param name        of new event
+     * @param time        of new event
      * @param place       of new event
      * @param description detailed information of new event
      * @return Result of creating

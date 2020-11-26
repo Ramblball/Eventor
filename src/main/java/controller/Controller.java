@@ -7,6 +7,7 @@ public abstract class Controller {
 
     /**
      * Check that user is not authorized
+     *
      * @return authorized user or not
      */
     protected boolean isLogout() {
