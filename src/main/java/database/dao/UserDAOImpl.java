@@ -23,7 +23,7 @@ public class UserDAOImpl extends DAO{
         }
     }
 
-    public void save(User user) {
+    public void create(User user) {
         try (Session session = openSession()) {
             Transaction transaction = session.beginTransaction();
             session.save(user);
@@ -39,37 +39,10 @@ public class UserDAOImpl extends DAO{
         }
     }
 
-    public void delete(User user) {
+    public void remove(User user) {
         try (Session session = openSession()) {
             Transaction transaction = session.beginTransaction();
             session.delete(user);
-            transaction.commit();
-        }
-    }
-
-    public void createEvent(User user, Event event) {
-        try (Session session = openSession()) {
-            Transaction transaction = session.beginTransaction();
-            session.refresh(user);
-            user.addCreatedEvent(event);
-            session.save(event);
-            transaction.commit();
-            transaction.begin();
-            session.createSQLQuery(DBLiterals.createEventSetVectorQuery)
-                    .setParameter(DBLiterals.eventId, event.getId())
-                    .setParameter(DBLiterals.description, event.getDescription())
-                    .executeUpdate();
-            transaction.commit();
-        }
-    }
-    public void removeEvent(User user, Event event) {
-        try (Session session = openSession()) {
-            session.refresh(user);
-            user.removeCreatedEvent(event);
-        }
-        try (Session session = openSession()) {
-            Transaction transaction = session.beginTransaction();
-            session.delete(event);
             transaction.commit();
         }
     }

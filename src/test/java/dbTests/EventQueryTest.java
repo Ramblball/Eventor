@@ -3,7 +3,6 @@ package dbTests;
 import database.model.Event;
 import database.services.EventService;
 import database.utils.EventQuery;
-import org.hibernate.search.exception.EmptyQueryException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -45,7 +44,7 @@ public class EventQueryTest {
         query.setCategory(event.getCategory().toString());
         query.setPlace(event.getPlace());
         query.setDescription(event.getDescription());
-        query.setTime(event.getTime().toString());
+        query.setTime(event.getTime().toLocalDate().toString());
 
         List<Event> list = service.find(query);
         assertNotNull(list);
@@ -60,13 +59,13 @@ public class EventQueryTest {
     @DisplayName("execute query without params")
     public void invalidTest1() {
         EventQuery query = new EventQuery();
-        EmptyQueryException exception = null;
+        NullPointerException exception = null;
 
         assertTrue(query.isEmpty());
 
         try {
             query.execute();
-        } catch (EmptyQueryException e) {
+        } catch (NullPointerException e) {
             exception = e;
         }
         assertNotNull(exception);

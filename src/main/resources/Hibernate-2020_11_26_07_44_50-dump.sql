@@ -25,18 +25,6 @@ CREATE SCHEMA eventor_schema;
 
 ALTER SCHEMA eventor_schema OWNER TO postgres;
 
---
--- Name: event_category; Type: TYPE; Schema: eventor_schema; Owner: postgres
---
-
-CREATE TYPE eventor_schema.event_category AS ENUM (
-    'Прогулка',
-    'Спорт'
-);
-
-
-ALTER TYPE eventor_schema.event_category OWNER TO postgres;
-
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;

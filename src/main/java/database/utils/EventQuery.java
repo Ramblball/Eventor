@@ -1,6 +1,8 @@
 package database.utils;
 
-import org.hibernate.search.exception.EmptyQueryException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import static database.utils.QueryLiterals.*;
 
@@ -21,8 +23,19 @@ public class EventQuery {
         this.place = placeQuery + place + percent;
     }
 
-    //TODO: Time parser
     public void setTime(String time) {
+        try {
+            LocalDate date = LocalDate.parse(time, DateTimeFormatter.ofPattern(datePattern));
+            StringBuilder builder = new StringBuilder();
+            builder.append(timeQuery1);
+            builder.append(date);
+            builder.append(timeQuery2);
+            builder.append(date);
+            builder.append(timeQuery3);
+            this.time = builder.toString();
+        } catch (DateTimeParseException e) {
+            this.time = null;
+        }
     }
 
     public void setDescription(String description) {
@@ -57,7 +70,7 @@ public class EventQuery {
         StringBuilder builder = new StringBuilder();
 
         if (isEmpty()) {
-            throw new EmptyQueryException();
+            throw new NullPointerException();
         }
 
         builder.append(executedQuery);

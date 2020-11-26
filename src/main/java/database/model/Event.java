@@ -69,7 +69,7 @@ public class Event {
         this.subscribers = subscribers;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
     public void setId(int id) {
@@ -116,7 +116,7 @@ public class Event {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Event event = (Event) o;
-        return getId() == event.getId();
+        return getId().equals(event.getId());
     }
 
     @Override
@@ -126,7 +126,8 @@ public class Event {
 
     @Override
     public String toString() {
-        StringJoiner joiner = new StringJoiner(" ");
+        StringJoiner joiner = new StringJoiner("\n");
+        joiner.add(getId().toString());
         joiner.add(getName());
         joiner.add(getPlace());
         joiner.add(getTime().toString());

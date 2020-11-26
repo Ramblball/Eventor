@@ -23,9 +23,12 @@ public class DBLiterals {
     public static final String name = "name";
     public static final String description = "description";
 
-    public static final String dateTimeFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS";
+    public static final String dateTimeFormat = "yyyy-MM-dd HH:mm";
 
     public static final String findByNameQuery = "FROM User WHERE name=:name";
+
     public static final String createEventSetVectorQuery =
             "INSERT INTO eventor_schema.event_vector (event_id, event_description) VALUES (:event_id, to_tsvector(:description))";
+    public static final String updateEventUpdateVectorQuery =
+            "UPDATE eventor_schema.event_vector SET event_description = to_tsvector(:description) WHERE event_id = :event_id";
 }

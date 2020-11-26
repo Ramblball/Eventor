@@ -13,4 +13,10 @@ public class QueryLiterals {
     public static final String following = "<->";
     public static final String bracket = "')";
     public static final String and = " AND ";
+
+    public static final String datePattern = "yyyy-MM-dd";
+
+    public static final String timeQuery1 = "time >= date '";
+    public static final String timeQuery2 = "' AND time < (date '";
+    public static final String timeQuery3 = "' + interval '1 day')";
 }
