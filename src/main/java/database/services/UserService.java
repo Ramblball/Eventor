@@ -4,6 +4,8 @@ import database.dao.UserDAOImpl;
 import database.model.Event;
 import database.model.User;
 
+import java.util.List;
+
 public class UserService {
 
     UserDAOImpl userDAO = new UserDAOImpl();
@@ -15,7 +17,7 @@ public class UserService {
      * @return founded event
      * @see User
      */
-    public User findUserById(int id) {
+    public User findById(int id) {
         try {
             return userDAO.findById(id);
         } catch (Exception e) {
@@ -30,7 +32,7 @@ public class UserService {
      * @return founded event
      * @see User
      */
-    public User findUserByName(String name) {
+    public User findByName(String name) {
         try {
             return userDAO.findByName(name);
         } catch (Exception e) {
@@ -45,9 +47,9 @@ public class UserService {
      * @return result success or not
      * @see User
      */
-    public boolean saveUser(User user) {
+    public boolean save(User user) {
         try {
-            userDAO.save(user);
+            userDAO.create(user);
             return true;
         } catch (Exception e) {
             return false;
@@ -60,8 +62,13 @@ public class UserService {
      * @param user User obj for remove
      * @see User
      */
-    public void deleteUser(User user) {
-        userDAO.delete(user);
+    public boolean remove(User user) {
+        try {
+            userDAO.remove(user);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     /**
@@ -70,42 +77,13 @@ public class UserService {
      * @param user User obj for update
      * @see User
      */
-    public void updateUser(User user) {
-        userDAO.update(user);
-    }
-
-    /**
-     * Save event in database
-     * <p>
-     * Add it to users event list
-     *
-     * @param user  creator
-     * @param event new event
-     * @return result success or not
-     * @see User
-     * @see Event
-     */
-    public boolean createEvent(User user, Event event) {
+    public boolean update(User user) {
         try {
-            userDAO.createEvent(user, event);
+            userDAO.update(user);
             return true;
         } catch (Exception e) {
             return false;
         }
-    }
-
-    /**
-     * Remove event from users event list and from database
-     * <p>
-     * Unsubscribe from event users that are subscribed on it
-     *
-     * @param user  creator
-     * @param event event for remove
-     * @see User
-     * @see Event
-     */
-    public void removeEvent(User user, Event event) {
-        userDAO.removeEvent(user, event);
     }
 
     /**
@@ -117,6 +95,11 @@ public class UserService {
      */
     public boolean subscribe(User user, Event event) {
         try {
+            List<Event> own = user.getCreatedEvents();
+            List<Event> subs = user.getSubscribes();
+            if (own.contains(event) || subs.contains(event)) {
+                return false;
+            }
             userDAO.subscribe(user, event);
             return true;
         } catch (Exception e) {
@@ -130,7 +113,12 @@ public class UserService {
      * @param user  subscriber
      * @param event event
      */
-    public void unsubscribe(User user, Event event) {
-        userDAO.unsubscribe(user, event);
+    public boolean unsubscribe(User user, Event event) {
+        try {
+            userDAO.unsubscribe(user, event);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

@@ -2,12 +2,67 @@ package database.services;
 
 import database.dao.EventDAOImpl;
 import database.model.Event;
+import database.model.User;
 import database.utils.EventQuery;
 
 import java.util.List;
 
 public class EventService {
     EventDAOImpl eventDAO = new EventDAOImpl();
+
+    /**
+     * Save event in database
+     * <p>
+     * Add it to users event list
+     *
+     * @param user  creator
+     * @param event new event
+     * @return result success or not
+     * @see User
+     * @see Event
+     */
+    public boolean create(User user, Event event) {
+        try {
+            eventDAO.create(user, event);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Update existing event
+     *
+     * @param event Event for update
+     * @return Result of update
+     */
+    public boolean update(Event event) {
+        try {
+            eventDAO.update(event);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Remove event from users event list and from database
+     * <p>
+     * Unsubscribe from event users that are subscribed on it
+     *
+     * @param user  creator
+     * @param event event for remove
+     * @see User
+     * @see Event
+     */
+    public boolean remove(User user, Event event) {
+        try {
+            eventDAO.delete(user, event);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     /**
      * Return Event by provided ID
