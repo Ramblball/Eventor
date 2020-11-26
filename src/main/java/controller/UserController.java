@@ -78,7 +78,7 @@ public class UserController extends Controller{
             Event event;
             event = eventService.findById(Integer.parseInt(id));
             if (event == null) {
-                return Keywords.exception;
+                return Keywords.eventNotFound;
             }
             boolean result;
             if (f) {
@@ -158,8 +158,8 @@ public class UserController extends Controller{
      */
     public String logOut(){
         if(currentUser == null)
-            return "You are not logged in";
+            return Keywords.unAuthorized;
         currentUser = null;
-        return "You are logged out";
+        return Keywords.loggedOut;
     }
 }

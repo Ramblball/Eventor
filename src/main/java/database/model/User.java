@@ -10,6 +10,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,14 +37,14 @@ public class User {
     private byte[] hash;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = user, orphanRemoval = true)
-    private List<Event> createdEvents;
+    private List<Event> createdEvents = new LinkedList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = usersEvents, schema = eventorSchema,
             joinColumns = @JoinColumn(name = userId),
             inverseJoinColumns = @JoinColumn(name = eventId))
-    List<Event> subscribes;
+    List<Event> subscribes = new LinkedList<>();
 
     public User() {}
 

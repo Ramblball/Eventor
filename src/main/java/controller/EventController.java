@@ -30,7 +30,7 @@ public class EventController extends Controller {
      * @param description Description of event
      * @return Result of validation
      */
-    private String checkEventsParams(String name, String time, String place, String description) {
+    public String checkEventsParams(String name, String time, String place, String description) {
         if (isLogout()) {
             return Keywords.unLogin;
         }

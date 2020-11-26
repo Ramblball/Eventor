@@ -12,9 +12,10 @@ public final class Keywords {
     public final static String unsigned = " unsigned from ";
     public final static String welcome = "Welcome, ";
     public final static String userUpdateResult = "User settings updated";
+    public final static String loggedOut = "You are logged out";
 
-    public final static String wrongPass = "No such user";
-    public final static String wrongUser = "Invalid password";
+    public final static String wrongPass = "Invalid password";
+    public final static String wrongUser = "No such user";
     public final static String shortPass = "Password must be longer";
     public final static String longName = "Too much long name";
     public final static String longPlace = "Too much long place name";
@@ -25,6 +26,8 @@ public final class Keywords {
     public final static String noEventId = "There is no event with this id";
     public final static String notOwnUpdate = "You can not update other peoples events";
     public final static String invalidTime = "Use yyyy-MM-dd HH:mm format for time";
+    public final static String unAuthorized = "You are not logged in";
+    public final static String eventNotFound = "Event not found";
 
     public final static String dateTimeFormat = "yyyy-MM-dd HH:mm";
 
