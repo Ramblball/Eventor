@@ -5,11 +5,16 @@ import controller.UserController;
 import database.utils.EventQuery;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.File;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,7 +125,14 @@ public class Chat extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "1409038970:AAFQxqaP-N0KHxSPBiKqTmUY6jRkixvlIoU";
+        String token = "";
+        try {
+            var br = new BufferedReader(new FileReader("token.txt"));
+            token = br.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return token;
     }
 
     @Override
