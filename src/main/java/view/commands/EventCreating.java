@@ -8,6 +8,6 @@ public class EventCreating extends Command {
 
     @Override
     public String execute(Message message) {
-        return eventController.create(message.getEventName(), message.getEventTime(), message.getEventPlace(), message.getEventDescription());
+        return eventController.create(message.getUserName(), message.getEventName(), message.getEventTime(), message.getEventPlace(), message.getEventDescription());
     }
 }

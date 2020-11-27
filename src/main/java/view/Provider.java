@@ -6,17 +6,18 @@ public class Provider {
 
     private final Message message;
 
-    Provider(String received) {
-        this.message = parseStringToMessage(received);
+    Provider(String username, String received) {
+        this.message = parseStringToMessage(username, received);
     }
 
     /**
      * @param received Сообщение от пользователя в виде строки
      * @return Парсированное сообщение типа Message
      */
-    private Message parseStringToMessage(String received) {
+    private Message parseStringToMessage(String username, String received) {
         var input = received.split(" ");
         var message = new Message();
+        message.setUserName(username);
         switch (input[0]) {
             case "create":
                 if (input[1].equals("event")) {

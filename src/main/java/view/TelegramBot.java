@@ -91,7 +91,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             String address = "@" +
                     botName +
                     " ";
-            var provider = new Provider(update.getMessage().getText().replace(address, ""));
+            var provider = new Provider(update.getMessage().getChat().getUserName(), update.getMessage().getText().replace(address, ""));
             var answer = provider.execute();
             SendMessage message = new SendMessage()
                     .setChatId(update.getMessage()

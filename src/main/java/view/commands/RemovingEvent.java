@@ -8,6 +8,6 @@ public class RemovingEvent extends Command {
 
     @Override
     public String execute(Message message) {
-        return eventController.remove(message.getEventId());
+        return eventController.remove(message.getUserName(), message.getEventId());
     }
 }
