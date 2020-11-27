@@ -2,13 +2,15 @@ package controller;
 
 import database.model.User;
 
+/**
+ * @deprecated
+ */
 public abstract class Controller {
     protected static User currentUser;
-
     /**
-     * Check that user is not authorized
-     *
-     * @return authorized user or not
+     * Проверка, что пользователь не авторизирован
+     * @return            авторизирован - false
+     *                    Неавторизирован - true
      */
     protected boolean isLogout() {
         return currentUser == null;

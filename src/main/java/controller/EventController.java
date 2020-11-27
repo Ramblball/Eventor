@@ -1,34 +1,35 @@
 package controller;
 
-import database.model.Category;
-import database.model.Event;
+import database.model.*;
 import database.services.EventService;
 import database.utils.EventQuery;
+import org.hibernate.cfg.NotYetImplementedException;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.List;
-import java.util.StringJoiner;
+import java.time.format.*;
+import java.util.*;
 
+/**
+ * Класс-слой зваимодействия между пользовательским представлением и внутрееней моделью приложения
+ * Обеспечивает взаимодействие пользователя с мероприятиями
+ */
 public class EventController extends Controller {
     private final EventService eventService = new EventService();
     private StringBuilder stringBuilder = new StringBuilder();
-
     /**
-     * @return manual
+     * Возвращает подсказку по оформлению команд для пользователя
+     * @return            Помощь
      */
     public String getHelp() {
         return Keywords.help;
     }
-
     /**
-     * Validate events params before save
-     *
-     * @param name        Name of event
-     * @param place       Place of event
-     * @param description Description of event
-     * @return Result of validation
+     * Валидирует параметры мероприятия
+     * @param name        Название мероприятия
+     * @param time        Время начала мероприятия
+     * @param place       Место проведения мероприятия
+     * @param description Описание мероприятия
+     * @return            Результат валидации
      */
     public String checkEventsParams(String name, String time, String place, String description) {
         if (isLogout()) {
@@ -50,17 +51,15 @@ public class EventController extends Controller {
         }
         return null;
     }
-
     /**
-     * Create new event
-     *
-     * @param name        of new event
-     * @param time        of new event
-     * @param place       of new event
-     * @param description detailed information of new event
-     * @return Result of creating
+     * Создает новое мероприятие
+     * @param name        Название мероприятия
+     * @param time        Время начала мероприятия
+     * @param place       Место проведения мероприятия
+     * @param description Описание мероприятия
+     * @return            Результат создания
      */
-    public String create(String name, String time, String place, String description) {
+    public String create(String user, String name, String time, String place, String description) {
         String checking = checkEventsParams(name, time, place, description);
         if (checking != null) {
             return checking;
@@ -77,13 +76,16 @@ public class EventController extends Controller {
         stringBuilder.append(Keywords.added);
         return stringBuilder.toString();
     }
-
     /**
      * Update an existing event
-     *
-     * @return result of update
+     * @param id          Id обновляемого мероприятия
+     * @param name        Название мероприятия
+     * @param time        Время начала мероприятия
+     * @param place       Место проведения мероприятия
+     * @param description Описание мероприятия
+     * @return            Результат обновления
      */
-    public String update(String id, String name, String time, String place, String description) {
+    public String update(String user, String id, String name, String time, String place, String description) {
         String checking = checkEventsParams(name, time, place, description);
         if (checking != null) {
             return checking;
@@ -113,14 +115,12 @@ public class EventController extends Controller {
         stringBuilder.append(Keywords.updated);
         return stringBuilder.toString();
     }
-
     /**
-     * Remove event
-     *
-     * @param id Id of event
-     * @return Result of removing
+     * Удаление мероприятия
+     * @param id          Id удаляемого мероприятия
+     * @return            Результат удаления
      */
-    public String remove(String id) {
+    public String remove(String user, String id) {
         if (isLogout()) {
             return Keywords.unLogin;
         }
@@ -143,12 +143,18 @@ public class EventController extends Controller {
         stringBuilder.append(Keywords.removed);
         return stringBuilder.toString();
     }
-
     /**
-     * Return events found by query
-     *
-     * @param query Query with setted params
-     * @return List of events found
+     * Возвращаем мероприятия созданные пользователем
+     * @param user        Имя пользователя
+     * @return            Список мероприятий
+     */
+    public String getOwn(String user) {
+        throw new NotYetImplementedException();
+    }
+    /**
+     * Возвращает список мероприятий по заданным критериям
+     * @param query       EventQuery с заданными параметрами поиска
+     * @return            Список мероприятий
      */
     public String find(EventQuery query) {
         if (isLogout()) {
@@ -164,12 +170,10 @@ public class EventController extends Controller {
         }
         return joiner.toString();
     }
-
     /**
-     * Return event by provided name
-     *
-     * @param name of sought event
-     * @return success of finding event
+     * Находит и возвращает мероприятие по его названию
+     * @param name        название мероприятия
+     * @return            найденное мероприятие
      */
     public String findByName(String name) {
         var event = eventService.findByName(name);

@@ -1,23 +1,24 @@
 package controller;
 
-import database.model.Event;
-import database.model.User;
-import database.services.EventService;
-import database.services.UserService;
+import database.model.*;
+import database.services.*;
 
+/**
+ * Класс-слой зваимодействия между пользовательским представлением и внутрееней моделью приложения
+ * Обеспечивает взаимодействие пользователя с его моделью
+ */
 public class UserController extends Controller{
     private final EventService eventService = new EventService();
     private final UserService userService = new UserService();
     private StringBuilder stringBuilder = new StringBuilder();
-
     /**
-     * Create new User
-     *
-     * @param name     of new user
-     * @param password of new user
-     * @return success of adding user
+     * Создает нового пользователя
+     * @deprecated
+     * @param name        Имя пользователя
+     * @return            Результат создания пользователя
      */
-    public String create(String name, String password) {
+    public String create(String name) {
+        String password = "aaaaa";
         if (password.length() < 4) {
             return Keywords.shortPass;
         }
@@ -37,12 +38,12 @@ public class UserController extends Controller{
         stringBuilder.append(Keywords.added);
         return stringBuilder.toString();
     }
-
     /**
-     * Update name of current user
-     *
-     * @param name new name of user
-     * @return result of updating
+     * Обновляет данные пользователя
+     * @deprecated
+     * @param name        Новое имя пользователя
+     * @param password    Новый пароль
+     * @return            Результат обновления
      */
     public String update(String name, String password) {
         if (isLogout()) {
@@ -62,13 +63,12 @@ public class UserController extends Controller{
         }
         return Keywords.userUpdateResult;
     }
-
     /**
-     * Manage users subscribes
-     *
-     * @param id of event user want to sign on
-     * @param f user want to sign in or sign out
-     * @return result of operation
+     * Метод для подписки или отписки от мероприятия
+     * @param id          Id мероприятия
+     * @param f           Подписаться - true
+     *                    Отписаться - false
+     * @return            Результат выполнения
      */
     public String subscribeManager(String id, boolean f) {
         try {
@@ -94,12 +94,10 @@ public class UserController extends Controller{
         }
         return null;
     }
-
     /**
-     * Subscribe user to event
-     *
-     * @param id Id of event
-     * @return Result of operation
+     * Подписывает пользователя на мероприятие
+     * @param id          Id мероприятия
+     * @return            Результат подписки
      */
     public String signIn(String id) {
         String result = subscribeManager(id, true);
@@ -112,12 +110,10 @@ public class UserController extends Controller{
         }
         return result;
     }
-
     /**
-     * Unsubscribe user from event
-     *
-     * @param id Id of event
-     * @return Result of operation
+     * Отписывает пользователя от мероприятия
+     * @param id          Id мероприятия
+     * @return            Результат отписки
      */
     public String signOut(String id) {
         String result = subscribeManager(id, false);
@@ -130,14 +126,12 @@ public class UserController extends Controller{
         }
         return result;
     }
-
     /**
-     * Check that user exist and give it
-     * possibility to work in system
-     *
-     * @param name     of existing user
-     * @param password of existing user
-     * @return success of logging
+     * Авторизирует пользователя в системе
+     * @deprecated
+     * @param name     Имя пользователя
+     * @param password Пароль
+     * @return         Результат авторизации
      */
     public String logIn(String name, String password) {
         User user = userService.findByName(name);
@@ -151,10 +145,10 @@ public class UserController extends Controller{
         stringBuilder.append(currentUser.getName());
         return stringBuilder.toString();
     }
-
     /**
-     * Logs out
-     * @return status of log
+     * Выход пользователя из системы
+     * @deprecated
+     * @return            Результат выхода
      */
     public String logOut(){
         if(currentUser == null)
