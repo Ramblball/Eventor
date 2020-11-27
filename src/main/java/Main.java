@@ -1,8 +1,8 @@
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import view.Console;
 import view.TelegramBot;
-import view.TelegramProvider;
 
 
 public class Main {
@@ -14,7 +14,7 @@ public class Main {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-        //var console = new Console();
-        //console.execute();
+//        var console = new Console();
+//        console.onUpdateReceived();
     }
 }

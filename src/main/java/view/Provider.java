@@ -2,11 +2,11 @@ package view;
 
 import view.commands.*;
 
-public class TelegramProvider {
+public class Provider {
 
     private final Message message;
 
-    TelegramProvider(String received) {
+    Provider(String received) {
         this.message = parseStringToMessage(received);
     }
 
