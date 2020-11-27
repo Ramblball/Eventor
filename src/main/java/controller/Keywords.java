@@ -42,6 +42,8 @@ public final class Keywords {
     public final static String eventNotFound = "Мероприятие не найдено";
     //Юзер с таким именем уже существует
     public final static String userAlreadyExist = "Вы уже зарегистрированы";
+    //Список мероприятий пуст
+    public final static String noEvents = "У вас нет мероприятий";
     /*
     ----------------- Форматы данных --------------------------------
      */

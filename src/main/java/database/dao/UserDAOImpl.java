@@ -17,6 +17,7 @@ public class UserDAOImpl extends DAO{
      */
     public User findById(int id) {
         try (Session session = openSession()) {
+            session.enableFetchProfile(DBLiterals.userWithCreated);
             session.enableFetchProfile(DBLiterals.usersWithSubscribes);
             return session.get(User.class, id);
         }
@@ -29,6 +30,8 @@ public class UserDAOImpl extends DAO{
      */
     public User findByName(String name) {
         try (Session session = openSession()) {
+            session.enableFetchProfile(DBLiterals.userWithCreated);
+            session.enableFetchProfile(DBLiterals.usersWithSubscribes);
             return session.createQuery(DBLiterals.findByNameQuery, User.class)
                     .setParameter(DBLiterals.name, name)
                     .getSingleResult();

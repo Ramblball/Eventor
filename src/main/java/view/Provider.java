@@ -23,35 +23,39 @@ public class Provider {
         var message = new Message();
         message.setUserName(username);
         switch (input[0]) {
-            case "create":
-                if (input.length < 7)
-                    return new Message(Operation.fewArguments);
-                message.setOperation(Operation.createEvent);
-                message.setEventName(input[2]);
-                message.setEventTime(input[3] + " " + input[4]);
-                message.setEventPlace(input[5]);
-                message.setEventDescription(input[6]);
-                return message;
-            case "login":
-                if (input.length < 3)
-                    return new Message(Operation.fewArguments);
-                message.setOperation(Operation.logIn);
-                message.setUserName(input[1]);
-                message.setUserPassword(input[2]);
-                return message;
             case "/start":
                 message.setOperation(Operation.createUser);
                 message.setUserName(username);
                 return message;
             case "help":
                 return new Message(Operation.getHelp);
+            case "create":
+                if (input.length < 7)
+                    return new Message(Operation.fewArguments);
+                message.setOperation(Operation.createEvent);
+                message.setEventName(input[1]);
+                message.setEventTime(input[2] + " " + input[3]);
+                message.setEventPlace(input[4]);
+                message.setEventDescription(input[5]);
+                return message;
+            case "own":
+                if (input.length > 1)
+                    return new Message(Operation.fewArguments);
+                message.setOperation(Operation.getOwn);
+                return message;
+            case "subs":
+                if (input.length > 1)
+                    return new Message(Operation.fewArguments);
+                message.setOperation(Operation.getSub);
+                return message;
             case "find":
                 if (input.length < 2)
                     return new Message(Operation.fewArguments);
                 message.setOperation(Operation.findEvent);
                 message.setEventName(input[1]);
                 return message;
-            case "findp":
+            //TODO: Починить поиск
+            case "findby":
                 if (input.length < 2)
                     return new Message(Operation.fewArguments);
                 var params = new String[6];
@@ -73,13 +77,13 @@ public class Provider {
                 message.setEventPlace(input[5]);
                 message.setEventDescription(input[6]);
                 return message;
-            case "signup":
+            case "sub":
                 if (input.length < 2)
                     return new Message(Operation.fewArguments);
                 message.setOperation(Operation.subscribe);
                 message.setEventId(input[1]);
                 return message;
-            case "unsubscribe":
+            case "unsub":
                 if (input.length < 2)
                     return new Message(Operation.fewArguments);
                 message.setOperation(Operation.unsubscribe);
@@ -116,6 +120,10 @@ public class Provider {
                 return new EventCreating().execute(message);
             case removeEvent:
                 return new RemovingEvent().execute(message);
+            case getOwn:
+                return new GetOwnEvents().execute(message);
+            case getSub:
+                return new GetSubscribes().execute(message);
             case unsubscribe:
                 return new Unsubscribing().execute(message);
             case updateEvent:

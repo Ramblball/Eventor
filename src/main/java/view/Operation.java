@@ -6,8 +6,9 @@ package view;
 public enum Operation {
     getHelp,
     createUser,
-    logIn,
     createEvent,
+    getOwn,
+    getSub,
     subscribe,
     unsubscribe,
     findEvent,

@@ -2,7 +2,6 @@ package controller;
 
 import database.model.*;
 import database.utils.EventQuery;
-import org.hibernate.cfg.NotYetImplementedException;
 
 import java.time.LocalDateTime;
 import java.time.format.*;
@@ -146,16 +145,25 @@ public class EventController extends Controller {
     }
 
     /**
-     * Возвращаем мероприятия созданные пользователем
+     * Возвращает мероприятия созданные пользователем
      * @param user        Имя создателя
      * @return            Список мероприятий
      */
     public String getOwn(String user) {
-        throw new NotYetImplementedException();
+        User currentUser = getCurrent(user);
+        List<Event> events = currentUser.getCreatedEvents();
+        return eventsToString(events);
     }
 
+    /**
+     * Возвращает мероприятия на которые пользователь подписан
+     * @param user        Имя пользователя
+     * @return            Список мероприятий
+     */
     public String getSubs(String user) {
-        throw  new NotYetImplementedException();
+        User currentUser = getCurrent(user);
+        List<Event> events = currentUser.getSubscribes();
+        return eventsToString(events);
     }
 
     /**
@@ -165,14 +173,7 @@ public class EventController extends Controller {
      */
     public String find(EventQuery query) {
         List<Event> events = eventService.find(query);
-        if (events == null) {
-            return Keywords.exception;
-        }
-        StringJoiner joiner = new StringJoiner("\n\n");
-        for (Event event : events) {
-            joiner.add(event.toString());
-        }
-        return joiner.toString();
+        return eventsToString(events);
     }
 
     /**
@@ -245,5 +246,24 @@ public class EventController extends Controller {
             return Keywords.eventUnsigned;
         }
         return result;
+    }
+
+    /**
+     * Преобразует список пользователей в удобный для чтения формат
+     * @param events      Список мероприятий
+     * @return            Список мероприятий в удобном для чтения формате
+     */
+    private String eventsToString(List<Event> events) {
+        if (events == null) {
+            return Keywords.exception;
+        }
+        if (events.size() == 0) {
+            return Keywords.noEvents;
+        }
+        StringJoiner joiner = new StringJoiner("\n\n");
+        for (Event event : events) {
+            joiner.add(event.toString());
+        }
+        return joiner.toString();
     }
 }
