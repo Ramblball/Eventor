@@ -7,19 +7,45 @@ import database.utils.EventQuery;
 
 import java.util.List;
 
+/**
+ * Слой сервис для взаимодействия основного приложения с базой данных мероприятий
+ */
 public class EventService {
     EventDAOImpl eventDAO = new EventDAOImpl();
 
     /**
-     * Save event in database
-     * <p>
-     * Add it to users event list
-     *
-     * @param user  creator
-     * @param event new event
-     * @return result success or not
-     * @see User
-     * @see Event
+     * Возвращает мероприятие по id
+     * или null при возникновении ошибки
+     * @param id          Id мероприятия
+     * @return            Найденное мероприятие
+     */
+    public Event findById(int id) {
+        try {
+            return eventDAO.findById(id);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Возвращает пользователя по имени
+     * или null при возникновении ошибки
+     * @param name        Название мероприятия
+     * @return            Найденное мероприятие
+     */
+    public Event findByName(String name) {
+        try {
+            return eventDAO.findByName(name);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    /**
+     * Создание мероприятия
+     * @param user        Создатель
+     * @param event       Новое мероприятие
+     * @return            Результат сохранения
      */
     public boolean create(User user, Event event) {
         try {
@@ -31,10 +57,9 @@ public class EventService {
     }
 
     /**
-     * Update existing event
-     *
-     * @param event Event for update
-     * @return Result of update
+     * Обновление мероприятия
+     * @param event       Мероприятие
+     * @return            Результат обновления
      */
     public boolean update(Event event) {
         try {
@@ -46,14 +71,9 @@ public class EventService {
     }
 
     /**
-     * Remove event from users event list and from database
-     * <p>
-     * Unsubscribe from event users that are subscribed on it
-     *
-     * @param user  creator
-     * @param event event for remove
-     * @see User
-     * @see Event
+     * Удаляет меропритятие
+     * @param user        Создатель
+     * @param event       Удаляемое мероприятие
      */
     public boolean remove(User user, Event event) {
         try {
@@ -65,41 +85,9 @@ public class EventService {
     }
 
     /**
-     * Return Event by provided ID
-     *
-     * @param id the id of the event
-     * @return founded event
-     * @see Event
-     */
-    public Event findById(int id) {
-        try {
-            return eventDAO.findById(id);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    /**
-     * Return Event by provided Name
-     *
-     * @param name the name of the event
-     * @return founded event
-     * @see Event
-     */
-    public Event findByName(String name) {
-        try {
-            return eventDAO.findByName(name);
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    /**
-     * Return Events by provided query params
-     *
-     * @param query Query with setted search params
-     * @return List of founded events
-     * @see EventQuery
+     * Возвразает мероприятие, соответствующее параметрам в query
+     * @param query       EventQuery с параметрами поиска
+     * @return            Список найденных мероприятий
      */
     public List<Event> find(EventQuery query) {
         try {
@@ -110,8 +98,7 @@ public class EventService {
     }
 
     /**
-     * return all Events
-     *
+     * Возвращает все существующие мероприятия мероприятия
      * @return list of all events
      * @see Event
      */
@@ -123,13 +110,11 @@ public class EventService {
         }
     }
 
-
     /**
-     * Subscribe user to event
-     *
-     * @param user  subscriber
-     * @param event event
-     * @return result success or not
+     * Подписывает пользователя на участие вв мероприятии
+     * @param user        Пользователь
+     * @param event       Мероприятие
+     * @return            Рузельтат подписки
      */
     public boolean subscribe(User user, Event event) {
         try {
@@ -146,10 +131,10 @@ public class EventService {
     }
 
     /**
-     * Unsubscribe user from event
-     *
-     * @param user  subscriber
-     * @param event event
+     * Отписывает пользователя от мероприятия
+     * @param user        Пользователь
+     * @param event       Мероприятие
+     * @return            Рузельтат отписки
      */
     public boolean unsubscribe(User user, Event event) {
         try {

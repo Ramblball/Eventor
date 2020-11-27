@@ -13,20 +13,38 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс слой запросов к базе мероприятий
+ */
 public class EventDAOImpl extends DAO{
 
+    /**
+     * Запрос на поиск по id
+     * @param id          Id мероприятия
+     * @return            Объект мероприятия
+     */
     public Event findById(int id) {
         try (Session session = openSession()) {
             return session.get(Event.class, id);
         }
     }
 
+    /**
+     * Запрос на поиск по имени
+     * @param name        Имя мероприятия
+     * @return            Объект мероприятия
+     */
     public Event findByName(String name) {
         try (Session session = openSession()) {
             return session.createQuery("FROM Event WHERE name=:name", Event.class).setParameter(DBLiterals.name, name).getSingleResult();
         }
     }
 
+    /**
+     * Запрос на создание меропритяия
+     * @param user        Создатель
+     * @param event       Мероприятие
+     */
     public void create(User user, Event event) {
         try (Session session = openSession()) {
             Transaction transaction = session.beginTransaction();
@@ -43,6 +61,10 @@ public class EventDAOImpl extends DAO{
         }
     }
 
+    /**
+     * Запрос на обновление мероприятия
+     * @param event       Мероприятие
+     */
     public void update(Event event) {
         try (Session session = openSession()){
             Transaction transaction = session.beginTransaction();
@@ -57,6 +79,11 @@ public class EventDAOImpl extends DAO{
         }
     }
 
+    /**
+     * Запрос на удаление мероприятия
+     * @param user        Создатель
+     * @param event       Мероприятие
+     */
     public void delete(User user, Event event) {
         try (Session session = openSession()) {
             session.refresh(user);
@@ -69,12 +96,21 @@ public class EventDAOImpl extends DAO{
         }
     }
 
+    /**
+     * Запрос на поиск  всех мероприятий
+     * @return            Список мероприятий
+     */
     public List<Event> findAll() {
         try (Session session = openSession()) {
             return session.createQuery("FROM Event", Event.class).getResultList();
         }
     }
 
+    /**
+     * Запрос на поиск мероприятий по заданным критериям
+     * @param query       Запрос с критериями поиска
+     * @return            Найденные мероприятия
+     */
     public List<Event> find(EventQuery query) {
         try (Session session = openSession()) {
             if (query.isEmpty()) {
@@ -102,6 +138,11 @@ public class EventDAOImpl extends DAO{
         }
     }
 
+    /**
+     * Запрос на подписку пользоватля на мероприятие
+     * @param user        Пользователь
+     * @param event       Мероприятие
+     */
     public void subscribe(User user, Event event) {
         try (Session session = openSession()) {
             Transaction transaction = session.beginTransaction();
@@ -112,6 +153,11 @@ public class EventDAOImpl extends DAO{
         }
     }
 
+    /**
+     * Запрос на отписку пользователя от мероприятия
+     * @param user        Пользователь
+     * @param event       Мероприятие
+     */
     public void unsubscribe(User user, Event event) {
         try (Session session = openSession()) {
             Transaction transaction = session.beginTransaction();

@@ -1,18 +1,10 @@
 package database.model;
 
-import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.FetchProfile;
 
 import javax.persistence.*;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static database.DBLiterals.*;
 
@@ -39,7 +31,7 @@ public class User {
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = usersEvents, schema = eventorSchema,
+            name = usersEventsTable, schema = eventorSchema,
             joinColumns = @JoinColumn(name = userId),
             inverseJoinColumns = @JoinColumn(name = eventId))
     List<Event> subscribes = new LinkedList<>();
@@ -108,4 +100,3 @@ public class User {
         return Objects.hash(getId());
     }
 }
-

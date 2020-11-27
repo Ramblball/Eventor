@@ -4,6 +4,9 @@ import controller.EventController;
 import database.utils.EventQuery;
 import view.Message;
 
+/**
+ * Команда создания мероприятия с критериями
+ */
 public class FindingEventParameters extends Command {
     EventController eventController = new EventController();
     @Override

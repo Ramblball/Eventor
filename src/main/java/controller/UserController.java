@@ -20,7 +20,7 @@ public class UserController extends Controller{
         user.setName(name);
         boolean result = userService.save(user);
         if (!result) {
-            return Keywords.exception;
+            return Keywords.userAlreadyExist;
         }
         return String.format(Keywords.userCreated, name);
     }

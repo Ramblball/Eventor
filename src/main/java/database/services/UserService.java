@@ -6,16 +6,17 @@ import database.model.User;
 
 import java.util.List;
 
+/**
+ * Слой сервис для взаимодействия основного приложения с базой данных пользователей
+ */
 public class UserService {
-
     UserDAOImpl userDAO = new UserDAOImpl();
 
     /**
-     * Return User by provided ID
-     *
-     * @param id the id of the user
-     * @return founded event
-     * @see User
+     * Возвращает пользователя по id
+     * или null при возникновении ошибки
+     * @param id          id пользователя
+     * @return            Найденный пользователь
      */
     public User findById(int id) {
         try {
@@ -26,11 +27,10 @@ public class UserService {
     }
 
     /**
-     * Return User by provided name
-     *
-     * @param name the name of the user
-     * @return founded event
-     * @see User
+     * Возвращает пользователя по имени
+     * или null при возникновении ошибки
+     * @param name        Имя пользователя
+     * @return            Найденный пользователь
      */
     public User findByName(String name) {
         try {
@@ -41,11 +41,9 @@ public class UserService {
     }
 
     /**
-     * Save user to database
-     *
-     * @param user new user
-     * @return result success or not
-     * @see User
+     * Сохранняет пользователя в базу данных
+     * @param user        Объект пользователя
+     * @return            Результат выполнения
      */
     public boolean save(User user) {
         try {
@@ -57,14 +55,13 @@ public class UserService {
     }
 
     /**
-     * Remove user from database
-     *
-     * @param user User obj for remove
-     * @see User
+     * Обновляет пользователя в базе данных
+     * @param user        Объект пользователя
+     * @return            Результат обновления
      */
-    public boolean remove(User user) {
+    public boolean update(User user) {
         try {
-            userDAO.remove(user);
+            userDAO.update(user);
             return true;
         } catch (Exception e) {
             return false;
@@ -72,14 +69,13 @@ public class UserService {
     }
 
     /**
-     * Update user in database
-     *
-     * @param user User obj for update
-     * @see User
+     * Удаляет пользователя из базы данных
+     * @param user        Объект пользователя
+     * @return            Результат удаления
      */
-    public boolean update(User user) {
+    public boolean remove(User user) {
         try {
-            userDAO.update(user);
+            userDAO.remove(user);
             return true;
         } catch (Exception e) {
             return false;

@@ -1,11 +1,12 @@
 package controller;
 
+/**
+ * Класс с литералами для контроллеров
+ */
 public final class Keywords {
-
     /*
     ----------------- Успешное выполнение --------------------------------
      */
-
     //Пользователь создан
     public final static String userCreated = "Добро пожаловать, '%s'";
     //Пользователь обновлен
@@ -20,11 +21,9 @@ public final class Keywords {
     public final static String eventSigned = "Вы добавлены в список участников";
     //Пользователь отписался от мероприятия
     public final static String eventUnsigned = "Вы удалены из списка участников";
-
     /*
     ----------------- Ошибки при выполнении --------------------------------
      */
-
     //Слишком длинное название
     public final static String longName = "Название должно быть короче 32 символов";
     //Неверный формат ввода даты
@@ -41,15 +40,11 @@ public final class Keywords {
     public final static String notOwnUpdate = "Вы не можете изменять мероприятия других пользователей";
     //Не найдено мероприятие с введенным id
     public final static String eventNotFound = "Мероприятие не найдено";
-
+    //Юзер с таким именем уже существует
+    public final static String userAlreadyExist = "Вы уже зарегистрированы";
     /*
     ----------------- Форматы данных --------------------------------
      */
-
     //Формат ввода даты
     public final static String dateTimeFormat = "yyyy-MM-dd HH:mm";
-
-    /*
-    ----------------- Помощь --------------------------------
-     */
 }

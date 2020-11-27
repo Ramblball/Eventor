@@ -3,6 +3,9 @@ package view.commands;
 import controller.EventController;
 import view.Message;
 
+/**
+ * Команда обновления мероприятия
+ */
 public class UpdatingEvent extends Command {
     EventController eventController = new EventController();
 

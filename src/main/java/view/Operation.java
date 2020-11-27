@@ -1,5 +1,8 @@
 package view;
 
+/**
+ * Список возможных операций
+ */
 public enum Operation {
     getHelp,
     createUser,

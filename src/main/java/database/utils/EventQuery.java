@@ -6,6 +6,9 @@ import java.time.format.DateTimeParseException;
 
 import static database.utils.QueryLiterals.*;
 
+/**
+ * Класс для сборки SQL запроса на поиск с критериями
+ */
 public class EventQuery {
     private String name;
     private String place;
@@ -62,17 +65,23 @@ public class EventQuery {
         }
     }
 
+    /**
+     * Проверка, что хотя бы одно из полей запроса не пустое
+     * @return            Результат проверки
+     */
     public boolean isEmpty() {
         return name == null && place == null && time == null && description == null && category == null;
     }
 
+    /**
+     * Собирает SQL запрос из заданных полей
+     * @return            Строка SQL запроса к базе данных
+     */
     public String execute() {
         StringBuilder builder = new StringBuilder();
-
         if (isEmpty()) {
             throw new NullPointerException();
         }
-
         builder.append(executedQuery);
         if (name != null) {
             builder.append(name);
@@ -96,9 +105,7 @@ public class EventQuery {
         }
         int last = builder.lastIndexOf(and);
         builder.delete(last, last + 4);
-
         builder.append(orderQuery);
-
         return builder.toString();
     }
 }

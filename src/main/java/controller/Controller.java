@@ -5,12 +5,11 @@ import database.services.EventService;
 import database.services.UserService;
 
 /**
- * 
+ * Общий класс слоев взаимодействия представления и модели приложения
  */
 public abstract class Controller {
     protected static final UserService userService = new UserService();
     protected static final EventService eventService = new EventService();
-    
 
     /**
      * Возвращает информацию о пользователе, работающем с ботом

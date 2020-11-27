@@ -2,6 +2,9 @@ package view;
 
 import view.commands.*;
 
+/**
+ * Класс обработчик сообщений
+ */
 public class Provider {
 
     private final Message message;
@@ -11,8 +14,9 @@ public class Provider {
     }
 
     /**
-     * @param received Сообщение от пользователя в виде строки
-     * @return Парсированное сообщение типа Message
+     * Преобразование ввода пользователя в Message
+     * @param received    Сообщение от пользователя в виде строки
+     * @return            Преобразованное сообщение типа Message
      */
     private Message parseStringToMessage(String username, String received) {
         var input = received.split(" ");
@@ -95,7 +99,8 @@ public class Provider {
     }
 
     /**
-     * @return Результат операции пользователя
+     * Исполнение операции команды пользователя
+     * @return            Результат выполнения команды
      */
     public String execute() {
         switch (message.getOperation()) {

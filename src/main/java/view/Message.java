@@ -1,5 +1,8 @@
 package view;
 
+/**
+ * Класс сообщения для обработки сообщений от пользователя
+ */
 public class Message {
     private String userName;
     private String userPassword;

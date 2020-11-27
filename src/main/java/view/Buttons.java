@@ -2,6 +2,9 @@ package view;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
+/**
+ * Класс с описание кнопок взаимодейстия с ботом
+ */
 public final class Buttons {
     public final static InlineKeyboardButton createEvent = new InlineKeyboardButton().setText("Create event").
             setSwitchInlineQueryCurrentChat("create event ");//Кнопка создания мероприятия
