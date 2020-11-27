@@ -1,35 +1,72 @@
 package controller;
 
 public final class Keywords {
-    public final static String user = "user ";
-    public final static String event = "event ";
 
-    public final static String added = " added";
-    public final static String found = "found ";
-    public final static String updated = " updated";
-    public final static String removed = " removed";
-    public final static String signed = " signed up for ";
-    public final static String unsigned = " unsigned from ";
-    public final static String welcome = "Welcome, ";
-    public final static String userUpdateResult = "User settings updated";
-    public final static String loggedOut = "You are logged out";
+    /*
+    ----------------- Успешное выполнение --------------------------------
+     */
 
-    public final static String wrongPass = "Invalid password";
-    public final static String wrongUser = "No such user";
-    public final static String shortPass = "Password must be longer";
-    public final static String longName = "Too much long name";
-    public final static String longPlace = "Too much long place name";
-    public final static String longDesc = "Too much long description";
-    public final static String exception = "Something going wrong...";
-    public final static String unLogin = "You need to authorize";
-    public final static String idNotNumb = "Id is not a number";
-    public final static String noEventId = "There is no event with this id";
-    public final static String notOwnUpdate = "You can not update other peoples events";
-    public final static String invalidTime = "Use yyyy-MM-dd HH:mm format for time";
-    public final static String unAuthorized = "You are not logged in";
-    public final static String eventNotFound = "Event not found";
+    //Пользователь создан
+    public final static String userCreated = "Добро пожаловать, '%s'";
+    //Пользователь обновлен
+    public final static String userUpdated = "Ваше имя обновлено на '%s'";
+    //Мероприятие создано
+    public final static String eventCreated = "Мероприятие '%s' создано";
+    //Мероприятие обновлено
+    public final static String eventUpdated = "Мероприятие '%s' изменено";
+    //Мероприятие удалено
+    public final static String eventRemoved = "Мероприятие '%s' удалено";
+    //Пользователь подписался на мероприятие
+    public final static String eventSigned = "Вы добавлены в список участников";
+    //Пользователь отписался от мероприятия
+    public final static String eventUnsigned = "Вы удалены из списка участников";
 
+    /*
+    ----------------- Ошибки при выполнении --------------------------------
+     */
+
+    //Слишком длинное название
+    public final static String longName = "Название должно быть короче 32 символов";
+    //Неверный формат ввода даты
+    public final static String invalidTime = "Используйте формат yyyy-MM-dd HH:mm для задания времени";
+    //Слишком длинное место проведения
+    public final static String longPlace = "Описание мета проведения должно быть короче 128 символов";
+    //Слишком длинное описание
+    public final static String longDesc = "Описание должно быть короче 512 символов";
+    //Внутренняя ошибка модели
+    public final static String exception = "Непредвиденная ошибка...";
+    //id не парсится как число
+    public final static String idNotNumb = "Id должно быть числом";
+    //Пользователь пытается именить чужое мероприятие
+    public final static String notOwnUpdate = "Вы не можете изменять мероприятия других пользователей";
+    //Не найдено мероприятие с введенным id
+    public final static String eventNotFound = "Мероприятие не найдено";
+
+    /*
+    ----------------- Форматы данных --------------------------------
+     */
+
+    //Формат ввода даты
     public final static String dateTimeFormat = "yyyy-MM-dd HH:mm";
 
-    public final static String help = "This is a bot for creating events.\nTo create a user, type: \"create user *name* *password*\"\nTo log in, type: \"login *name* *password*\"\nTo create an event, type:\n \"create event *name* *time:(yyyy-MM-dd HH:mm)* *place* *description*\"\nTo find an event by name, type: \"find *eventName\"\nTo subscribe for an event, type: \"signup *event id*\"\nTo unsubscribe, type: \"unsubscribe *event id*\"\nTo remove event, type: \"*event id*\"\nTo find events by parameters (all are optional), type: \n\"findp *name* *place* *time:(yyyy-MM-dd HH:mm)* *description* *category*\"\nTo update event, type: \"update *name* *time:(yyyy-MM-dd HH:mm)* *place* *description*\"";
+    /*
+    ----------------- Помощь --------------------------------
+     */
+
+    //Помощь
+    public final static String help =
+                        """
+                        Это бот для создания мероприятий.
+                        Для создания мероприятия введите:
+                        "create event *name* *time:(yyyy-MM-dd HH:mm)* *place* *description*"
+                        Для обновления мероприятия введите: 
+                        "update *name* *time:(yyyy-MM-dd HH:mm)* *place* *description*
+                        Для удаления мероприятия введите: "*event id*"
+                        Для поиска мероприятия по имени введите: "find *eventName"
+                        Для участия в мероприятии введите: "signup *event id*"
+                        Для перкращения участия введите: "unsubscribe *event id*"
+                        Для поиска мероприятия по параметрам (Все опцианальные) введите:
+                        "findp *name* *place* *time:(yyyy-MM-dd HH:mm)* *description* *category*"
+                        
+                        """;
 }

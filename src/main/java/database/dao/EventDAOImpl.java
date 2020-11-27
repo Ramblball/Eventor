@@ -101,4 +101,24 @@ public class EventDAOImpl extends DAO{
             return result;
         }
     }
+
+    public void subscribe(User user, Event event) {
+        try (Session session = openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.refresh(user);
+            session.refresh(event);
+            user.addSubscribe(event);
+            transaction.commit();
+        }
+    }
+
+    public void unsubscribe(User user, Event event) {
+        try (Session session = openSession()) {
+            Transaction transaction = session.beginTransaction();
+            session.refresh(user);
+            session.refresh(event);
+            user.removeSubscribe(event);
+            transaction.commit();
+        }
+    }
 }

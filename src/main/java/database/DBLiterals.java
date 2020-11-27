@@ -1,33 +1,31 @@
 package database;
 
-public class DBLiterals {
-    public static final String userTable = "\"user\"";
-    public static final String eventTable = "event";
-    public static final String eventorSchema = "eventor_schema";
-    public static final String usersEvents = "users_events";
+public final class DBLiterals {
+    public final static String userTable = "\"user\"";
+    public final static String eventTable = "event";
+    public final static String eventorSchema = "eventor_schema";
+    public final static String usersEvents = "users_events";
 
-    public static final String userIdSeq = "user_id_seq";
-    public static final String eventIdSeq = "event_id_seq";
+    public final static String userIdSeq = "user_id_seq";
+    public final static String eventIdSeq = "event_id_seq";
 
-//    public static final String enumTypePostgreSQL = "database.type.EnumTypePostgreSQL";
+    public final static String usersWithSubscribes = "users_with_subscribes";
+    public final static String userWithCreated = "user_with_created";
 
-    public static final String usersWithSubscribes = "users_with_subscribes";
-    public static final String userWithCreated = "user_with_created";
+    public final static String subscribes = "subscribes";
+    public final static String createdEvents = "createdEvents";
+    public final static String user = "user";
 
-    public static final String subscribes = "subscribes";
-    public static final String createdEvents = "createdEvents";
-    public static final String user = "user";
+    public final static String userId = "user_id";
+    public final static String eventId = "event_id";
+    public final static String name = "name";
+    public final static String description = "description";
 
-    public static final String userId = "user_id";
-    public static final String eventId = "event_id";
-    public static final String name = "name";
-    public static final String description = "description";
+    public final static String dateTimeFormat = "yyyy-MM-dd HH:mm";
 
-    public static final String dateTimeFormat = "yyyy-MM-dd HH:mm";
+    public final static String findByNameQuery = "FROM User WHERE name=:name";
 
-    public static final String findByNameQuery = "FROM User WHERE name=:name";
-
-    public static final String createEventSetVectorQuery =
+    public final static String createEventSetVectorQuery =
             "INSERT INTO eventor_schema.event_vector (event_id, event_description) VALUES (:event_id, to_tsvector(:description))";
     public static final String updateEventUpdateVectorQuery =
             "UPDATE eventor_schema.event_vector SET event_description = to_tsvector(:description) WHERE event_id = :event_id";

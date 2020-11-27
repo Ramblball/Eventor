@@ -85,40 +85,4 @@ public class UserService {
             return false;
         }
     }
-
-    /**
-     * Subscribe user to event
-     *
-     * @param user  subscriber
-     * @param event event
-     * @return result success or not
-     */
-    public boolean subscribe(User user, Event event) {
-        try {
-            List<Event> own = user.getCreatedEvents();
-            List<Event> subs = user.getSubscribes();
-            if (own.contains(event) || subs.contains(event)) {
-                return false;
-            }
-            userDAO.subscribe(user, event);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    /**
-     * Unsubscribe user from event
-     *
-     * @param user  subscriber
-     * @param event event
-     */
-    public boolean unsubscribe(User user, Event event) {
-        try {
-            userDAO.unsubscribe(user, event);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
 }

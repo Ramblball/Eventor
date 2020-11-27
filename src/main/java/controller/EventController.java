@@ -1,7 +1,6 @@
 package controller;
 
 import database.model.*;
-import database.services.EventService;
 import database.utils.EventQuery;
 import org.hibernate.cfg.NotYetImplementedException;
 
@@ -10,12 +9,9 @@ import java.time.format.*;
 import java.util.*;
 
 /**
- * Класс-слой зваимодействия между пользовательским представлением и внутрееней моделью приложения
- * Обеспечивает взаимодействие пользователя с мероприятиями
+ * Обеспечение взаимодействия пользователя с мероприятиями
  */
 public class EventController extends Controller {
-    private final EventService eventService = new EventService();
-    private StringBuilder stringBuilder = new StringBuilder();
 
     /**
      * Возвращает подсказку по оформлению команд для пользователя
@@ -61,25 +57,18 @@ public class EventController extends Controller {
      * @return            Результат создания
      */
     public String create(String user, String name, String time, String place, String description) {
-        String checking = checkEventsParams(name, time, place, description);
-        if (checking != null) {
-            return checking;
+        String validate = checkEventsParams(name, time, place, description);
+        if (validate != null) {
+            return validate;
         }
         LocalDateTime dateTime = LocalDateTime.parse(time, DateTimeFormatter.ofPattern(Keywords.dateTimeFormat));
         User currentUser = getCurrent(user);
-        if (currentUser == null) {
-            return Keywords.exception;
-        }
         Event event = new Event(name, place, dateTime, Category.Прогулка, description);
         boolean result = eventService.create(currentUser, event);
         if (!result) {
             return Keywords.exception;
         }
-        stringBuilder = new StringBuilder();
-        stringBuilder.append(Keywords.event);
-        stringBuilder.append(event.getName());
-        stringBuilder.append(Keywords.added);
-        return stringBuilder.toString();
+        return String.format(Keywords.eventCreated, name);
     }
 
     /**
@@ -105,7 +94,7 @@ public class EventController extends Controller {
             return Keywords.idNotNumb;
         }
         if (event == null) {
-            return Keywords.noEventId;
+            return Keywords.eventNotFound;
         }
         if (event.getUserId() != currentUser.getId()) {
             return Keywords.notOwnUpdate;
@@ -117,11 +106,7 @@ public class EventController extends Controller {
         if (!result) {
             return Keywords.exception;
         }
-        stringBuilder = new StringBuilder();
-        stringBuilder.append(Keywords.event);
-        stringBuilder.append(event.getName());
-        stringBuilder.append(Keywords.updated);
-        return stringBuilder.toString();
+        return String.format(Keywords.eventUpdated, name);
     }
 
     /**
@@ -145,11 +130,7 @@ public class EventController extends Controller {
         if (!result) {
             return Keywords.exception;
         }
-        stringBuilder = new StringBuilder();
-        stringBuilder.append(Keywords.event);
-        stringBuilder.append(event.getName());
-        stringBuilder.append(Keywords.removed);
-        return stringBuilder.toString();
+        return String.format(Keywords.eventRemoved, event.getName());
     }
 
     /**
@@ -192,10 +173,65 @@ public class EventController extends Controller {
         if (event == null) {
             return Keywords.exception;
         }
-        stringBuilder = new StringBuilder();
-        stringBuilder.append(Keywords.found);
-        stringBuilder.append(Keywords.event);
-        stringBuilder.append(event.toString());
-        return stringBuilder.toString();
+        return event.toString();
+    }
+
+    /**
+     * Метод для подписки или отписки от мероприятия
+     * @param user        Имя создателя
+     * @param id          Id мероприятия
+     * @param f           Подписаться - true
+     *                    Отписаться - false
+     * @return            Результат выполнения
+     */
+    public String subscribeManager(String user, String id, boolean f) {
+        try {
+            Event event;
+            event = eventService.findById(Integer.parseInt(id));
+            if (event == null) {
+                return Keywords.eventNotFound;
+            }
+            User currentUser = getCurrent(user);
+            boolean result;
+            if (f) {
+                result = eventService.subscribe(currentUser, event);
+            } else {
+                result = eventService.unsubscribe(currentUser, event);
+            }
+            if (!result) {
+                return Keywords.exception;
+            }
+        } catch (NumberFormatException e) {
+            return Keywords.idNotNumb;
+        }
+        return null;
+    }
+
+    /**
+     * Подписывает пользователя на мероприятие
+     * @param user        Имя создателя
+     * @param id          Id мероприятия
+     * @return            Результат подписки
+     */
+    public String signIn(String user, String id) {
+        String result = subscribeManager(user, id, true);
+        if (result == null) {
+            return Keywords.eventSigned;
+        }
+        return result;
+    }
+
+    /**
+     * Отписывает пользователя от мероприятия
+     * @param user        Имя создателя
+     * @param id          Id мероприятия
+     * @return            Результат отписки
+     */
+    public String signOut(String user, String id) {
+        String result = subscribeManager(user, id, false);
+        if (result == null) {
+            return Keywords.eventUnsigned;
+        }
+        return result;
     }
 }
