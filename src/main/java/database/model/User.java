@@ -33,8 +33,6 @@ public class User {
             generator = userIdSeq)
     private int id;
     private String name;
-    private byte[] salt;
-    private byte[] hash;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = user, orphanRemoval = true)
     private List<Event> createdEvents = new LinkedList<>();
@@ -58,32 +56,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setPassword(String password) {
-        try {
-            SecureRandom random = new SecureRandom();
-            this.salt = new byte[16];
-            random.nextBytes(salt);
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            md.update(salt);
-            this.hash = md.digest(password.getBytes(StandardCharsets.UTF_8));
-
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public boolean checkPassword(String pass) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            md.update(salt);
-            byte[] checkedHash = md.digest(pass.getBytes(StandardCharsets.UTF_8));
-            return java.util.Arrays.equals(this.hash, checkedHash);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            return false;
-        }
     }
 
     public List<Event> getCreatedEvents() {

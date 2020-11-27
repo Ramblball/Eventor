@@ -8,6 +8,6 @@ public class Subscribing extends Command {
 
     @Override
     public String execute(Message message) {
-        return userController.signIn(message.getEventId());
+        return userController.signIn(message.getUserName(), message.getEventId());
     }
 }

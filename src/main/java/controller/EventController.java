@@ -16,6 +16,7 @@ import java.util.*;
 public class EventController extends Controller {
     private final EventService eventService = new EventService();
     private StringBuilder stringBuilder = new StringBuilder();
+
     /**
      * Возвращает подсказку по оформлению команд для пользователя
      * @return            Помощь
@@ -23,6 +24,7 @@ public class EventController extends Controller {
     public String getHelp() {
         return Keywords.help;
     }
+
     /**
      * Валидирует параметры мероприятия
      * @param name        Название мероприятия
@@ -32,9 +34,6 @@ public class EventController extends Controller {
      * @return            Результат валидации
      */
     public String checkEventsParams(String name, String time, String place, String description) {
-        if (isLogout()) {
-            return Keywords.unLogin;
-        }
         if (name.length() > 32) {
             return Keywords.longName;
         }
@@ -51,8 +50,10 @@ public class EventController extends Controller {
         }
         return null;
     }
+
     /**
      * Создает новое мероприятие
+     * @param user        Имя создателя
      * @param name        Название мероприятия
      * @param time        Время начала мероприятия
      * @param place       Место проведения мероприятия
@@ -65,6 +66,10 @@ public class EventController extends Controller {
             return checking;
         }
         LocalDateTime dateTime = LocalDateTime.parse(time, DateTimeFormatter.ofPattern(Keywords.dateTimeFormat));
+        User currentUser = getCurrent(user);
+        if (currentUser == null) {
+            return Keywords.exception;
+        }
         Event event = new Event(name, place, dateTime, Category.Прогулка, description);
         boolean result = eventService.create(currentUser, event);
         if (!result) {
@@ -76,8 +81,10 @@ public class EventController extends Controller {
         stringBuilder.append(Keywords.added);
         return stringBuilder.toString();
     }
+
     /**
-     * Update an existing event
+     * Обновляет существующее мероприятие
+     * @param user        Имя создателя
      * @param id          Id обновляемого мероприятия
      * @param name        Название мероприятия
      * @param time        Время начала мероприятия
@@ -90,6 +97,7 @@ public class EventController extends Controller {
         if (checking != null) {
             return checking;
         }
+        User currentUser = getCurrent(user);
         Event event;
         try {
             event = eventService.findById(Integer.parseInt(id));
@@ -115,15 +123,15 @@ public class EventController extends Controller {
         stringBuilder.append(Keywords.updated);
         return stringBuilder.toString();
     }
+
     /**
      * Удаление мероприятия
+     * @param user        Имя создателя
      * @param id          Id удаляемого мероприятия
      * @return            Результат удаления
      */
     public String remove(String user, String id) {
-        if (isLogout()) {
-            return Keywords.unLogin;
-        }
+        User currentUser = getCurrent(user);
         Event event;
         try {
             event = eventService.findById(Integer.parseInt(id));
@@ -143,23 +151,26 @@ public class EventController extends Controller {
         stringBuilder.append(Keywords.removed);
         return stringBuilder.toString();
     }
+
     /**
      * Возвращаем мероприятия созданные пользователем
-     * @param user        Имя пользователя
+     * @param user        Имя создателя
      * @return            Список мероприятий
      */
     public String getOwn(String user) {
         throw new NotYetImplementedException();
     }
+
+    public String getSubs(String user) {
+        throw  new NotYetImplementedException();
+    }
+
     /**
      * Возвращает список мероприятий по заданным критериям
      * @param query       EventQuery с заданными параметрами поиска
      * @return            Список мероприятий
      */
     public String find(EventQuery query) {
-        if (isLogout()) {
-            return Keywords.unLogin;
-        }
         List<Event> events = eventService.find(query);
         if (events == null) {
             return Keywords.exception;
@@ -170,6 +181,7 @@ public class EventController extends Controller {
         }
         return joiner.toString();
     }
+
     /**
      * Находит и возвращает мероприятие по его названию
      * @param name        название мероприятия

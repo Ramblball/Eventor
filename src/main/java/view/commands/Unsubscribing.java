@@ -8,6 +8,6 @@ public class Unsubscribing extends Command {
 
     @Override
     public String execute(Message message) {
-        return userController.signOut(message.getEventId());
+        return userController.signOut(message.getUserName(), message.getEventId());
     }
 }

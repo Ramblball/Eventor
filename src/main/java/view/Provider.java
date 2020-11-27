@@ -103,10 +103,6 @@ public class Provider {
      */
     public String execute() {
         switch (message.getOperation()) {
-            case logIn:
-                return new LoggingIn().execute(message);
-            case logOut:
-                return new LoggingOut().execute(message);
             case getHelp:
                 return new Help().execute(message);
             case findEvent:
