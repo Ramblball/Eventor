@@ -10,6 +10,10 @@ public class Provider {
         this.message = parseStringToMessage(received);
     }
 
+    /**
+     * @param received Сообщение от пользователя в виде строки
+     * @return Парсированное сообщение типа Message
+     */
     private Message parseStringToMessage(String received) {
         var input = received.split(" ");
         var message = new Message();
@@ -93,6 +97,9 @@ public class Provider {
         }
     }
 
+    /**
+     * @return Результат операции пользователя
+     */
     public String execute() {
         switch (message.getOperation()) {
             case logIn:

@@ -16,6 +16,15 @@ import java.util.List;
 public class TelegramBot extends TelegramLongPollingBot {
     private final static String botName = "eventor_oop_bot";
 
+    /** Создаёт прикреплённую клавиатуру к каждому сообщению
+     * @return Прикреплённую к каждому сообщению клавиатуру след. вида:
+     *                           Get help                             |
+     *             Create user           |                 Log in     |
+     *     Create event    |    Subscribe     |     Unsubscribe       |
+     *     Find event by name      |        Find events by parameters |
+     *     Remove event by id      |        Update event              |
+     *                          Log out                               |
+     */
     private InlineKeyboardMarkup setKeyboard() {
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
@@ -50,11 +59,17 @@ public class TelegramBot extends TelegramLongPollingBot {
         return markupInline;
     }
 
+    /** Возрвращает имя бота
+     * @return Имя телеграм бота
+     */
     @Override
     public String getBotUsername() {
         return botName;
     }
 
+    /** Возвращает токен бота из текстового файла
+     * @return Токен телеграм бота для доступа
+     */
     @Override
     public String getBotToken() {
         String token = "";
@@ -67,6 +82,9 @@ public class TelegramBot extends TelegramLongPollingBot {
         return token;
     }
 
+    /** Получает сообщение от пользователя, отдаёт на обработку Provider`у и отправляет ответ
+     * @param update Сообщение от пользователя в виде Update
+     */
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage() && update.getMessage().hasText()) {
