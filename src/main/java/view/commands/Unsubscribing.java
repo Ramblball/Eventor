@@ -1,13 +1,13 @@
 package view.commands;
 
-import controller.UserController;
+import controller.EventController;
 import view.Message;
 
 public class Unsubscribing extends Command {
-    UserController userController = new UserController();
+    EventController eventController = new EventController();
 
     @Override
     public String execute(Message message) {
-        return userController.signOut(message.getUserName(), message.getEventId());
+        return eventController.signOut(message.getUserName(), message.getEventId());
     }
 }

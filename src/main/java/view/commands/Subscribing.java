@@ -1,13 +1,13 @@
 package view.commands;
 
-import controller.UserController;
+import controller.EventController;
 import view.Message;
 
 public class Subscribing extends Command {
-    UserController userController = new UserController();
+    EventController eventController = new EventController();
 
     @Override
     public String execute(Message message) {
-        return userController.signIn(message.getUserName(), message.getEventId());
+        return eventController.signIn(message.getUserName(), message.getEventId());
     }
 }

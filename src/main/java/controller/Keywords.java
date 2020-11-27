@@ -52,21 +52,4 @@ public final class Keywords {
     /*
     ----------------- Помощь --------------------------------
      */
-
-    //Помощь
-    public final static String help =
-                        """
-                        Это бот для создания мероприятий.
-                        Для создания мероприятия введите:
-                        "create event *name* *time:(yyyy-MM-dd HH:mm)* *place* *description*"
-                        Для обновления мероприятия введите: 
-                        "update *name* *time:(yyyy-MM-dd HH:mm)* *place* *description*
-                        Для удаления мероприятия введите: "*event id*"
-                        Для поиска мероприятия по имени введите: "find *eventName"
-                        Для участия в мероприятии введите: "signup *event id*"
-                        Для перкращения участия введите: "unsubscribe *event id*"
-                        Для поиска мероприятия по параметрам (Все опцианальные) введите:
-                        "findp *name* *place* *time:(yyyy-MM-dd HH:mm)* *description* *category*"
-                        
-                        """;
 }

@@ -29,15 +29,11 @@ public class TelegramBot extends TelegramLongPollingBot {
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        List<InlineKeyboardButton> secondRow = new ArrayList<>();
         List<InlineKeyboardButton> thirdRow = new ArrayList<>();
         List<InlineKeyboardButton> fourthRow = new ArrayList<>();
         List<InlineKeyboardButton> fifthRow = new ArrayList<>();
-        List<InlineKeyboardButton> sixthRow = new ArrayList<>();
 
         firstRow.add(Buttons.getHelp);
-        secondRow.add(Buttons.createUser);
-        secondRow.add(Buttons.logIn);
         thirdRow.add(Buttons.createEvent);
         thirdRow.add(Buttons.signUp);
         thirdRow.add(Buttons.signOut);
@@ -45,14 +41,11 @@ public class TelegramBot extends TelegramLongPollingBot {
         fourthRow.add(Buttons.findParams);
         fifthRow.add(Buttons.remove);
         fifthRow.add(Buttons.update);
-        sixthRow.add(Buttons.logOut);
 
         rowsInline.add(firstRow);
-        rowsInline.add(secondRow);
         rowsInline.add(thirdRow);
         rowsInline.add(fourthRow);
         rowsInline.add(fifthRow);
-        rowsInline.add(sixthRow);
 
         markupInline.setKeyboard(rowsInline);
 

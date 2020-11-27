@@ -18,7 +18,19 @@ public class EventController extends Controller {
      * @return            Помощь
      */
     public String getHelp() {
-        return Keywords.help;
+        StringJoiner stringJoiner = new StringJoiner("\n");
+        stringJoiner.add("Это бот для создания мероприятий.");
+        stringJoiner.add("Для создания мероприятия введите:");
+        stringJoiner.add("\"create event *name* *time:(yyyy-MM-dd HH:mm)* *place* *description*\"");
+        stringJoiner.add("Для обновления мероприятия введите:");
+        stringJoiner.add("\"update *name* *time:(yyyy-MM-dd HH:mm)* *place* *description*");
+        stringJoiner.add("Для удаления мероприятия введите: \"*event id*\"");
+        stringJoiner.add("Для поиска мероприятия по имени введите: \"find *eventName\"");
+        stringJoiner.add("Для участия в мероприятии введите: \"signup *event id*\"");
+        stringJoiner.add("Для перкращения участия введите: \"unsubscribe *event id*\"");
+        stringJoiner.add("Для поиска мероприятия по параметрам (Все опцианальные) введите:");
+        stringJoiner.add("\"findp *name* *place* *time:(yyyy-MM-dd HH:mm)* *description* *category*\"");
+        return stringJoiner.toString();
     }
 
     /**

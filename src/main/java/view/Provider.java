@@ -20,21 +20,13 @@ public class Provider {
         message.setUserName(username);
         switch (input[0]) {
             case "create":
-                if (input[1].equals("event")) {
-                    if (input.length < 7)
-                        return new Message(Operation.fewArguments);
-                    message.setOperation(Operation.createEvent);
-                    message.setEventName(input[2]);
-                    message.setEventTime(input[3] + " " + input[4]);
-                    message.setEventPlace(input[5]);
-                    message.setEventDescription(input[6]);
-                } else {
-                    if (input.length < 4)
-                        return new Message(Operation.fewArguments);
-                    message.setOperation(Operation.createUser);
-                    message.setUserName(input[2]);
-                    message.setUserPassword(input[3]);
-                }
+                if (input.length < 7)
+                    return new Message(Operation.fewArguments);
+                message.setOperation(Operation.createEvent);
+                message.setEventName(input[2]);
+                message.setEventTime(input[3] + " " + input[4]);
+                message.setEventPlace(input[5]);
+                message.setEventDescription(input[6]);
                 return message;
             case "login":
                 if (input.length < 3)
@@ -42,6 +34,10 @@ public class Provider {
                 message.setOperation(Operation.logIn);
                 message.setUserName(input[1]);
                 message.setUserPassword(input[2]);
+                return message;
+            case "/start":
+                message.setOperation(Operation.createUser);
+                message.setUserName(username);
                 return message;
             case "help":
                 return new Message(Operation.getHelp);
