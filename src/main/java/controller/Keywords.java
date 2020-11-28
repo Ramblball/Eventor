@@ -28,6 +28,8 @@ public final class Keywords {
     public final static String longName = "Название должно быть короче 32 символов";
     //Неверный формат ввода даты
     public final static String invalidTime = "Используйте формат yyyy-MM-dd HH:mm для задания времени";
+    //Дата и время уже прошли
+    public final static String prevDate = "Введенная дата уже прошла";
     //Слишком длинное место проведения
     public final static String longPlace = "Описание мета проведения должно быть короче 128 символов";
     //Слишком длинное описание

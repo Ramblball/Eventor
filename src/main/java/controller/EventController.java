@@ -51,7 +51,10 @@ public class EventController extends Controller {
             return Keywords.longDesc;
         }
         try {
-            LocalDateTime.parse(time, DateTimeFormatter.ofPattern(Keywords.dateTimeFormat));
+            if (LocalDateTime.parse(time, DateTimeFormatter.ofPattern(Keywords.dateTimeFormat))
+                    .isBefore(LocalDateTime.now())) {
+                return Keywords.prevDate;
+            }
         } catch (DateTimeParseException e) {
             return Keywords.invalidTime;
         }
@@ -111,6 +114,7 @@ public class EventController extends Controller {
             return Keywords.notOwnUpdate;
         }
         event.setName(name);
+        event.setTime(LocalDateTime.parse(time, DateTimeFormatter.ofPattern(Keywords.dateTimeFormat)));
         event.setPlace(place);
         event.setDescription(description);
         boolean result = eventService.update(event);

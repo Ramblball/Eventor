@@ -2,6 +2,8 @@ package view;
 
 import view.commands.*;
 
+import java.util.Arrays;
+
 /**
  * Класс обработчик сообщений
  */
@@ -30,13 +32,13 @@ public class Provider {
             case "help":
                 return new Message(Operation.getHelp);
             case "create":
-                if (input.length < 7)
+                if (input.length < 6)
                     return new Message(Operation.fewArguments);
                 message.setOperation(Operation.createEvent);
                 message.setEventName(input[1]);
                 message.setEventTime(input[2] + " " + input[3]);
                 message.setEventPlace(input[4]);
-                message.setEventDescription(input[5]);
+                message.setEventDescription(String.join(" ", Arrays.copyOfRange(input, 5, input.length)));
                 return message;
             case "own":
                 if (input.length > 1)
@@ -54,13 +56,11 @@ public class Provider {
                 message.setOperation(Operation.findEvent);
                 message.setEventName(input[1]);
                 return message;
-            //TODO: Починить поиск
             case "findby":
                 if (input.length < 2)
                     return new Message(Operation.fewArguments);
-                var params = new String[6];
-                if (input.length < 7)
-                    System.arraycopy(input, 1, params, 0, input.length - 2);
+                var params = new String[] {"", "", "", "", "", ""};
+                System.arraycopy(input, 1, params, 0, input.length - 1);
                 message.setOperation(Operation.findEventByParameters);
                 message.setEventName(params[0]);
                 message.setEventPlace(params[1]);
@@ -72,10 +72,11 @@ public class Provider {
                 if (input.length < 7)
                     return new Message(Operation.fewArguments);
                 message.setOperation(Operation.updateEvent);
+                message.setEventId(input[1]);
                 message.setEventName(input[2]);
                 message.setEventTime(input[3] + " " + input[4]);
                 message.setEventPlace(input[5]);
-                message.setEventDescription(input[6]);
+                message.setEventDescription(String.join(" ", Arrays.copyOfRange(input, 6, input.length)));
                 return message;
             case "sub":
                 if (input.length < 2)
