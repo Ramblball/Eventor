@@ -10,8 +10,8 @@ public class Console {
         var scanner = new Scanner(System.in);
         while (true) {
             var input = scanner.nextLine();
-            var provider = new Provider("Console", input);
-            System.out.println(provider.execute());
+            //var provider = new Provider("Console", input);
+            //System.out.println(provider.execute());
         }
     }
 }

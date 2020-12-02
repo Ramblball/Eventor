@@ -11,6 +11,6 @@ public class Unsubscribing extends Command {
 
     @Override
     public String execute(Message message) {
-        return eventController.signOut(message.getUserName(), message.getEventId());
+        return eventController.signOut(message.getUser().getUserName(), message.getEventId());
     }
 }

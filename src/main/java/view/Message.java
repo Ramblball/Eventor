@@ -1,40 +1,21 @@
 package view;
 
+import org.telegram.telegrambots.meta.api.objects.User;
+
 /**
  * Класс сообщения для обработки сообщений от пользователя
  */
 public class Message {
-    private String userName;
-    private String userPassword;
     private String eventId;
     private String eventName;
     private String eventTime;
     private String eventPlace;
     private String eventDescription;
     private String eventCategory;
-    private Operation operation;
+    private User user;
 
-    public Message(Operation operation) {
-        this.operation = operation;
-    }
 
     public Message() {
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserPassword() {
-        return userPassword;
-    }
-
-    public void setUserPassword(String userPassword) {
-        this.userPassword = userPassword;
     }
 
     public String getEventId() {
@@ -85,11 +66,11 @@ public class Message {
         this.eventCategory = eventCategory;
     }
 
-    public Operation getOperation() {
-        return operation;
+    public User getUser() {
+        return user;
     }
 
-    public void setOperation(Operation operation) {
-        this.operation = operation;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

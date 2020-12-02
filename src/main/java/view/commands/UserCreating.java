@@ -10,6 +10,6 @@ public class UserCreating extends Command {
     private final UserController userController = new UserController();
     @Override
     public String execute(Message message) {
-        return userController.create(message.getUserName());
+        return userController.create(message.getUser().getUserName());
     }
 }

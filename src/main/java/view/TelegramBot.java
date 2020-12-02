@@ -1,64 +1,194 @@
 package view;
 
+import controller.Keywords;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import view.commands.Help;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Класс инициализации и взаимодействия с телеграм ботом
  */
 public class TelegramBot extends TelegramLongPollingBot {
     private final static String botName = "eventor_oop_bot";
+    private final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+    private final ArrayList<KeyboardRow> keyboard = new ArrayList<>();
+    private final KeyboardRow firstRow = new KeyboardRow();
+    private final KeyboardRow secondRow = new KeyboardRow();
+    private final KeyboardRow thirdRow = new KeyboardRow();
+    private final KeyboardRow fourthRow = new KeyboardRow();
+    private final Provider provider = new Provider();
+    private final Message message = new Message();
+    private String operation = "";
+    private int argumentCount = 0;
 
-    /** Создаёт прикреплённую клавиатуру к каждому сообщению
-     * @return Прикреплённую к каждому сообщению клавиатуру след. вида:
-     *                           Get help                             |
-     *     Create event    |    Subscribe     |     Unsubscribe       |
-     *     Find event by name      |        Find events by parameters |
-     *     Remove event by id      |        Update event              |
-     */
-    private InlineKeyboardMarkup setKeyboard() {
-        InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
-        List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        List<InlineKeyboardButton> secondRow = new ArrayList<>();
-        List<InlineKeyboardButton> thirdRow = new ArrayList<>();
-        List<InlineKeyboardButton> fourthRow = new ArrayList<>();
-        List<InlineKeyboardButton> fifthRow = new ArrayList<>();
+    private void createKeyboard(){
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(true);
+    }
 
-        firstRow.add(Buttons.getHelp);
-        secondRow.add(Buttons.getOwn);
-        secondRow.add(Buttons.getSubs);
-        thirdRow.add(Buttons.createEvent);
-        thirdRow.add(Buttons.signUp);
-        thirdRow.add(Buttons.signOut);
-        fourthRow.add(Buttons.find);
-        fourthRow.add(Buttons.findParams);
-        fifthRow.add(Buttons.remove);
-        fifthRow.add(Buttons.update);
+    public String getMessage(User user, String received) {
+        createKeyboard();
+        message.setUser(user);
+        switch (received) {
+            case "Привет":
+            case "/start":
+            case "Назад":
+                createMainMenu();
+                return "Выберите пункт меню";
+            case "Помощь":
+                createMainMenu();
+                return new Help().execute(new Message());
+            case "Управление подписками":
+                createOperationMenu();
+                return "Что вы хотите сделать?";
+            case "Поиск":
+                createFindMenu();
+                return "Как вы хотите искать?";
+            case "Создать":
+            case "Изменить":
+                hideMenu(received);
+                return "Введите название мероприятия";
+            case "Удалить":
+            case "Подписаться":
+            case "Отписаться":
+                hideMenu(received);
+                return "Введите id мероприятия";
+            case "Мои подписки":
+            case "Созданные мероприятия":
+                createMainMenu();
+                return provider.execute(received, message);
+            case "По имени":
+            case "По параметрам":
+                hideMenu(received);
+                return "Введите имя искомого мероприятия";
+            default:
+                switch (operation) {
+                    case "Создать":
+                    case "Изменить":
+                        if (argumentCount == 0) {
+                            message.setEventName(received);
+                            argumentCount++;
+                            return "Введите время мероприятия в формате " + Keywords.dateTimeFormat;
+                        }
+                        if (argumentCount == 1) {
+                            message.setEventTime(received);
+                            argumentCount++;
+                            return "Введите место мероприятия";
+                        }
+                        if (argumentCount == 2) {
+                            message.setEventPlace(received);
+                            argumentCount++;
+                            return "Введите описание мероприятия";
+                        }
+                        message.setEventDescription(received);
+                        argumentCount = 0;
+                        createOperationMenu();
+                        return provider.execute(operation, message);
+                    case "По имени":
+                        message.setEventName(received);
+                        createFindMenu();
+                        return provider.execute(operation, message);
+                    case "По параметрам":
+                        if (argumentCount == 0) {
+                            message.setEventName(received);
+                            argumentCount++;
+                            return "Введите время мероприятия в формате " + Keywords.dateTimeFormat;
+                        }
+                        if (argumentCount == 1) {
+                            message.setEventTime(received);
+                            argumentCount++;
+                            return "Введите место мероприятия";
+                        }
+                        if (argumentCount == 2) {
+                            message.setEventPlace(received);
+                            argumentCount++;
+                            return "Введите описание мероприятия";
+                        }
+                        message.setEventDescription(received);
+                        createOperationMenu();
+                        argumentCount = 0;
+                        createFindMenu();
+                        return provider.execute(operation, message);
+                    case "Удалить":
+                    case "Подписаться":
+                    case "Отписаться":
+                        createOperationMenu();
+                        return provider.execute(operation, message);
+                    default:
+                        createMainMenu();
+                        return "Хз шо за команда";
+                }
+        }
+    }
 
-        rowsInline.add(firstRow);
-        rowsInline.add(secondRow);
-        rowsInline.add(thirdRow);
-        rowsInline.add(fourthRow);
-        rowsInline.add(fifthRow);
+    private void hideMenu(String message) {
+        clearKeyboardRows();
+        firstRow.add("Назад");
+        keyboard.add(firstRow);
+        replyKeyboardMarkup.setKeyboard(keyboard);
+        operation = message;
+        argumentCount = 0;
+    }
 
-        markupInline.setKeyboard(rowsInline);
+    private void clearKeyboardRows() {
+        keyboard.clear();
+        firstRow.clear();
+        secondRow.clear();
+        thirdRow.clear();
+        fourthRow.clear();
+    }
 
-        return markupInline;
+    private void createFindMenu() {
+        clearKeyboardRows();
+        firstRow.add("По имени");
+        firstRow.add("По параметрам");
+        secondRow.add("Назад");
+        keyboard.add(firstRow);
+        keyboard.add(secondRow);
+        replyKeyboardMarkup.setKeyboard(keyboard);
+    }
+
+    private void createOperationMenu() {
+        clearKeyboardRows();
+        firstRow.add("Создать");
+        firstRow.add("Изменить");
+        firstRow.add("Удалить");
+        thirdRow.add("Мои подписки");
+        secondRow.add("Подписаться");
+        secondRow.add("Отписаться");
+        thirdRow.add("Созданные мероприятия");
+        fourthRow.add("Назад");
+        keyboard.add(firstRow);
+        keyboard.add(secondRow);
+        keyboard.add(thirdRow);
+        keyboard.add(fourthRow);
+        replyKeyboardMarkup.setKeyboard(keyboard);
+    }
+
+    private void createMainMenu() {
+        clearKeyboardRows();
+        firstRow.add("Помощь");
+        secondRow.add("Управление подписками");
+        secondRow.add("Поиск");
+        keyboard.add(firstRow);
+        keyboard.add(secondRow);
+        replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
     /**
      * Возрвращает имя бота
+     *
      * @return Имя телеграм бота
      */
     @Override
@@ -68,6 +198,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     /**
      * Возвращает токен бота из текстового файла
+     *
      * @return Токен телеграм бота для доступа
      */
     @Override
@@ -84,6 +215,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     /**
      * Получает сообщение от пользователя, отдаёт на обработку Provider`у и отправляет ответ
+     *
      * @param update Сообщение от пользователя в виде Update
      */
     @Override
@@ -92,12 +224,9 @@ public class TelegramBot extends TelegramLongPollingBot {
             String address = "@" +
                     botName +
                     " ";
-            var provider = new Provider(update.getMessage().getChat().getUserName(), update.getMessage().getText().replace(address, ""));
-            var answer = provider.execute();
-            SendMessage message = new SendMessage()
-                    .setChatId(update.getMessage()
-                            .getChatId()).setText(answer);
-            message.setReplyMarkup(setKeyboard());
+            SendMessage message = new SendMessage().setChatId(update.getMessage().getChatId())
+                    .setText(getMessage(update.getMessage().getFrom(), update.getMessage().getText()));
+            message.setReplyMarkup(replyKeyboardMarkup);
             try {
                 execute(message);
             } catch (TelegramApiException e) {

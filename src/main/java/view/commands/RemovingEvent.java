@@ -11,6 +11,6 @@ public class RemovingEvent extends Command {
 
     @Override
     public String execute(Message message) {
-        return eventController.remove(message.getUserName(), message.getEventId());
+        return eventController.remove(message.getUser().getUserName(), message.getEventId());
     }
 }
