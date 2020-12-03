@@ -90,7 +90,7 @@ public class DialogTransmitter {
                         if (TelegramBot.userProgress.get(user).count == 0) {
                             message.setEventName(received);
                             TelegramBot.userProgress.get(user).count++;
-                            return "Введите время мероприятия в формате " + Keywords.dateTimeFormat;
+                            return "Введите время мероприятия в формате " + Keywords.DATE_TIME_FORMAT;
                         }
                         if (TelegramBot.userProgress.get(user).count == 1) {
                             message.setEventTime(received);
@@ -114,7 +114,7 @@ public class DialogTransmitter {
                         if (TelegramBot.userProgress.get(user).count == 0) {
                             message.setEventName(received);
                             TelegramBot.userProgress.get(user).count++;
-                            return "Введите время мероприятия в формате " + Keywords.dateTimeFormat;
+                            return "Введите время мероприятия в формате " + Keywords.DATE_TIME_FORMAT;
                         }
                         if (TelegramBot.userProgress.get(user).count == 1) {
                             message.setEventTime(received);

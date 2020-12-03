@@ -1,61 +1,59 @@
 package database.services;
 
-import database.DBException;
+import database.exception.DBException;
 import database.DBLiterals;
 import database.dao.UserDAOImpl;
-import database.model.Event;
 import database.model.User;
-import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.hql.internal.ast.QuerySyntaxException;
-import org.postgresql.util.PSQLException;
 
 import javax.persistence.PersistenceException;
-import java.util.List;
 
 /**
- * Слой сервис для взаимодействия основного приложения с базой данных пользователей
+ * Класс сервис для взаимодействия основного приложения с базой данных пользователей
  */
 public class UserService {
     private static final UserDAOImpl userDAO = new UserDAOImpl();
 
     /**
-     * Возвращает пользователя по id
-     * или null при возникновении ошибки
-     * @param id          id пользователя
-     * @return            Найденный пользователь
+     * Метод для получения пользователя по уникальному идентификатору
+     * @param id                    Уникальный идетификатор пользователя
+     * @return                      Найденный пользователь
+     * @throws DBException          Пользователь не найден
+     * @throws QuerySyntaxException Ошибка синтаксиса запроса
      */
     public User findById(Integer id) throws DBException{
         try {
             User user = userDAO.findById(id);
             if (user == null) {
-                throw new DBException(DBLiterals.userNotExist);
+                throw new DBException(DBLiterals.USER_NOT_EXIST);
             }
             return user;
         } catch (QuerySyntaxException e) {
-            throw new DBException(DBLiterals.dbExc, e);
+            throw new DBException(DBLiterals.DB_EXCEPTION, e);
         }
     }
 
     /**
-     * Возвращает пользователя по имени
-     * или null при возникновении ошибки
-     * @param name        Имя пользователя
-     * @return            Найденный пользователь
+     * Метод для получения пользователя по имени
+     * @param name                  Имя пользователя
+     * @return                      Найденный пользователь
+     * @throws DBException          Пользователь не найден
+     * @throws QuerySyntaxException Ошибка синтаксиса запроса
      */
     public User findByName(String name) throws DBException{
         try {
             User user = userDAO.findByName(name);
             if (user == null) {
-                throw new DBException(DBLiterals.userNotExist);
+                throw new DBException(DBLiterals.USER_NOT_EXIST);
             }
             return user;
         } catch (QuerySyntaxException e) {
-            throw new DBException(DBLiterals.dbExc, e);
+            throw new DBException(DBLiterals.DB_EXCEPTION, e);
         }
     }
 
     /**
-     * Сохранняет пользователя в базу данных
+     * Метод для сохранения пользователя в базу данных
      * @param user                  Объект пользователя
      * @throws PersistenceException Ошибка сохранения
      */
@@ -63,33 +61,33 @@ public class UserService {
         try {
             userDAO.create(user);
         } catch (PersistenceException e) {
-            throw new DBException(DBLiterals.dbExc, e);
+            throw new DBException(DBLiterals.DB_EXCEPTION, e);
         }
     }
 
     /**
-     * Обновляет пользователя в базе данных
-     * @param user        Объект пользователя
+     * Метод для обновления пользователя в базе данных
+     * @param user                  Объект пользователя
      * @throws PersistenceException Ошибка сохранения
      */
     public void update(User user) throws DBException {
         try {
             userDAO.update(user);
         } catch (PersistenceException e) {
-            throw new DBException(DBLiterals.dbExc, e);
+            throw new DBException(DBLiterals.DB_EXCEPTION, e);
         }
     }
 
     /**
-     * Удаляет пользователя из базы данных
-     * @param user        Объект пользователя
+     * Метод для удаления пользователя из базы данных
+     * @param user                  Объект пользователя
      * @throws PersistenceException Ошибка сохранения
      */
     public void remove(User user) throws DBException {
         try {
             userDAO.remove(user);
         } catch (PersistenceException e) {
-            throw new DBException(DBLiterals.dbExc, e);
+            throw new DBException(DBLiterals.DB_EXCEPTION, e);
         }
     }
 }

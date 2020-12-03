@@ -9,27 +9,27 @@ import java.util.*;
 import static database.DBLiterals.*;
 
 @Entity
-@FetchProfile(name = usersWithSubscribes, fetchOverrides = {
-        @FetchProfile.FetchOverride(entity = User.class, association = subscribes, mode = FetchMode.JOIN)
+@FetchProfile(name = USERS_WITH_SUBSCRIBES, fetchOverrides = {
+        @FetchProfile.FetchOverride(entity = User.class, association = SUBSCRIBES, mode = FetchMode.JOIN)
 })
-@FetchProfile(name = userWithCreated, fetchOverrides = {
-        @FetchProfile.FetchOverride(entity = User.class, association = createdEvents, mode = FetchMode.JOIN)
+@FetchProfile(name = USER_WITH_CREATED, fetchOverrides = {
+        @FetchProfile.FetchOverride(entity = User.class, association = CREATED_EVENTS, mode = FetchMode.JOIN)
 })
-@Table(name = userTable, schema = eventorSchema)
+@Table(name = USER_TABLE, schema = EVENTOR_SCHEMA)
 public class User {
     @Id
     private int id;
     private String username;
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = user, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = USER, orphanRemoval = true)
     private Set<Event> createdEvents = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = usersEventsTable, schema = eventorSchema,
-            joinColumns = @JoinColumn(name = userId),
-            inverseJoinColumns = @JoinColumn(name = eventId))
+            name = USERS_EVENTS_TABLE, schema = EVENTOR_SCHEMA,
+            joinColumns = @JoinColumn(name = USER_ID),
+            inverseJoinColumns = @JoinColumn(name = EVENT_ID))
     Set<Event> subscribes = new HashSet<>();
 
     public User() {}

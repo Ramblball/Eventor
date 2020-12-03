@@ -1,5 +1,9 @@
 package controller.exception;
 
+/**
+ * Класс ошибки, выкидываемой при валидации
+ * Длина введенной пользоватеелм строки превышает лимит
+ */
 public class LongFieldException extends ValidationException {
     public LongFieldException(String message) {
         super(message);

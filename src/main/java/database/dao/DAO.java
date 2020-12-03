@@ -9,7 +9,7 @@ import org.hibernate.Session;
 public abstract class DAO {
 
     /**
-     * Сокращение для открытия сессии
+     * Метод создания сессии рабоыт с пользователем
      * @return            Сессия взаимодействия с базой данных
      */
     protected Session openSession(){

@@ -6,41 +6,41 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
- * Класс слой запросов к базе пользователей
+ * Класс слой запросов к базе данных к таблице пользователей
  */
 public class UserDAOImpl extends DAO{
 
     /**
-     * Запрос на поиск по id
-     * @param id          Id пользователя
-     * @return            Объект пользователя
+     * Метод отправляющий запрос на поиск по уникальному идентификатору
+     * @param id            Уникальный идентификатор пользователя
+     * @return              Объект пользователя
      */
     public User findById(int id) {
         try (Session session = openSession()) {
-            session.enableFetchProfile(DBLiterals.userWithCreated);
-            session.enableFetchProfile(DBLiterals.usersWithSubscribes);
+            session.enableFetchProfile(DBLiterals.USER_WITH_CREATED);
+            session.enableFetchProfile(DBLiterals.USERS_WITH_SUBSCRIBES);
             return session.get(User.class, id);
         }
     }
 
     /**
-     * Запрос на поиск по имени
-     * @param name        Имя пользователя
-     * @return            Объект пользователя
+     * Метод отправляющий запрос на поиск по имени
+     * @param name          Имя пользователя
+     * @return              Объект пользователя
      */
     public User findByName(String name) {
         try (Session session = openSession()) {
-            session.enableFetchProfile(DBLiterals.userWithCreated);
-            session.enableFetchProfile(DBLiterals.usersWithSubscribes);
-            return session.createQuery(DBLiterals.findByNameQuery, User.class)
-                    .setParameter(DBLiterals.name, name)
+            session.enableFetchProfile(DBLiterals.USER_WITH_CREATED);
+            session.enableFetchProfile(DBLiterals.USERS_WITH_SUBSCRIBES);
+            return session.createQuery(DBLiterals.FIND_BY_NAME_QUERY, User.class)
+                    .setParameter(DBLiterals.NAME, name)
                     .getSingleResult();
         }
     }
 
     /**
-     * Запрос на создание пользователя
-     * @param user        Объект пользователя
+     * Метод отправляющий запрос на создание пользователя
+     * @param user          Объект пользователя
      */
     public void create(User user) {
         try (Session session = openSession()) {
@@ -51,8 +51,8 @@ public class UserDAOImpl extends DAO{
     }
 
     /**
-     * Запрос на обновление пользователя
-     * @param user        Объект пользователя
+     * Метод отправляющий запрос на обновление пользователя
+     * @param user          Объект пользователя
      */
     public void update(User user) {
         try (Session session = openSession()){
@@ -63,8 +63,8 @@ public class UserDAOImpl extends DAO{
     }
 
     /**
-     * Запрос на удаление пользователя
-     * @param user        Объект пользователя
+     * Метод отправляющий запрос на удаление пользователя
+     * @param user          Объект пользователя
      */
     public void remove(User user) {
         try (Session session = openSession()) {

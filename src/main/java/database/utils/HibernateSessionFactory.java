@@ -15,6 +15,10 @@ public class HibernateSessionFactory {
 
     private HibernateSessionFactory() {}
 
+    /**
+     * Метод для получения сессии работы с базой данных
+     * @return              Объект сессии работы с базой данных
+     */
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {

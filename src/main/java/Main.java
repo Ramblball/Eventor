@@ -22,7 +22,5 @@ public class Main {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-//        var console = new Console();
-//        console.onUpdateReceived();
     }
 }

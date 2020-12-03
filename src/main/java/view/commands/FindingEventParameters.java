@@ -17,6 +17,6 @@ public class FindingEventParameters extends Command {
         eventQuery.setDescription(message.getEventDescription());
         eventQuery.setTime(message.getEventTime());
         eventQuery.setPlace(message.getEventPlace());
-        return eventController.find(eventQuery);
+        return eventController.findWithFilter(eventQuery);
     }
 }

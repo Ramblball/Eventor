@@ -11,6 +11,6 @@ public class GetOwnEvents extends Command{
 
     @Override
     public String execute(Message message) {
-        return eventController.getOwn(message.getUser().getId());
+        return eventController.getCreated(message.getUser().getId());
     }
 }

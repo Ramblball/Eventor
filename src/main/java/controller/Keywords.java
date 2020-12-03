@@ -8,69 +8,67 @@ public final class Keywords {
     ----------------- Успешное выполнение --------------------------------
      */
     //Пользователь создан
-    public final static String userCreated = "Добро пожаловать, '%s'";
+    public final static String USER_CREATED = "Добро пожаловать, '%s'";
     //Пользователь обновлен
-    public final static String userUpdated = "Ваше имя обновлено на '%s'";
+    public final static String USER_UPDATED = "Ваше имя обновлено на '%s'";
     //Мероприятие создано
-    public final static String eventCreated = "Мероприятие '%s' создано";
+    public final static String EVENT_CREATED = "Мероприятие '%s' создано";
     //Мероприятие обновлено
-    public final static String eventUpdated = "Мероприятие '%s' изменено";
+    public final static String EVENT_UPDATED = "Мероприятие '%s' изменено";
     //Мероприятие удалено
-    public final static String eventRemoved = "Мероприятие '%s' удалено";
+    public final static String EVENT_REMOVED = "Мероприятие '%s' удалено";
     //Пользователь подписался на мероприятие
-    public final static String eventSigned = "Вы добавлены в список участников";
+    public final static String EVENT_SIGNED = "Вы добавлены в список участников";
     //Пользователь отписался от мероприятия
-    public final static String eventUnsigned = "Вы удалены из списка участников";
+    public final static String EVENT_UNSIGNED = "Вы удалены из списка участников";
     /*
     ----------------- Ошибки при выполнении --------------------------------
      */
     //Слишком длинное название
-    public final static String longName = "Название должно быть короче 32 символов";
+    public final static String LONG_NAME = "Название должно быть короче 32 символов";
     //Неверный формат ввода даты
-    public final static String invalidTime = "Используйте формат yyyy-MM-dd HH:mm для задания времени";
+    public final static String INVALID_TIME = "Используйте формат yyyy-MM-dd HH:mm для задания времени";
     //Дата и время уже прошли
-    public final static String prevDate = "Введенная дата уже прошла";
+    public final static String PAST_DATE = "Введенная дата уже прошла";
     //Слишком длинное место проведения
-    public final static String longPlace = "Описание мета проведения должно быть короче 128 символов";
+    public final static String LONG_PLACE = "Описание мета проведения должно быть короче 128 символов";
     //Слишком длинное описание
-    public final static String longDesc = "Описание должно быть короче 512 символов";
+    public final static String LONG_DESCRIPTION = "Описание должно быть короче 512 символов";
     //Внутренняя ошибка модели
-    public final static String exception = "Непредвиденная ошибка...";
+    public final static String EXCEPTION = "Непредвиденная ошибка...";
     //Пользователь пытается именить чужое мероприятие
-    public final static String notOwnUpdate = "Вы не можете изменять мероприятия других пользователей";
+    public final static String NOT_CREATED_UPDATE = "Вы не можете изменять мероприятия других пользователей";
     //Не найдено мероприятие с введенным id
-    public final static String eventNotFound = "Мероприятие не найдено";
-    //Юзер с таким именем уже существует
-    public final static String userAlreadyExist = "Вы уже зарегистрированы";
+    public final static String EVENT_NOT_FOUND = "Мероприятие не найдено";
     //Список мероприятий пуст
-    public final static String noEvents = "У вас нет мероприятий";
+    public final static String NO_EVENTS = "У вас нет мероприятий";
     //пользователя нет в бд
-    public final static String userNotFoundException = "Пользователь не найден";
+    public final static String USER_NOT_FOUND_EXCEPTION = "Пользователь не найден";
     //Ошибка валидации
-    public final static String validationException = "Ошибка в введеных данных:\n";
+    public final static String VALIDATION_EXCEPTION = "Ошибка в введеных данных:\n";
     //Ошибка создания пользователя
-    public final static String userCreateException = "Не удалось создать пользователя:\n";
+    public final static String USER_CREATE_EXCEPTION = "Не удалось создать пользователя:\n";
     //Ошибка обновления пользователя
-    public final static String userUpdateException = "Не удалось сохранить изменения:\n";
+    public final static String USER_UPDATE_EXCEPTION = "Не удалось сохранить изменения:\n";
     //Пользователь не авторизован
-    public final static String authException = "Не удалось найти ваши данные, введите /start";
+    public final static String AUTH_EXCEPTION = "Не удалось найти ваши данные, введите /start";
     //Ошибка создания меропрития
-    public final static String eventCreateException = "Не удалось создать мероприятие:\n";
+    public final static String EVENT_CREATE_EXCEPTION = "Не удалось создать мероприятие:\n";
     //Ошибка обновления меропрития
-    public final static String eventUpdateException = "Не удалось обновить мероприятие:\n";
+    public final static String EVENT_UPDATE_EXCEPTION = "Не удалось обновить мероприятие:\n";
     //Ошибка удаления меропрития
-    public final static String eventRemoveException = "Не удалось удалить мероприятие:\n";
+    public final static String EVENT_REMOVE_EXCEPTION = "Не удалось удалить мероприятие:\n";
     //Ошибка поиска меропритий
-    public final static String eventFindByException = "Не удалось найти ваши мероприятия:\n";
+    public final static String EVENT_FIND_BY_EXCEPTION = "Не удалось найти ваши мероприятия:\n";
     //Ошибка поиска меропрития
-    public final static String eventFindException = "Не удалось найти ваши мероприятия:\n";
+    public final static String EVENT_FIND_EXCEPTION = "Не удалось найти ваши мероприятия:\n";
     //Ошибка подписки на меропритие
-    public final static String eventSubException = "Не удалось оформить подписку:\n";
+    public final static String EVENT_SUB_EXCEPTION = "Не удалось оформить подписку:\n";
     //Ошибка отписки от меропрития
-    public final static String eventUnsubException = "Не удалось отписаться:\n";
+    public final static String EVENT_UNSUB_EXCEPTION = "Не удалось отписаться:\n";
     /*
     ----------------- Форматы данных --------------------------------
      */
     //Формат ввода даты
-    public final static String dateTimeFormat = "yyyy-MM-dd HH:mm";
+    public final static String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm";
 }

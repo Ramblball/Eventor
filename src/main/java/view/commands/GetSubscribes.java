@@ -11,6 +11,6 @@ public class GetSubscribes extends Command{
 
     @Override
     public String execute(Message message) {
-        return eventController.getSubs(message.getUser().getId());
+        return eventController.getSubscribes(message.getUser().getId());
     }
 }

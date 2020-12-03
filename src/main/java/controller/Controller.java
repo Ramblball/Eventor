@@ -1,7 +1,7 @@
 package controller;
 
 import controller.exception.NotAuthorizedException;
-import database.DBException;
+import database.exception.DBException;
 import database.model.User;
 import database.services.EventService;
 import database.services.UserService;
@@ -16,15 +16,15 @@ public abstract class Controller {
 
     /**
      * Возвращает информацию о пользователе, работающем с ботом
-     * @param id            Id пользователя
-     * @return              Объект текущего пользователя
+     * @param id                        Уникальный идентификатор пользователя
+     * @return                          Объект текущего пользователя
      * @throws DBException              Ошибка при обращении к бд
      * @throws NotAuthorizedException   Пользователь не найден
      */
-    public User getCurrent(Integer id) throws DBException, NotAuthorizedException {
+    public User getCurrentUser(Integer id) throws DBException, NotAuthorizedException {
         User user = userService.findById(id);
         if (user == null) {
-            throw new NotAuthorizedException(Keywords.userNotFoundException);
+            throw new NotAuthorizedException(Keywords.USER_NOT_FOUND_EXCEPTION);
         }
         return user;
     }

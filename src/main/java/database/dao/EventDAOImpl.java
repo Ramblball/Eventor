@@ -14,14 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Класс слой запросов к базе мероприятий
+ * Класс слой запросов к базе данных к таблице мероприятий
  */
 public class EventDAOImpl extends DAO{
 
     /**
-     * Запрос на поиск по id
-     * @param id          Id мероприятия
-     * @return            Объект мероприятия
+     * Метод отправляющий запрос на поиск мероприятий по уникальному идентификатору
+     * @param id            Уникальный идентификатор мероприятия
+     * @return              Объект мероприятия
      */
     public Event findById(int id) {
         try (Session session = openSession()) {
@@ -30,20 +30,20 @@ public class EventDAOImpl extends DAO{
     }
 
     /**
-     * Запрос на поиск по имени
-     * @param name        Имя мероприятия
-     * @return            Объект мероприятия
+     * Метод отправляющий запрос на поиск по имени
+     * @param name          Название мероприятия
+     * @return              Объект мероприятия
      */
     public Event findByName(String name) {
         try (Session session = openSession()) {
-            return session.createQuery("FROM Event WHERE name=:name", Event.class).setParameter(DBLiterals.name, name).getSingleResult();
+            return session.createQuery("FROM Event WHERE name=:name", Event.class).setParameter(DBLiterals.NAME, name).getSingleResult();
         }
     }
 
     /**
-     * Запрос на создание меропритяия
-     * @param user        Создатель
-     * @param event       Мероприятие
+     * Метод отправляющий запрос на создание меропритяия
+     * @param user          Создатель
+     * @param event         Мероприятие
      */
     public void create(User user, Event event) {
         try (Session session = openSession()) {
@@ -53,17 +53,17 @@ public class EventDAOImpl extends DAO{
             session.save(event);
             transaction.commit();
             transaction.begin();
-            session.createSQLQuery(DBLiterals.createEventSetVectorQuery)
-                    .setParameter(DBLiterals.eventId, event.getId())
-                    .setParameter(DBLiterals.description, event.getDescription())
+            session.createSQLQuery(DBLiterals.CREATE_EVENT_SET_VECTOR_QUERY)
+                    .setParameter(DBLiterals.EVENT_ID, event.getId())
+                    .setParameter(DBLiterals.DESCRIPTION, event.getDescription())
                     .executeUpdate();
             transaction.commit();
         }
     }
 
     /**
-     * Запрос на обновление мероприятия
-     * @param event       Мероприятие
+     * Метод отправляющий запрос на обновление мероприятия
+     * @param event         Мероприятие
      */
     public void update(Event event) {
         try (Session session = openSession()){
@@ -71,18 +71,18 @@ public class EventDAOImpl extends DAO{
             session.update(event);
             transaction.commit();
             transaction.begin();
-            session.createSQLQuery(DBLiterals.updateEventUpdateVectorQuery)
-                    .setParameter(DBLiterals.description, event.getDescription())
-                    .setParameter(DBLiterals.eventId, event.getId())
+            session.createSQLQuery(DBLiterals.UPDATE_EVENT_UPDATE_VECTOR_QUERY)
+                    .setParameter(DBLiterals.DESCRIPTION, event.getDescription())
+                    .setParameter(DBLiterals.EVENT_ID, event.getId())
                     .executeUpdate();
             transaction.commit();
         }
     }
 
     /**
-     * Запрос на удаление мероприятия
-     * @param user        Создатель
-     * @param event       Мероприятие
+     * Метод отправляющий запрос на удаление мероприятия
+     * @param user          Создатель
+     * @param event         Мероприятие
      */
     public void delete(User user, Event event) {
         try (Session session = openSession()) {
@@ -97,8 +97,8 @@ public class EventDAOImpl extends DAO{
     }
 
     /**
-     * Запрос на поиск  всех мероприятий
-     * @return            Список мероприятий
+     * Метод отправляющий запрос на поиск  всех мероприятий
+     * @return              Список мероприятий
      */
     public List<Event> findAll() {
         try (Session session = openSession()) {
@@ -107,9 +107,9 @@ public class EventDAOImpl extends DAO{
     }
 
     /**
-     * Запрос на поиск мероприятий по заданным критериям
-     * @param query       Запрос с критериями поиска
-     * @return            Найденные мероприятия
+     * Метод отправляющий запрос на поиск мероприятий по заданным критериям
+     * @param query         Запрос с критериями поиска
+     * @return              Найденные мероприятия
      */
     public List<Event> find(EventQuery query) {
         try (Session session = openSession()) {
@@ -120,7 +120,7 @@ public class EventDAOImpl extends DAO{
             session.getTransaction().begin();
             List<Object[]> rows = session.createSQLQuery(query.execute()).list();
             for (Object[] row : rows) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DBLiterals.dateTimeFormat);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DBLiterals.DATE_TIME_FORMAT);
                 String time = row[3].toString().substring(0, 16);
                 Event event = new Event(
                         row[1].toString(),
@@ -139,9 +139,9 @@ public class EventDAOImpl extends DAO{
     }
 
     /**
-     * Запрос на подписку пользоватля на мероприятие
-     * @param user        Пользователь
-     * @param event       Мероприятие
+     * Метод отправляющий запрос на подписку пользоватля на мероприятие
+     * @param user          Пользователь
+     * @param event         Мероприятие
      */
     public void subscribe(User user, Event event) {
         try (Session session = openSession()) {
@@ -154,9 +154,9 @@ public class EventDAOImpl extends DAO{
     }
 
     /**
-     * Запрос на отписку пользователя от мероприятия
-     * @param user        Пользователь
-     * @param event       Мероприятие
+     * Метод отправляющий запрос на отписку пользователя от мероприятия
+     * @param user          Пользователь
+     * @param event         Мероприятие
      */
     public void unsubscribe(User user, Event event) {
         try (Session session = openSession()) {

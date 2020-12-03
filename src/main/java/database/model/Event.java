@@ -10,17 +10,17 @@ import java.util.*;
 import static database.DBLiterals.*;
 
 @Entity
-@Table(name = eventTable, schema = eventorSchema)
+@Table(name = EVENT_TABLE, schema = EVENTOR_SCHEMA)
 public class Event {
     @Id
     @PrimaryKeyJoinColumn
-    @SequenceGenerator(name = eventIdSeq, schema = eventorSchema,
-            sequenceName = eventIdSeq,
+    @SequenceGenerator(name = EVENT_ID_SEQ, schema = EVENTOR_SCHEMA,
+            sequenceName = EVENT_ID_SEQ,
             allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
-            generator = eventIdSeq)
+            generator = EVENT_ID_SEQ)
     private int id;
-    @Column(name = DBLiterals.userId)
+    @Column(name = DBLiterals.USER_ID)
     private int userId;
     private String name;
     private String place;
@@ -29,10 +29,10 @@ public class Event {
 
     private int category;
     @ManyToOne
-    @JoinColumn(name = DBLiterals.userId, insertable = false, updatable = false)
+    @JoinColumn(name = DBLiterals.USER_ID, insertable = false, updatable = false)
     private User user;
 
-    @ManyToMany(mappedBy = subscribes)
+    @ManyToMany(mappedBy = SUBSCRIBES)
     private Set<User> subscribers = new HashSet<>();
 
     public Event() {
