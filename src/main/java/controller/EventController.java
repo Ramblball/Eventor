@@ -5,6 +5,7 @@ import controller.exception.ValidationException;
 import database.DBException;
 import database.model.*;
 import database.utils.EventQuery;
+import org.apache.log4j.Logger;
 
 import java.time.LocalDateTime;
 import java.time.format.*;
@@ -14,6 +15,7 @@ import java.util.*;
  * Обеспечение взаимодействия пользователя с мероприятиями
  */
 public class EventController extends Controller {
+    private static final Logger logger = Logger.getLogger(EventController.class);
 
     /**
      * Возвращает подсказку по оформлению команд для пользователя
@@ -52,14 +54,18 @@ public class EventController extends Controller {
             Event event = new Event(name, place, dateTime, Category.Прогулка, description);
             eventService.create(currentUser, event);
             return String.format(Keywords.eventCreated, name);
-        } catch (NotAuthorizedException e) {
-            return e.getMessage();
         } catch (ValidationException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.validationException + e.getMessage();
+        } catch (NotAuthorizedException e) {
+            logger.error(e.getMessage(), e);
+            return Keywords.authException;
         } catch (DBException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.eventCreateException;
         } catch (Exception e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.exception;
         }
     }
 
@@ -90,13 +96,17 @@ public class EventController extends Controller {
             eventService.update(event);
             return String.format(Keywords.eventUpdated, name);
         } catch (ValidationException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.validationException + e.getMessage();
         } catch (NotAuthorizedException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.authException;
         } catch (DBException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.eventUpdateException;
         } catch (Exception e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.exception;
         }
     }
 
@@ -116,11 +126,14 @@ public class EventController extends Controller {
             eventService.remove(currentUser, event);
             return String.format(Keywords.eventRemoved, event.getName());
         } catch (NotAuthorizedException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.authException;
         } catch (DBException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.eventRemoveException + e.getMessage();
         } catch (Exception e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.exception;
         }
     }
 
@@ -135,11 +148,14 @@ public class EventController extends Controller {
             Set<Event> events = currentUser.getCreatedEvents();
             return eventsToString(events);
         } catch (NotAuthorizedException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.authException;
         }catch (DBException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.eventFindByException + e.getMessage();
         } catch (Exception e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.exception;
         }
     }
 
@@ -154,11 +170,14 @@ public class EventController extends Controller {
             Set<Event> events = currentUser.getSubscribes();
             return eventsToString(events);
         } catch (NotAuthorizedException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.authException;
         }catch (DBException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.eventFindByException + e.getMessage();
         } catch (Exception e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.exception;
         }
     }
 
@@ -172,9 +191,11 @@ public class EventController extends Controller {
             List<Event> events = eventService.find(query);
             return eventsToString(events);
         }catch (DBException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.eventFindByException + e.getMessage();
         } catch (Exception e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.exception;
         }
     }
 
@@ -188,9 +209,11 @@ public class EventController extends Controller {
             var event = eventService.findByName(name);
             return event.toString();
         }catch (DBException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.eventFindException + e.getMessage();
         } catch (Exception e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.exception;
         }
     }
 
@@ -200,23 +223,16 @@ public class EventController extends Controller {
      * @param name          Название мероприятия
      * @param f             Подписаться - true
      *                      Отписаться - false
-     * @return              Результат выполнения
      */
-    public String subscribeManager(Integer id, String name, boolean f)
+    public void subscribeManager(Integer id, String name, boolean f)
             throws NotAuthorizedException, DBException {
-        try {
-            Event event = eventService.findByName(name);
-            User currentUser = getCurrent(id);
-            boolean result;
-            if (f) {
-                eventService.subscribe(currentUser, event);
-            } else {
-                eventService.unsubscribe(currentUser, event);
-            }
-        } catch (NumberFormatException e) {
-            return Keywords.idNotNumb;
+        Event event = eventService.findByName(name);
+        User currentUser = getCurrent(id);
+        if (f) {
+            eventService.subscribe(currentUser, event);
+        } else {
+            eventService.unsubscribe(currentUser, event);
         }
-        return null;
     }
 
     /**
@@ -227,14 +243,17 @@ public class EventController extends Controller {
      */
     public String signIn(Integer id, String name) {
         try {
-            String result = subscribeManager(id, name, true);
+            subscribeManager(id, name, true);
             return Keywords.eventSigned;
         } catch (NotAuthorizedException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.authException;
         }catch (DBException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.eventSubException + e.getMessage();
         } catch (Exception e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.exception;
         }
     }
 
@@ -246,15 +265,18 @@ public class EventController extends Controller {
      */
     public String signOut(Integer id, String name) {
         try {
-            String result = subscribeManager(id, name, false);
+            subscribeManager(id, name, false);
             return Keywords.eventUnsigned;
         } catch (NotAuthorizedException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.authException;
         }catch (DBException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.eventUnsubException + e.getMessage();
         } catch (Exception e) {
-            return e.getMessage();
-    }
+            logger.error(e.getMessage(), e);
+            return Keywords.exception;
+        }
     }
 
     /**

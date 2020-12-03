@@ -3,11 +3,13 @@ package controller;
 import controller.exception.NotAuthorizedException;
 import database.DBException;
 import database.model.*;
+import org.apache.log4j.Logger;
 
 /**
  * Обеспечение взаимодействия пользователя с его моделью
  */
 public class UserController extends Controller{
+    private static final Logger logger = Logger.getLogger(UserController.class);
 
     /**
      * Создает нового пользователя
@@ -23,7 +25,8 @@ public class UserController extends Controller{
             userService.save(user);
             return String.format(Keywords.userCreated, tgUser.getFirstName());
         } catch (DBException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.userCreateException + e.getMessage();
         }
     }
 
@@ -40,9 +43,11 @@ public class UserController extends Controller{
             currentUser.setUsername(tgUser.getUserName());
             return String.format(Keywords.userUpdated, tgUser.getFirstName());
         } catch (NotAuthorizedException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.authException;
         } catch (DBException e) {
-            return e.getMessage();
+            logger.error(e.getMessage(), e);
+            return Keywords.userUpdateException + e.getMessage();
         }
     }
 }

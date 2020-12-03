@@ -5,7 +5,9 @@ import database.DBLiterals;
 import database.dao.UserDAOImpl;
 import database.model.Event;
 import database.model.User;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.hql.internal.ast.QuerySyntaxException;
+import org.postgresql.util.PSQLException;
 
 import javax.persistence.PersistenceException;
 import java.util.List;
@@ -22,7 +24,7 @@ public class UserService {
      * @param id          id пользователя
      * @return            Найденный пользователь
      */
-    public User findById(int id) throws DBException{
+    public User findById(Integer id) throws DBException{
         try {
             User user = userDAO.findById(id);
             if (user == null) {

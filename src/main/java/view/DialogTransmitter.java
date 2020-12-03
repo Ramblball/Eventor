@@ -6,6 +6,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import view.commands.Help;
 import view.commands.Unknown;
+import view.commands.UserCreating;
 
 import java.util.ArrayList;
 
@@ -45,6 +46,8 @@ public class DialogTransmitter {
         switch (received) {
             case "Привет":
             case "/start":
+                createMainMenu();
+                return new UserCreating().execute(message);
             case "Назад":
                 createMainMenu();
                 return "Выберите пункт меню";

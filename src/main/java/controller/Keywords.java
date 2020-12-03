@@ -36,8 +36,6 @@ public final class Keywords {
     public final static String longDesc = "Описание должно быть короче 512 символов";
     //Внутренняя ошибка модели
     public final static String exception = "Непредвиденная ошибка...";
-    //id не парсится как число
-    public final static String idNotNumb = "Id должно быть числом";
     //Пользователь пытается именить чужое мероприятие
     public final static String notOwnUpdate = "Вы не можете изменять мероприятия других пользователей";
     //Не найдено мероприятие с введенным id
@@ -46,8 +44,30 @@ public final class Keywords {
     public final static String userAlreadyExist = "Вы уже зарегистрированы";
     //Список мероприятий пуст
     public final static String noEvents = "У вас нет мероприятий";
+    //пользователя нет в бд
+    public final static String userNotFoundException = "Пользователь не найден";
+    //Ошибка валидации
+    public final static String validationException = "Ошибка в введеных данных:\n";
+    //Ошибка создания пользователя
+    public final static String userCreateException = "Не удалось создать пользователя:\n";
+    //Ошибка обновления пользователя
+    public final static String userUpdateException = "Не удалось сохранить изменения:\n";
     //Пользователь не авторизован
-    public final static String notAuth = "Вы не авторизированы";
+    public final static String authException = "Не удалось найти ваши данные, введите /start";
+    //Ошибка создания меропрития
+    public final static String eventCreateException = "Не удалось создать мероприятие:\n";
+    //Ошибка обновления меропрития
+    public final static String eventUpdateException = "Не удалось обновить мероприятие:\n";
+    //Ошибка удаления меропрития
+    public final static String eventRemoveException = "Не удалось удалить мероприятие:\n";
+    //Ошибка поиска меропритий
+    public final static String eventFindByException = "Не удалось найти ваши мероприятия:\n";
+    //Ошибка поиска меропрития
+    public final static String eventFindException = "Не удалось найти ваши мероприятия:\n";
+    //Ошибка подписки на меропритие
+    public final static String eventSubException = "Не удалось оформить подписку:\n";
+    //Ошибка отписки от меропрития
+    public final static String eventUnsubException = "Не удалось отписаться:\n";
     /*
     ----------------- Форматы данных --------------------------------
      */

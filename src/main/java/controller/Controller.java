@@ -16,13 +16,15 @@ public abstract class Controller {
 
     /**
      * Возвращает информацию о пользователе, работающем с ботом
-     * @param id        Id пользователя
-     * @return            Объект текущего пользователя
+     * @param id            Id пользователя
+     * @return              Объект текущего пользователя
+     * @throws DBException              Ошибка при обращении к бд
+     * @throws NotAuthorizedException   Пользователь не найден
      */
     public User getCurrent(Integer id) throws DBException, NotAuthorizedException {
         User user = userService.findById(id);
         if (user == null) {
-            throw new NotAuthorizedException(Keywords.notAuth);
+            throw new NotAuthorizedException(Keywords.userNotFoundException);
         }
         return user;
     }
