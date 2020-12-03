@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Класс для хранения в виде <Операция, Кол-во переданных аргументов>
+ */
 class Progress{
     String operation;
     int count;

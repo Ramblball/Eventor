@@ -9,6 +9,9 @@ import view.commands.Unknown;
 
 import java.util.ArrayList;
 
+/**
+ * Класс для предоставления диалогов
+ */
 public class DialogTransmitter {
     private final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
     private final ArrayList<KeyboardRow> keyboard = new ArrayList<>();
@@ -19,12 +22,20 @@ public class DialogTransmitter {
     private final Provider provider = new Provider();
     private final Message message = new Message();
 
+    /**
+     * Задание параметров для клавиатуры
+     */
     private void createKeyboard(){
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
     }
 
+    /** Скрывает, открывает диалоги, сохраняет прогресс диалога
+     * @param user текущий пользователь
+     * @param received полученное сообщение
+     * @return ответ пользователю
+     */
     public String getMessage(User user, String received) {
         if(TelegramBot.userProgress.isEmpty()){
             TelegramBot.userProgress.put(user, new Progress());
@@ -129,6 +140,9 @@ public class DialogTransmitter {
         }
     }
 
+    /**
+     * Скрытие меню, установка кнопки возврата
+     */
     private void hideMenu() {
         clearKeyboardRows();
         firstRow.add("Назад");
@@ -137,6 +151,9 @@ public class DialogTransmitter {
 
     }
 
+    /**
+     * Очистка клавиатуры
+     */
     private void clearKeyboardRows() {
         keyboard.clear();
         firstRow.clear();
@@ -145,6 +162,9 @@ public class DialogTransmitter {
         fourthRow.clear();
     }
 
+    /**
+     * Создание кнопок поиска
+     */
     private void createFindMenu() {
         clearKeyboardRows();
         firstRow.add("По имени");
@@ -155,6 +175,9 @@ public class DialogTransmitter {
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
+    /**
+     * Создание кнопок основных действий
+     */
     private void createOperationMenu() {
         clearKeyboardRows();
         firstRow.add("Создать");
@@ -172,6 +195,9 @@ public class DialogTransmitter {
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
+    /**
+     * Создание кнопок с разделами
+     */
     private void createMainMenu() {
         clearKeyboardRows();
         firstRow.add("Помощь");
@@ -182,6 +208,9 @@ public class DialogTransmitter {
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
+    /**
+     * @return разметка клавиатуры
+     */
     public ReplyKeyboardMarkup getReplyKeyboardMarkup() {
         return replyKeyboardMarkup;
     }
