@@ -14,6 +14,22 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+
+class Progress{
+    String operation;
+    int count;
+
+    Progress(){
+        operation = "";
+        count = 0;
+    }
+
+    Progress(String operation, int count){
+        this.operation = operation;
+        this.count = count;
+    }
+}
 
 /**
  * Класс инициализации и взаимодействия с телеграм ботом
@@ -21,6 +37,7 @@ import java.util.ArrayList;
 public class TelegramBot extends TelegramLongPollingBot {
     private final static String botName = "eventor_oop_bot";
     private final DialogTransmitter dialogTransmitter = new DialogTransmitter();
+    public static HashMap<User, Progress> userProgress = new HashMap<>();
 
 
     /**

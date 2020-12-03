@@ -17,8 +17,6 @@ public class DialogTransmitter {
     private final KeyboardRow fourthRow = new KeyboardRow();
     private final Provider provider = new Provider();
     private final Message message = new Message();
-    private String operation = "";
-    private int argumentCount = 0;
 
     private void createKeyboard(){
         replyKeyboardMarkup.setSelective(true);
@@ -27,6 +25,9 @@ public class DialogTransmitter {
     }
 
     public String getMessage(User user, String received) {
+        if(TelegramBot.userProgress.isEmpty()){
+            TelegramBot.userProgress.put(user, new Progress());
+        }
         createKeyboard();
         message.setUser(user);
         switch (received) {
@@ -46,12 +47,16 @@ public class DialogTransmitter {
                 return "Как вы хотите искать?";
             case "Создать":
             case "Изменить":
-                hideMenu(received);
+                hideMenu();
+                TelegramBot.userProgress.get(user).operation = received;
+                TelegramBot.userProgress.get(user).count = 0;
                 return "Введите название мероприятия";
             case "Удалить":
             case "Подписаться":
             case "Отписаться":
-                hideMenu(received);
+                hideMenu();
+                TelegramBot.userProgress.get(user).operation = received;
+                TelegramBot.userProgress.get(user).count = 0;
                 return "Введите id мероприятия";
             case "Мои подписки":
             case "Созданные мероприятия":
@@ -59,61 +64,63 @@ public class DialogTransmitter {
                 return provider.execute(received, message);
             case "По имени":
             case "По параметрам":
-                hideMenu(received);
+                hideMenu();
+                TelegramBot.userProgress.get(user).operation = received;
+                TelegramBot.userProgress.get(user).count = 0;
                 return "Введите имя искомого мероприятия";
             default:
-                switch (operation) {
+                switch (TelegramBot.userProgress.get(user).operation) {
                     case "Создать":
                     case "Изменить":
-                        if (argumentCount == 0) {
+                        if (TelegramBot.userProgress.get(user).count == 0) {
                             message.setEventName(received);
-                            argumentCount++;
+                            TelegramBot.userProgress.get(user).count++;
                             return "Введите время мероприятия в формате " + Keywords.dateTimeFormat;
                         }
-                        if (argumentCount == 1) {
+                        if (TelegramBot.userProgress.get(user).count == 1) {
                             message.setEventTime(received);
-                            argumentCount++;
+                            TelegramBot.userProgress.get(user).count++;
                             return "Введите место мероприятия";
                         }
-                        if (argumentCount == 2) {
+                        if (TelegramBot.userProgress.get(user).count == 2) {
                             message.setEventPlace(received);
-                            argumentCount++;
+                            TelegramBot.userProgress.get(user).count++;
                             return "Введите описание мероприятия";
                         }
                         message.setEventDescription(received);
-                        argumentCount = 0;
+                        TelegramBot.userProgress.get(user).count = 0;
                         createOperationMenu();
-                        return provider.execute(operation, message);
+                        return provider.execute(TelegramBot.userProgress.get(user).operation, message);
                     case "По имени":
                         message.setEventName(received);
                         createFindMenu();
-                        return provider.execute(operation, message);
+                        return provider.execute(TelegramBot.userProgress.get(user).operation, message);
                     case "По параметрам":
-                        if (argumentCount == 0) {
+                        if (TelegramBot.userProgress.get(user).count == 0) {
                             message.setEventName(received);
-                            argumentCount++;
+                            TelegramBot.userProgress.get(user).count++;
                             return "Введите время мероприятия в формате " + Keywords.dateTimeFormat;
                         }
-                        if (argumentCount == 1) {
+                        if (TelegramBot.userProgress.get(user).count == 1) {
                             message.setEventTime(received);
-                            argumentCount++;
+                            TelegramBot.userProgress.get(user).count++;
                             return "Введите место мероприятия";
                         }
-                        if (argumentCount == 2) {
+                        if (TelegramBot.userProgress.get(user).count == 2) {
                             message.setEventPlace(received);
-                            argumentCount++;
+                            TelegramBot.userProgress.get(user).count++;
                             return "Введите описание мероприятия";
                         }
                         message.setEventDescription(received);
                         createOperationMenu();
-                        argumentCount = 0;
+                        TelegramBot.userProgress.get(user).count = 0;
                         createFindMenu();
-                        return provider.execute(operation, message);
+                        return provider.execute(TelegramBot.userProgress.get(user).operation, message);
                     case "Удалить":
                     case "Подписаться":
                     case "Отписаться":
                         createOperationMenu();
-                        return provider.execute(operation, message);
+                        return provider.execute(TelegramBot.userProgress.get(user).operation, message);
                     default:
                         createMainMenu();
                         return "Хз шо за команда";
@@ -121,13 +128,12 @@ public class DialogTransmitter {
         }
     }
 
-    private void hideMenu(String message) {
+    private void hideMenu() {
         clearKeyboardRows();
         firstRow.add("Назад");
         keyboard.add(firstRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
-        operation = message;
-        argumentCount = 0;
+
     }
 
     private void clearKeyboardRows() {
