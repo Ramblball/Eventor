@@ -1,16 +1,20 @@
 package database.services;
 
+import database.DBException;
+import database.DBLiterals;
 import database.dao.UserDAOImpl;
 import database.model.Event;
 import database.model.User;
+import org.hibernate.hql.internal.ast.QuerySyntaxException;
 
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 /**
  * Слой сервис для взаимодействия основного приложения с базой данных пользователей
  */
 public class UserService {
-    UserDAOImpl userDAO = new UserDAOImpl();
+    private static final UserDAOImpl userDAO = new UserDAOImpl();
 
     /**
      * Возвращает пользователя по id
@@ -18,11 +22,15 @@ public class UserService {
      * @param id          id пользователя
      * @return            Найденный пользователь
      */
-    public User findById(int id) {
+    public User findById(int id) throws DBException{
         try {
-            return userDAO.findById(id);
-        } catch (Exception e) {
-            return null;
+            User user = userDAO.findById(id);
+            if (user == null) {
+                throw new DBException(DBLiterals.userNotExist);
+            }
+            return user;
+        } catch (QuerySyntaxException e) {
+            throw new DBException(DBLiterals.dbExc, e);
         }
     }
 
@@ -32,53 +40,54 @@ public class UserService {
      * @param name        Имя пользователя
      * @return            Найденный пользователь
      */
-    public User findByName(String name) {
+    public User findByName(String name) throws DBException{
         try {
-            return userDAO.findByName(name);
-        } catch (Exception e) {
-            return null;
+            User user = userDAO.findByName(name);
+            if (user == null) {
+                throw new DBException(DBLiterals.userNotExist);
+            }
+            return user;
+        } catch (QuerySyntaxException e) {
+            throw new DBException(DBLiterals.dbExc, e);
         }
     }
 
     /**
      * Сохранняет пользователя в базу данных
-     * @param user        Объект пользователя
-     * @return            Результат выполнения
+     * @param user                  Объект пользователя
+     * @throws PersistenceException Ошибка сохранения
      */
-    public boolean save(User user) {
+    public void save(User user) throws DBException {
         try {
             userDAO.create(user);
-            return true;
-        } catch (Exception e) {
-            return false;
+        } catch (PersistenceException e) {
+            throw new DBException(DBLiterals.dbExc, e);
         }
     }
 
     /**
      * Обновляет пользователя в базе данных
      * @param user        Объект пользователя
-     * @return            Результат обновления
+     * @throws PersistenceException Ошибка сохранения
      */
-    public boolean update(User user) {
+    public void update(User user) throws DBException {
         try {
             userDAO.update(user);
-            return true;
-        } catch (Exception e) {
-            return false;
+        } catch (PersistenceException e) {
+            throw new DBException(DBLiterals.dbExc, e);
         }
     }
 
     /**
      * Удаляет пользователя из базы данных
      * @param user        Объект пользователя
-     * @return            Результат удаления
+     * @throws PersistenceException Ошибка сохранения
      */
-    public boolean remove(User user) {
+    public void remove(User user) throws DBException {
         try {
             userDAO.remove(user);
-            return true;
-        } catch (Exception e) {
-            return false;
+        } catch (PersistenceException e) {
+            throw new DBException(DBLiterals.dbExc, e);
         }
     }
 }

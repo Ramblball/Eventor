@@ -1,5 +1,8 @@
 package controller;
 
+import controller.exception.NotAuthorizedException;
+import controller.exception.ValidationException;
+import database.DBException;
 import database.model.*;
 import database.utils.EventQuery;
 
@@ -14,7 +17,7 @@ public class EventController extends Controller {
 
     /**
      * Возвращает подсказку по оформлению команд для пользователя
-     * @return            Помощь
+     * @return              Помощь
      */
     public String getHelp() {
         StringJoiner stringJoiner = new StringJoiner("\n");
@@ -33,141 +36,130 @@ public class EventController extends Controller {
     }
 
     /**
-     * Валидирует параметры мероприятия
-     * @param name        Название мероприятия
-     * @param time        Время начала мероприятия
-     * @param place       Место проведения мероприятия
-     * @param description Описание мероприятия
-     * @return            Результат валидации
-     */
-    public String checkEventsParams(String name, String time, String place, String description) {
-        if (name.length() > 32) {
-            return Keywords.longName;
-        }
-        if (place.length() > 128) {
-            return Keywords.longPlace;
-        }
-        if (description.length() > 512) {
-            return Keywords.longDesc;
-        }
-        try {
-            if (LocalDateTime.parse(time, DateTimeFormatter.ofPattern(Keywords.dateTimeFormat))
-                    .isBefore(LocalDateTime.now())) {
-                return Keywords.prevDate;
-            }
-        } catch (DateTimeParseException e) {
-            return Keywords.invalidTime;
-        }
-        return null;
-    }
-
-    /**
      * Создает новое мероприятие
-     * @param user        Имя создателя
-     * @param name        Название мероприятия
-     * @param time        Время начала мероприятия
-     * @param place       Место проведения мероприятия
-     * @param description Описание мероприятия
-     * @return            Результат создания
+     * @param id            Id создателя
+     * @param name          Название мероприятия
+     * @param time          Время начала мероприятия
+     * @param place         Место проведения мероприятия
+     * @param description   Описание мероприятия
+     * @return              Результат создания
      */
-    public String create(String user, String name, String time, String place, String description) {
-        String validate = checkEventsParams(name, time, place, description);
-        if (validate != null) {
-            return validate;
+    public String create(Integer id, String name, String time, String place, String description) {
+        try {
+            validator.checkEventsParams(name, time, place, description);
+            LocalDateTime dateTime = LocalDateTime.parse(time, DateTimeFormatter.ofPattern(Keywords.dateTimeFormat));
+            User currentUser = getCurrent(id);
+            Event event = new Event(name, place, dateTime, Category.Прогулка, description);
+            eventService.create(currentUser, event);
+            return String.format(Keywords.eventCreated, name);
+        } catch (NotAuthorizedException e) {
+            return e.getMessage();
+        } catch (ValidationException e) {
+            return e.getMessage();
+        } catch (DBException e) {
+            return e.getMessage();
+        } catch (Exception e) {
+            return e.getMessage();
         }
-        LocalDateTime dateTime = LocalDateTime.parse(time, DateTimeFormatter.ofPattern(Keywords.dateTimeFormat));
-        User currentUser = getCurrent(user);
-        Event event = new Event(name, place, dateTime, Category.Прогулка, description);
-        boolean result = eventService.create(currentUser, event);
-        if (!result) {
-            return Keywords.exception;
-        }
-        return String.format(Keywords.eventCreated, name);
     }
 
     /**
      * Обновляет существующее мероприятие
-     * @param user        Имя создателя
-     * @param id          Id обновляемого мероприятия
-     * @param name        Название мероприятия
-     * @param time        Время начала мероприятия
-     * @param place       Место проведения мероприятия
-     * @param description Описание мероприятия
-     * @return            Результат обновления
+     * @param id            Id создателя
+     * @param name          Название мероприятия
+     * @param time          Время начала мероприятия
+     * @param place         Место проведения мероприятия
+     * @param description   Описание мероприятия
+     * @return              Результат обновления
      */
-    public String update(String user, String id, String name, String time, String place, String description) {
-        String checking = checkEventsParams(name, time, place, description);
-        if (checking != null) {
-            return checking;
-        }
-        User currentUser = getCurrent(user);
-        Event event;
+    public String update(Integer id, String name, String time, String place, String description) {
         try {
-            event = eventService.findById(Integer.parseInt(id));
-        } catch (NumberFormatException e) {
-            return Keywords.idNotNumb;
+            validator.checkEventsParams(name, time, place, description);
+            User currentUser = getCurrent(id);
+            Event event = eventService.findByName(name);
+            if (event == null) {
+                return Keywords.eventNotFound;
+            }
+            if (event.getUserId() != currentUser.getId()) {
+                return Keywords.notOwnUpdate;
+            }
+            event.setName(name);
+            event.setTime(LocalDateTime.parse(time, DateTimeFormatter.ofPattern(Keywords.dateTimeFormat)));
+            event.setPlace(place);
+            event.setDescription(description);
+            eventService.update(event);
+            return String.format(Keywords.eventUpdated, name);
+        } catch (ValidationException e) {
+            return e.getMessage();
+        } catch (NotAuthorizedException e) {
+            return e.getMessage();
+        } catch (DBException e) {
+            return e.getMessage();
+        } catch (Exception e) {
+            return e.getMessage();
         }
-        if (event == null) {
-            return Keywords.eventNotFound;
-        }
-        if (event.getUserId() != currentUser.getId()) {
-            return Keywords.notOwnUpdate;
-        }
-        event.setName(name);
-        event.setTime(LocalDateTime.parse(time, DateTimeFormatter.ofPattern(Keywords.dateTimeFormat)));
-        event.setPlace(place);
-        event.setDescription(description);
-        boolean result = eventService.update(event);
-        if (!result) {
-            return Keywords.exception;
-        }
-        return String.format(Keywords.eventUpdated, name);
     }
 
     /**
      * Удаление мероприятия
-     * @param user        Имя создателя
-     * @param id          Id удаляемого мероприятия
-     * @return            Результат удаления
+     * @param userId        Id создателя
+     * @param name          Id удаляемого мероприятия
+     * @return              Результат удаления
      */
-    public String remove(String user, String id) {
-        User currentUser = getCurrent(user);
-        Event event;
+    public String remove(Integer userId, String name) {
         try {
-            event = eventService.findById(Integer.parseInt(id));
-        } catch (NumberFormatException e) {
-            return Keywords.idNotNumb;
+            User currentUser = getCurrent(userId);
+            Event event = eventService.findByName(name);
+            if (event.getUserId() != currentUser.getId()) {
+                return Keywords.notOwnUpdate;
+            }
+            eventService.remove(currentUser, event);
+            return String.format(Keywords.eventRemoved, event.getName());
+        } catch (NotAuthorizedException e) {
+            return e.getMessage();
+        } catch (DBException e) {
+            return e.getMessage();
+        } catch (Exception e) {
+            return e.getMessage();
         }
-        if (event.getUserId() != currentUser.getId()) {
-            return Keywords.notOwnUpdate;
-        }
-        boolean result = eventService.remove(currentUser, event);
-        if (!result) {
-            return Keywords.exception;
-        }
-        return String.format(Keywords.eventRemoved, event.getName());
     }
 
     /**
      * Возвращает мероприятия созданные пользователем
-     * @param user        Имя создателя
-     * @return            Список мероприятий
+     * @param id            Id создателя
+     * @return              Список мероприятий
      */
-    public String getOwn(String user) {
-        User currentUser = getCurrent(user);
-        List<Event> events = currentUser.getCreatedEvents();
-        return eventsToString(events);
+    public String getOwn(Integer id) {
+        try {
+            User currentUser = getCurrent(id);
+            Set<Event> events = currentUser.getCreatedEvents();
+            return eventsToString(events);
+        } catch (NotAuthorizedException e) {
+            return e.getMessage();
+        }catch (DBException e) {
+            return e.getMessage();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     /**
      * Возвращает мероприятия на которые пользователь подписан
-     * @param user        Имя пользователя
-     * @return            Список мероприятий
+     * @param id            Id пользователя
+     * @return              Список мероприятий
      */
-    public String getSubs(String user) {
-        User currentUser = getCurrent(user);
-        List<Event> events = currentUser.getSubscribes();
-        return eventsToString(events);
+    public String getSubs(Integer id) {
+        try {
+            User currentUser = getCurrent(id);
+            Set<Event> events = currentUser.getSubscribes();
+            return eventsToString(events);
+        } catch (NotAuthorizedException e) {
+            return e.getMessage();
+        }catch (DBException e) {
+            return e.getMessage();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     /**
@@ -176,8 +168,14 @@ public class EventController extends Controller {
      * @return            Список мероприятий
      */
     public String find(EventQuery query) {
-        List<Event> events = eventService.find(query);
-        return eventsToString(events);
+        try {
+            List<Event> events = eventService.find(query);
+            return eventsToString(events);
+        }catch (DBException e) {
+            return e.getMessage();
+        } catch (Exception e) {
+            return e.getMessage();
+        }
     }
 
     /**
@@ -186,37 +184,34 @@ public class EventController extends Controller {
      * @return            найденное мероприятие
      */
     public String findByName(String name) {
-        var event = eventService.findByName(name);
-        if (event == null) {
-            return Keywords.exception;
+        try {
+            var event = eventService.findByName(name);
+            return event.toString();
+        }catch (DBException e) {
+            return e.getMessage();
+        } catch (Exception e) {
+            return e.getMessage();
         }
-        return event.toString();
     }
 
     /**
      * Метод для подписки или отписки от мероприятия
-     * @param user        Имя создателя
-     * @param id          Id мероприятия
-     * @param f           Подписаться - true
-     *                    Отписаться - false
-     * @return            Результат выполнения
+     * @param id            Id создателя
+     * @param name          Название мероприятия
+     * @param f             Подписаться - true
+     *                      Отписаться - false
+     * @return              Результат выполнения
      */
-    public String subscribeManager(String user, String id, boolean f) {
+    public String subscribeManager(Integer id, String name, boolean f)
+            throws NotAuthorizedException, DBException {
         try {
-            Event event;
-            event = eventService.findById(Integer.parseInt(id));
-            if (event == null) {
-                return Keywords.eventNotFound;
-            }
-            User currentUser = getCurrent(user);
+            Event event = eventService.findByName(name);
+            User currentUser = getCurrent(id);
             boolean result;
             if (f) {
-                result = eventService.subscribe(currentUser, event);
+                eventService.subscribe(currentUser, event);
             } else {
-                result = eventService.unsubscribe(currentUser, event);
-            }
-            if (!result) {
-                return Keywords.exception;
+                eventService.unsubscribe(currentUser, event);
             }
         } catch (NumberFormatException e) {
             return Keywords.idNotNumb;
@@ -226,30 +221,40 @@ public class EventController extends Controller {
 
     /**
      * Подписывает пользователя на мероприятие
-     * @param user        Имя создателя
-     * @param id          Id мероприятия
-     * @return            Результат подписки
+     * @param id            Id создателя
+     * @param name          Название мероприятия
+     * @return              Результат подписки
      */
-    public String signIn(String user, String id) {
-        String result = subscribeManager(user, id, true);
-        if (result == null) {
+    public String signIn(Integer id, String name) {
+        try {
+            String result = subscribeManager(id, name, true);
             return Keywords.eventSigned;
+        } catch (NotAuthorizedException e) {
+            return e.getMessage();
+        }catch (DBException e) {
+            return e.getMessage();
+        } catch (Exception e) {
+            return e.getMessage();
         }
-        return result;
     }
 
     /**
      * Отписывает пользователя от мероприятия
-     * @param user        Имя создателя
-     * @param id          Id мероприятия
+     * @param id            Id создателя
+     * @param name          Название мероприятия
      * @return            Результат отписки
      */
-    public String signOut(String user, String id) {
-        String result = subscribeManager(user, id, false);
-        if (result == null) {
+    public String signOut(Integer id, String name) {
+        try {
+            String result = subscribeManager(id, name, false);
             return Keywords.eventUnsigned;
-        }
-        return result;
+        } catch (NotAuthorizedException e) {
+            return e.getMessage();
+        }catch (DBException e) {
+            return e.getMessage();
+        } catch (Exception e) {
+            return e.getMessage();
+    }
     }
 
     /**
@@ -257,7 +262,7 @@ public class EventController extends Controller {
      * @param events      Список мероприятий
      * @return            Список мероприятий в удобном для чтения формате
      */
-    private String eventsToString(List<Event> events) {
+    private String eventsToString(Collection<Event> events) {
         if (events == null) {
             return Keywords.exception;
         }

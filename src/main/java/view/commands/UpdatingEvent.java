@@ -11,7 +11,7 @@ public class UpdatingEvent extends Command {
 
     @Override
     public String execute(Message message) {
-        return eventController.update(message.getUser().getUserName(), message.getEventId(), message.getEventName(),
+        return eventController.update(message.getUser().getId(), message.getEventName(),
                 message.getEventTime(), message.getEventPlace(), message.getEventDescription());
     }
 }

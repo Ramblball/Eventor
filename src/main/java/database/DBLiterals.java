@@ -67,4 +67,13 @@ public final class DBLiterals {
     //Запрос на обновление вектра, при обновлении мероприятия
     public static final String updateEventUpdateVectorQuery =
             "UPDATE eventor_schema.event_vector SET event_description = to_tsvector(:description) WHERE event_id = :event_id";
+    /*
+    ----------------- Ошибки при обращнии к бд --------------------------------
+     */
+    //
+    public static final String dbExc = "Ошибка при обращении к базе данных:";
+    //
+    public static final String userNotExist = "Пользовтеля не существует";
+    //
+    public static final String eventNotExist = "Мероприятия не существует";
 }

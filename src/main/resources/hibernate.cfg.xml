@@ -19,7 +19,7 @@
             postgres
         </property>
         <property name="hibernate.connection.password">
-            ***
+            Pilafo77
         </property>
         <property name="show_sql">true</property>
 

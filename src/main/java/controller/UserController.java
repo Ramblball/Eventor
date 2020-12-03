@@ -1,5 +1,7 @@
 package controller;
 
+import controller.exception.NotAuthorizedException;
+import database.DBException;
 import database.model.*;
 
 /**
@@ -9,36 +11,38 @@ public class UserController extends Controller{
 
     /**
      * Создает нового пользователя
-     * @param name        Имя пользователя
+     * @param tgUser      Объект пользователя в телеграмме
      * @return            Результат создания пользователя
      */
-    public String create(String name) {
-        if (name.length() > 32) {
-            return Keywords.longName;
+    public String create(org.telegram.telegrambots.meta.api.objects.User tgUser) {
+        try {
+            User user = new User();
+            user.setId(tgUser.getId());
+            user.setName(tgUser.getFirstName());
+            user.setUsername(tgUser.getUserName());
+            userService.save(user);
+            return String.format(Keywords.userCreated, tgUser.getFirstName());
+        } catch (DBException e) {
+            return e.getMessage();
         }
-        User user = new User();
-        user.setName(name);
-        boolean result = userService.save(user);
-        if (!result) {
-            return Keywords.userAlreadyExist;
-        }
-        return String.format(Keywords.userCreated, name);
     }
 
     /**
      * Обновляет данные пользователя
-     * @param name        Новое имя пользователя
+     * @param tgUser      Объект пользователя в телеграмме
      * @return            Результат обновления
      */
-    public String update(String name, String password) {
-        if (name.length() > 32) {
-            return Keywords.longName;
+    public String update(org.telegram.telegrambots.meta.api.objects.User tgUser) {
+        try {
+            User currentUser = getCurrent(tgUser.getId());
+            userService.update(currentUser);
+            currentUser.setName(tgUser.getFirstName());
+            currentUser.setUsername(tgUser.getUserName());
+            return String.format(Keywords.userUpdated, tgUser.getFirstName());
+        } catch (NotAuthorizedException e) {
+            return e.getMessage();
+        } catch (DBException e) {
+            return e.getMessage();
         }
-        User currentUser = getCurrent(name);
-        boolean result = userService.update(currentUser);
-        if (!result) {
-            return Keywords.exception;
-        }
-        return String.format(Keywords.userUpdated, name);
     }
 }

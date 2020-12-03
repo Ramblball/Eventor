@@ -46,6 +46,8 @@ public final class Keywords {
     public final static String userAlreadyExist = "Вы уже зарегистрированы";
     //Список мероприятий пуст
     public final static String noEvents = "У вас нет мероприятий";
+    //Пользователь не авторизован
+    public final static String notAuth = "Вы не авторизированы";
     /*
     ----------------- Форматы данных --------------------------------
      */

@@ -18,28 +18,52 @@ import static database.DBLiterals.*;
 @Table(name = userTable, schema = eventorSchema)
 public class User {
     @Id
-    @SequenceGenerator(name = userIdSeq, schema = eventorSchema,
-            sequenceName = userIdSeq,
-            allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,
-            generator = userIdSeq)
     private int id;
+    private String username;
     private String name;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = user, orphanRemoval = true)
-    private List<Event> createdEvents = new LinkedList<>();
+    private Set<Event> createdEvents = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = usersEventsTable, schema = eventorSchema,
             joinColumns = @JoinColumn(name = userId),
             inverseJoinColumns = @JoinColumn(name = eventId))
-    List<Event> subscribes = new LinkedList<>();
+    Set<Event> subscribes = new HashSet<>();
 
     public User() {}
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Set<Event> getCreatedEvents() {
+        return createdEvents;
+    }
+
+    public void setCreatedEvents(Set<Event> createdEvents) {
+        this.createdEvents = createdEvents;
+    }
+
+    public Set<Event> getSubscribes() {
+        return subscribes;
+    }
+
+    public void setSubscribes(Set<Event> subscribes) {
+        this.subscribes = subscribes;
     }
 
     public String getName() {
@@ -48,14 +72,6 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Event> getCreatedEvents() {
-        return createdEvents;
-    }
-
-    public void setCreatedEvents(List<Event> createdEvents) {
-        this.createdEvents = createdEvents;
     }
 
     public void addCreatedEvent(Event event) {
@@ -67,14 +83,6 @@ public class User {
     public void removeCreatedEvent(Event event) {
         event.setUser(null);
         this.getCreatedEvents().remove(event);
-    }
-
-    public List<Event> getSubscribes() {
-        return subscribes;
-    }
-
-    public void setSubscribes(List<Event> subscribes) {
-        this.subscribes = subscribes;
     }
 
     public void addSubscribe(Event event) {

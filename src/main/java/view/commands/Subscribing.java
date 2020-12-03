@@ -11,6 +11,6 @@ public class Subscribing extends Command {
 
     @Override
     public String execute(Message message) {
-        return eventController.signIn(message.getUser().getUserName(), message.getEventId());
+        return eventController.signIn(message.getUser().getId(), message.getEventId());
     }
 }

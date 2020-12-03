@@ -1,5 +1,8 @@
 package database.utils;
 
+import org.hibernate.QueryException;
+import org.hibernate.QueryParameterException;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -77,10 +80,10 @@ public class EventQuery {
      * Собирает SQL запрос из заданных полей
      * @return            Строка SQL запроса к базе данных
      */
-    public String execute() {
+    public String execute() throws QueryParameterException{
         StringBuilder builder = new StringBuilder();
         if (isEmpty()) {
-            throw new NullPointerException();
+            throw new QueryParameterException("Попытка выполнить запрос без параметров");
         }
         builder.append(executedQuery);
         if (name != null) {

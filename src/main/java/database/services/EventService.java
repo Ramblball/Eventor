@@ -1,17 +1,24 @@
 package database.services;
 
+import database.DBException;
+import database.DBLiterals;
 import database.dao.EventDAOImpl;
 import database.model.Event;
 import database.model.User;
 import database.utils.EventQuery;
+import org.hibernate.QueryParameterException;
+import org.hibernate.exception.SQLGrammarException;
+import org.hibernate.hql.internal.ast.QuerySyntaxException;
 
+import javax.persistence.PersistenceException;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Слой сервис для взаимодействия основного приложения с базой данных мероприятий
  */
 public class EventService {
-    EventDAOImpl eventDAO = new EventDAOImpl();
+    private static final EventDAOImpl eventDAO = new EventDAOImpl();
 
     /**
      * Возвращает мероприятие по id
@@ -19,11 +26,15 @@ public class EventService {
      * @param id          Id мероприятия
      * @return            Найденное мероприятие
      */
-    public Event findById(int id) {
+    public Event findById(int id) throws DBException {
         try {
-            return eventDAO.findById(id);
-        } catch (Exception e) {
-            return null;
+            Event event = eventDAO.findById(id);
+            if (event == null) {
+                throw new DBException(DBLiterals.eventNotExist);
+            }
+            return event;
+        } catch (QuerySyntaxException e) {
+            throw new DBException(DBLiterals.dbExc, e);
         }
     }
 
@@ -33,11 +44,15 @@ public class EventService {
      * @param name        Название мероприятия
      * @return            Найденное мероприятие
      */
-    public Event findByName(String name) {
+    public Event findByName(String name) throws DBException {
         try {
-            return eventDAO.findByName(name);
-        } catch (Exception e) {
-            return null;
+            Event event = eventDAO.findByName(name);
+            if (event == null) {
+                throw new DBException(DBLiterals.eventNotExist);
+            }
+            return event;
+        } catch (QuerySyntaxException e) {
+            throw new DBException(DBLiterals.dbExc, e);
         }
     }
 
@@ -45,28 +60,26 @@ public class EventService {
      * Создание мероприятия
      * @param user        Создатель
      * @param event       Новое мероприятие
-     * @return            Результат сохранения
+     * @throws PersistenceException Ошибка сохранения
      */
-    public boolean create(User user, Event event) {
+    public void create(User user, Event event) throws DBException{
         try {
             eventDAO.create(user, event);
-            return true;
-        } catch (Exception e) {
-            return false;
+        } catch (PersistenceException e) {
+            throw new DBException(DBLiterals.dbExc, e);
         }
     }
 
     /**
      * Обновление мероприятия
      * @param event       Мероприятие
-     * @return            Результат обновления
+     * @throws PersistenceException Ошибка сохранения
      */
-    public boolean update(Event event) {
+    public void update(Event event) throws DBException{
         try {
             eventDAO.update(event);
-            return true;
-        } catch (Exception e) {
-            return false;
+        } catch (PersistenceException e) {
+            throw new DBException(DBLiterals.dbExc, e);
         }
     }
 
@@ -74,13 +87,13 @@ public class EventService {
      * Удаляет меропритятие
      * @param user        Создатель
      * @param event       Удаляемое мероприятие
+     * @throws PersistenceException Ошибка сохранения
      */
-    public boolean remove(User user, Event event) {
+    public void remove(User user, Event event) throws DBException {
         try {
             eventDAO.delete(user, event);
-            return true;
-        } catch (Exception e) {
-            return false;
+        } catch (PersistenceException e) {
+            throw new DBException(DBLiterals.dbExc, e);
         }
     }
 
@@ -89,11 +102,15 @@ public class EventService {
      * @param query       EventQuery с параметрами поиска
      * @return            Список найденных мероприятий
      */
-    public List<Event> find(EventQuery query) {
+    public List<Event> find(EventQuery query) throws DBException {
         try {
-            return eventDAO.find(query);
-        } catch (Exception e) {
-            return null;
+            List<Event> events = eventDAO.find(query);
+            if (events == null) {
+                throw new DBException(DBLiterals.eventNotExist);
+            }
+            return events;
+        } catch (SQLGrammarException | QueryParameterException e) {
+            throw new DBException(DBLiterals.dbExc, e);
         }
     }
 
@@ -104,29 +121,32 @@ public class EventService {
      */
     public List<Event> findAll() {
         try {
-            return eventDAO.findAll();
+            List<Event> events = eventDAO.findAll();
+            if (events == null) {
+                throw new DBException(DBLiterals.eventNotExist);
+            }
+            return events;
         } catch (Exception e) {
             return null;
         }
     }
 
     /**
-     * Подписывает пользователя на участие вв мероприятии
+     * Подписывает пользователя на участие в мероприятии
      * @param user        Пользователь
      * @param event       Мероприятие
-     * @return            Рузельтат подписки
+     * @throws PersistenceException Ошибка сохранения
      */
-    public boolean subscribe(User user, Event event) {
+    public void subscribe(User user, Event event) throws DBException{
         try {
-            List<Event> own = user.getCreatedEvents();
-            List<Event> subs = user.getSubscribes();
+            Set<Event> own = user.getCreatedEvents();
+            Set<Event> subs = user.getSubscribes();
             if (own.contains(event) || subs.contains(event)) {
-                return false;
+                return;
             }
             eventDAO.subscribe(user, event);
-            return true;
-        } catch (Exception e) {
-            return false;
+        } catch (PersistenceException e) {
+            throw new DBException(DBLiterals.dbExc, e);
         }
     }
 
@@ -134,14 +154,13 @@ public class EventService {
      * Отписывает пользователя от мероприятия
      * @param user        Пользователь
      * @param event       Мероприятие
-     * @return            Рузельтат отписки
+     * @throws PersistenceException Ошибка сохранения
      */
-    public boolean unsubscribe(User user, Event event) {
+    public void unsubscribe(User user, Event event) throws DBException{
         try {
             eventDAO.unsubscribe(user, event);
-            return true;
-        } catch (Exception e) {
-            return false;
+        } catch (PersistenceException e) {
+            throw new DBException(DBLiterals.dbExc, e);
         }
     }
 }
