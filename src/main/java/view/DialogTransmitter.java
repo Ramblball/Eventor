@@ -5,6 +5,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import view.commands.Help;
+import view.commands.Unknown;
 
 import java.util.ArrayList;
 
@@ -123,7 +124,7 @@ public class DialogTransmitter {
                         return provider.execute(TelegramBot.userProgress.get(user).operation, message);
                     default:
                         createMainMenu();
-                        return "Хз шо за команда";
+                        return new Unknown().execute(new Message());
                 }
         }
     }
