@@ -1,6 +1,6 @@
 src/main/resources/hibernate.cfg.xml
-src/main/resources/log4j.properties
-token.txt
+src/main/resources/log4j2.properties
+log/
 target/
 out/
 .idea/
@@ -8,3 +8,5 @@ out/
 *.iml
 *.ipr
 *.iws
+*.txt
+*.log

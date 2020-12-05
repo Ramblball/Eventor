@@ -40,7 +40,7 @@ public class Validator {
                 throw new PastTimeException(Keywords.PAST_DATE);
             }
         } catch (DateTimeParseException e) {
-            throw new ParseException(Keywords.INVALID_TIME, e);
+            throw new ParseException(e.getMessage(), e);
         }
     }
 }

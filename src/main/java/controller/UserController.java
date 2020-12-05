@@ -1,15 +1,16 @@
 package controller;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.meta.api.objects.User;
 import controller.exception.NotAuthorizedException;
 import database.exception.DBException;
-import org.apache.log4j.Logger;
 
 /**
  * Обеспечение взаимодействия пользователя с его моделью
  */
 public class UserController extends Controller{
-    private static final Logger logger = Logger.getLogger(UserController.class);
+    private static final Logger logger = LogManager.getLogger(UserController.class);
 
     /**
      * Метод для создания нового пользователя

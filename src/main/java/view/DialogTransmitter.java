@@ -1,6 +1,7 @@
 package view;
 
 import controller.Keywords;
+import database.utils.QueryLiterals;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
@@ -33,12 +34,12 @@ public class DialogTransmitter {
     }
 
     /** Скрывает, открывает диалоги, сохраняет прогресс диалога
-     * @param user текущий пользователь
-     * @param received полученное сообщение
-     * @return ответ пользователю
+     * @param user      текущий пользователь
+     * @param received  полученное сообщение
+     * @return          ответ пользователю
      */
     public String getMessage(User user, String received) {
-        if(TelegramBot.userProgress.isEmpty()){
+        if(TelegramBot.userProgress.get(user) == null){
             TelegramBot.userProgress.put(user, new Progress());
         }
         createKeyboard();
@@ -62,17 +63,13 @@ public class DialogTransmitter {
                 return "Как вы хотите искать?";
             case "Создать":
             case "Изменить":
-                hideMenu();
-                TelegramBot.userProgress.get(user).operation = received;
-                TelegramBot.userProgress.get(user).count = 0;
-                return "Введите название мероприятия";
             case "Удалить":
             case "Подписаться":
             case "Отписаться":
                 hideMenu();
                 TelegramBot.userProgress.get(user).operation = received;
                 TelegramBot.userProgress.get(user).count = 0;
-                return "Введите id мероприятия";
+                return "Введите название мероприятия";
             case "Мои подписки":
             case "Созданные мероприятия":
                 createMainMenu();
@@ -114,7 +111,7 @@ public class DialogTransmitter {
                         if (TelegramBot.userProgress.get(user).count == 0) {
                             message.setEventName(received);
                             TelegramBot.userProgress.get(user).count++;
-                            return "Введите время мероприятия в формате " + Keywords.DATE_TIME_FORMAT;
+                            return "Введите время мероприятия в формате " + QueryLiterals.DATE_PATTERN;
                         }
                         if (TelegramBot.userProgress.get(user).count == 1) {
                             message.setEventTime(received);
@@ -151,7 +148,6 @@ public class DialogTransmitter {
         firstRow.add("Назад");
         keyboard.add(firstRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
-
     }
 
     /**

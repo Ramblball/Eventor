@@ -6,7 +6,8 @@ import database.exception.DBException;
 import database.exception.NotFoundException;
 import database.model.*;
 import database.utils.EventQuery;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.time.LocalDateTime;
 import java.time.format.*;
@@ -16,7 +17,7 @@ import java.util.*;
  * Обеспечение взаимодействия пользователя с мероприятиями
  */
 public class EventController extends Controller {
-    private static final Logger logger = Logger.getLogger(EventController.class);
+    private static final Logger logger = LogManager.getLogger(EventController.class);
 
     /**
      * Метод дял получения подсказки по работе с приложением

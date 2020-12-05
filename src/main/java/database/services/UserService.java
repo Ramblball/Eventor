@@ -61,7 +61,7 @@ public class UserService {
         try {
             userDAO.create(user);
         } catch (PersistenceException e) {
-            throw new DBException(DBLiterals.DB_EXCEPTION, e);
+            throw new DBException(DBLiterals.USER_ALREADY_EXIST_EXCEPTION, e);
         }
     }
 

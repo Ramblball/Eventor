@@ -72,6 +72,8 @@ public final class DBLiterals {
     public static final String DB_EXCEPTION = "Ошибка при обращении к базе данных:";
     //Ошибка, пользователь не найден
     public static final String USER_NOT_EXIST = "Пользовтеля не существует";
+    //Ошибка, пользователь уже создан
+    public static final String USER_ALREADY_EXIST_EXCEPTION = "Пользовтеля уже создан";
     //Ошибка, мероприятие не найдено
     public static final String EVENT_NOT_FOUND = "Мероприятий не найдено";
 }

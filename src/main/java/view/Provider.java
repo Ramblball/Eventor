@@ -1,6 +1,5 @@
 package view;
 
-import org.telegram.telegrambots.meta.api.objects.User;
 import view.commands.*;
 
 import java.util.HashMap;
