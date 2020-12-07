@@ -1,16 +1,17 @@
 package view.commands;
 
 import controller.EventController;
+import controller.Keywords;
+import database.model.Event;
 import view.Message;
 
 /**
- * Команда поиска мероприятий по имени
+ * Команда вызова помощи
  */
-public class FindingEvent extends Command {
+public class HelpCommand extends Command {
     EventController eventController = new EventController();
-
     @Override
     public String execute(Message message) {
-        return eventController.findByName(message.getEventName());
+        return eventController.getHelp();
     }
 }

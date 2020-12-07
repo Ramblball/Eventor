@@ -12,15 +12,15 @@ public class Provider {
     private static final HashMap<String, Command> hashMap = new HashMap<>();
 
     Provider(){
-        hashMap.put("Создать", new EventCreating());
-        hashMap.put("Удалить", new RemovingEvent());
-        hashMap.put("Изменить", new UpdatingEvent());
-        hashMap.put("Подписаться", new Subscribing());
-        hashMap.put("Отписаться", new Unsubscribing());
-        hashMap.put("Мои подписки", new GetSubscribes());
-        hashMap.put("Созданные мероприятия", new GetOwnEvents());
-        hashMap.put("По имени", new FindingEvent());
-        hashMap.put("По параметрам", new FindingEventParameters());
+        hashMap.put("Создать", new CreateEventCommand());
+        hashMap.put("Удалить", new RemoveEventCommand());
+        hashMap.put("Изменить", new UpdateEventCommand());
+        hashMap.put("Подписаться", new SubscribeCommand());
+        hashMap.put("Отписаться", new UnsubscribeCommand());
+        hashMap.put("Мои подписки", new SubscribesGetCommand());
+        hashMap.put("Созданные мероприятия", new OwnEventsGetCommand());
+        hashMap.put("По имени", new EventFindCommand());
+        hashMap.put("По параметрам", new EventParametersFindCommand());
     }
 
     public String execute(String operation, Message message){

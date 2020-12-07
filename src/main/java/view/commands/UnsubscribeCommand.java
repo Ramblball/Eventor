@@ -4,13 +4,13 @@ import controller.EventController;
 import view.Message;
 
 /**
- * Команда удаления мероприятия
+ * Команда отписки от мероприятия
  */
-public class RemovingEvent extends Command {
+public class UnsubscribeCommand extends Command {
     EventController eventController = new EventController();
 
     @Override
     public String execute(Message message) {
-        return eventController.remove(message.getUser().getId(), message.getEventId());
+        return eventController.signOut(message.getUser().getId(), message.getEventId());
     }
 }

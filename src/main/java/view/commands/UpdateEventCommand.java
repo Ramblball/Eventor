@@ -6,7 +6,7 @@ import view.Message;
 /**
  * Команда обновления мероприятия
  */
-public class UpdatingEvent extends Command {
+public class UpdateEventCommand extends Command {
     EventController eventController = new EventController();
 
     @Override

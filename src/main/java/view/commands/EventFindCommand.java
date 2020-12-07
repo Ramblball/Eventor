@@ -4,13 +4,13 @@ import controller.EventController;
 import view.Message;
 
 /**
- * Команда подписки на мероприятие
+ * Команда поиска мероприятий по имени
  */
-public class Subscribing extends Command {
+public class EventFindCommand extends Command {
     EventController eventController = new EventController();
 
     @Override
     public String execute(Message message) {
-        return eventController.signIn(message.getUser().getId(), message.getEventId());
+        return eventController.findByName(message.getEventName());
     }
 }

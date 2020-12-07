@@ -5,9 +5,9 @@ import database.utils.QueryLiterals;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import view.commands.Help;
+import view.commands.HelpCommand;
 import view.commands.Unknown;
-import view.commands.UserCreating;
+import view.commands.UserCreateCommand;
 
 import java.util.ArrayList;
 
@@ -48,13 +48,13 @@ public class DialogTransmitter {
             case "Привет":
             case "/start":
                 createMainMenu();
-                return new UserCreating().execute(message);
+                return new UserCreateCommand().execute(message);
             case "Назад":
                 createMainMenu();
                 return "Выберите пункт меню";
             case "Помощь":
                 createMainMenu();
-                return new Help().execute(new Message());
+                return new HelpCommand().execute(new Message());
             case "Управление подписками":
                 createOperationMenu();
                 return "Что вы хотите сделать?";
