@@ -5,11 +5,10 @@ import database.utils.QueryLiterals;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
-import view.commands.HelpCommand;
-import view.commands.Unknown;
-import view.commands.UserCreateCommand;
+import view.commands.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Класс для предоставления диалогов
@@ -21,25 +20,29 @@ public class DialogTransmitter {
     private final KeyboardRow secondRow = new KeyboardRow();
     private final KeyboardRow thirdRow = new KeyboardRow();
     private final KeyboardRow fourthRow = new KeyboardRow();
-    private final Provider provider = new Provider();
     private final Message message = new Message();
+    private static final HashMap<String, Command> hashMap = new HashMap<>();
+
+    DialogTransmitter() {
+        setCommands();
+    }
 
     /**
      * Задание параметров для клавиатуры
      */
-    private void createKeyboard(){
+    private void createKeyboard() {
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
     }
 
-    /** Скрывает, открывает диалоги, сохраняет прогресс диалога
-     * @param user      текущий пользователь
-     * @param received  полученное сообщение
-     * @return          ответ пользователю
+    /**Скрывает, открывает диалоги, сохраняет прогресс диалога
+     * @param user     текущий пользователь
+     * @param received полученное сообщение
+     * @return ответ пользователю
      */
     public String getMessage(User user, String received) {
-        if(TelegramBot.userProgress.get(user) == null){
+        if (TelegramBot.userProgress.get(user) == null) {
             TelegramBot.userProgress.put(user, new Progress());
         }
         createKeyboard();
@@ -47,14 +50,14 @@ public class DialogTransmitter {
         switch (received) {
             case "Привет":
             case "/start":
+            case "Мои подписки":
+            case "Созданные мероприятия":
+            case "Помощь":
                 createMainMenu();
-                return new UserCreateCommand().execute(message);
+                return hashMap.get(received).execute(message);
             case "Назад":
                 createMainMenu();
                 return "Выберите пункт меню";
-            case "Помощь":
-                createMainMenu();
-                return new HelpCommand().execute(new Message());
             case "Управление подписками":
                 createOperationMenu();
                 return "Что вы хотите сделать?";
@@ -70,10 +73,6 @@ public class DialogTransmitter {
                 TelegramBot.userProgress.get(user).operation = received;
                 TelegramBot.userProgress.get(user).count = 0;
                 return "Введите название мероприятия";
-            case "Мои подписки":
-            case "Созданные мероприятия":
-                createMainMenu();
-                return provider.execute(received, message);
             case "По имени":
             case "По параметрам":
                 hideMenu();
@@ -102,11 +101,11 @@ public class DialogTransmitter {
                         message.setEventDescription(received);
                         TelegramBot.userProgress.get(user).count = 0;
                         createOperationMenu();
-                        return provider.execute(TelegramBot.userProgress.get(user).operation, message);
+                        return hashMap.get(TelegramBot.userProgress.get(user).operation).execute(message);
                     case "По имени":
                         message.setEventName(received);
                         createFindMenu();
-                        return provider.execute(TelegramBot.userProgress.get(user).operation, message);
+                        return hashMap.get(TelegramBot.userProgress.get(user).operation).execute(message);
                     case "По параметрам":
                         if (TelegramBot.userProgress.get(user).count == 0) {
                             message.setEventName(received);
@@ -127,12 +126,12 @@ public class DialogTransmitter {
                         createOperationMenu();
                         TelegramBot.userProgress.get(user).count = 0;
                         createFindMenu();
-                        return provider.execute(TelegramBot.userProgress.get(user).operation, message);
+                        return hashMap.get(TelegramBot.userProgress.get(user).operation).execute(message);
                     case "Удалить":
                     case "Подписаться":
                     case "Отписаться":
                         createOperationMenu();
-                        return provider.execute(TelegramBot.userProgress.get(user).operation, message);
+                        return hashMap.get(TelegramBot.userProgress.get(user).operation).execute(message);
                     default:
                         createMainMenu();
                         return new Unknown().execute(new Message());
@@ -212,5 +211,18 @@ public class DialogTransmitter {
      */
     public ReplyKeyboardMarkup getReplyKeyboardMarkup() {
         return replyKeyboardMarkup;
+    }
+
+    public void setCommands() {
+        hashMap.put("Создать", new CreateEventCommand());
+        hashMap.put("Помощь", new HelpCommand());
+        hashMap.put("Удалить", new RemoveEventCommand());
+        hashMap.put("Изменить", new UpdateEventCommand());
+        hashMap.put("Подписаться", new SubscribeCommand());
+        hashMap.put("Отписаться", new UnsubscribeCommand());
+        hashMap.put("Мои подписки", new SubscribesGetCommand());
+        hashMap.put("Созданные мероприятия", new OwnEventsGetCommand());
+        hashMap.put("По имени", new EventFindCommand());
+        hashMap.put("По параметрам", new EventParametersFindCommand());
     }
 }
