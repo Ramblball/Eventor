@@ -14,12 +14,8 @@ import java.util.HashMap;
  * Класс для предоставления диалогов
  */
 public class DialogTransmitter {
-    private final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-    private final ArrayList<KeyboardRow> keyboard = new ArrayList<>();
-    private final KeyboardRow firstRow = new KeyboardRow();
-    private final KeyboardRow secondRow = new KeyboardRow();
-    private final KeyboardRow thirdRow = new KeyboardRow();
-    private final KeyboardRow fourthRow = new KeyboardRow();
+    private final TelegramKeyboard telegramKeyboard = new TelegramKeyboard();
+
     private final Message message = new Message();
     private static final HashMap<String, Command> hashMap = new HashMap<>();
 
@@ -31,9 +27,7 @@ public class DialogTransmitter {
      * Задание параметров для клавиатуры
      */
     private void createKeyboard() {
-        replyKeyboardMarkup.setSelective(true);
-        replyKeyboardMarkup.setResizeKeyboard(true);
-        replyKeyboardMarkup.setOneTimeKeyboard(true);
+
     }
 
     /**Скрывает, открывает диалоги, сохраняет прогресс диалога
@@ -53,29 +47,29 @@ public class DialogTransmitter {
             case "Мои подписки":
             case "Созданные мероприятия":
             case "Помощь":
-                createMainMenu();
+                telegramKeyboard.createMainMenu();
                 return hashMap.get(received).execute(message);
             case "Назад":
-                createMainMenu();
+                telegramKeyboard.createMainMenu();
                 return "Выберите пункт меню";
             case "Управление подписками":
-                createOperationMenu();
+                telegramKeyboard.createOperationMenu();
                 return "Что вы хотите сделать?";
             case "Поиск":
-                createFindMenu();
+                telegramKeyboard.createFindMenu();
                 return "Как вы хотите искать?";
             case "Создать":
             case "Изменить":
             case "Удалить":
             case "Подписаться":
             case "Отписаться":
-                hideMenu();
+                telegramKeyboard.hideMenu();
                 TelegramBot.userProgress.get(user).operation = received;
                 TelegramBot.userProgress.get(user).count = 0;
                 return "Введите название мероприятия";
             case "По имени":
             case "По параметрам":
-                hideMenu();
+                telegramKeyboard.hideMenu();
                 TelegramBot.userProgress.get(user).operation = received;
                 TelegramBot.userProgress.get(user).count = 0;
                 return "Введите имя искомого мероприятия";
@@ -100,11 +94,11 @@ public class DialogTransmitter {
                         }
                         message.setEventDescription(received);
                         TelegramBot.userProgress.get(user).count = 0;
-                        createOperationMenu();
+                        telegramKeyboard.createOperationMenu();
                         return hashMap.get(TelegramBot.userProgress.get(user).operation).execute(message);
                     case "По имени":
                         message.setEventName(received);
-                        createFindMenu();
+                        telegramKeyboard.createFindMenu();
                         return hashMap.get(TelegramBot.userProgress.get(user).operation).execute(message);
                     case "По параметрам":
                         if (TelegramBot.userProgress.get(user).count == 0) {
@@ -123,95 +117,23 @@ public class DialogTransmitter {
                             return "Введите описание мероприятия";
                         }
                         message.setEventDescription(received);
-                        createOperationMenu();
+                        telegramKeyboard.createOperationMenu();
                         TelegramBot.userProgress.get(user).count = 0;
-                        createFindMenu();
+                        telegramKeyboard.createFindMenu();
                         return hashMap.get(TelegramBot.userProgress.get(user).operation).execute(message);
                     case "Удалить":
                     case "Подписаться":
                     case "Отписаться":
-                        createOperationMenu();
+                        telegramKeyboard.createOperationMenu();
                         return hashMap.get(TelegramBot.userProgress.get(user).operation).execute(message);
                     default:
-                        createMainMenu();
+                        telegramKeyboard.createMainMenu();
                         return new Unknown().execute(new Message());
                 }
         }
     }
 
-    /**
-     * Скрытие меню, установка кнопки возврата
-     */
-    private void hideMenu() {
-        clearKeyboardRows();
-        firstRow.add("Назад");
-        keyboard.add(firstRow);
-        replyKeyboardMarkup.setKeyboard(keyboard);
-    }
 
-    /**
-     * Очистка клавиатуры
-     */
-    private void clearKeyboardRows() {
-        keyboard.clear();
-        firstRow.clear();
-        secondRow.clear();
-        thirdRow.clear();
-        fourthRow.clear();
-    }
-
-    /**
-     * Создание кнопок поиска
-     */
-    private void createFindMenu() {
-        clearKeyboardRows();
-        firstRow.add("По имени");
-        firstRow.add("По параметрам");
-        secondRow.add("Назад");
-        keyboard.add(firstRow);
-        keyboard.add(secondRow);
-        replyKeyboardMarkup.setKeyboard(keyboard);
-    }
-
-    /**
-     * Создание кнопок основных действий
-     */
-    private void createOperationMenu() {
-        clearKeyboardRows();
-        firstRow.add("Создать");
-        firstRow.add("Изменить");
-        firstRow.add("Удалить");
-        thirdRow.add("Мои подписки");
-        secondRow.add("Подписаться");
-        secondRow.add("Отписаться");
-        thirdRow.add("Созданные мероприятия");
-        fourthRow.add("Назад");
-        keyboard.add(firstRow);
-        keyboard.add(secondRow);
-        keyboard.add(thirdRow);
-        keyboard.add(fourthRow);
-        replyKeyboardMarkup.setKeyboard(keyboard);
-    }
-
-    /**
-     * Создание кнопок с разделами
-     */
-    private void createMainMenu() {
-        clearKeyboardRows();
-        firstRow.add("Помощь");
-        secondRow.add("Управление подписками");
-        secondRow.add("Поиск");
-        keyboard.add(firstRow);
-        keyboard.add(secondRow);
-        replyKeyboardMarkup.setKeyboard(keyboard);
-    }
-
-    /**
-     * @return разметка клавиатуры
-     */
-    public ReplyKeyboardMarkup getReplyKeyboardMarkup() {
-        return replyKeyboardMarkup;
-    }
 
     public void setCommands() {
         hashMap.put("Создать", new CreateEventCommand());
@@ -224,5 +146,8 @@ public class DialogTransmitter {
         hashMap.put("Созданные мероприятия", new OwnEventsGetCommand());
         hashMap.put("По имени", new EventFindCommand());
         hashMap.put("По параметрам", new EventParametersFindCommand());
+    }
+    public ReplyKeyboardMarkup getReplyKeyboardMarkup() {
+        return telegramKeyboard.getReplyKeyboardMarkup();
     }
 }
