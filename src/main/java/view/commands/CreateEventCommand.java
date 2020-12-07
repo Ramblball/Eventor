@@ -6,7 +6,7 @@ import view.Message;
 /**
  * Команда создания мероприятия
  */
-public class EventCreating extends Command {
+public class CreateEventCommand extends Command {
     EventController eventController = new EventController();
 
     @Override

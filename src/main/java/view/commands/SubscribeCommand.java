@@ -6,7 +6,7 @@ import view.Message;
 /**
  * Команда подписки на мероприятие
  */
-public class Subscribing extends Command {
+public class SubscribeCommand extends Command {
     EventController eventController = new EventController();
 
     @Override

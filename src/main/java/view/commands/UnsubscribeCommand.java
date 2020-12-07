@@ -6,7 +6,7 @@ import view.Message;
 /**
  * Команда отписки от мероприятия
  */
-public class Unsubscribing extends Command {
+public class UnsubscribeCommand extends Command {
     EventController eventController = new EventController();
 
     @Override

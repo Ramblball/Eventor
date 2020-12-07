@@ -6,7 +6,7 @@ import view.Message;
 /**
  * Команда для получения мероприятий созданных пользователем
  */
-public class GetOwnEvents extends Command{
+public class OwnEventsGetCommand extends Command{
     EventController eventController = new EventController();
 
     @Override
