@@ -12,6 +12,7 @@ import org.hibernate.exception.SQLGrammarException;
 import org.hibernate.hql.internal.ast.QuerySyntaxException;
 
 import javax.persistence.PersistenceException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -112,6 +113,26 @@ public class EventService {
     public List<Event> findWithFilter(EventQuery query) throws NotFoundException, DBException {
         try {
             List<Event> events = eventDAO.find(query);
+            if (events == null) {
+                throw new NotFoundException(DBLiterals.EVENT_NOT_FOUND);
+            }
+            return events;
+        } catch (SQLGrammarException | QueryParameterException e) {
+            throw new DBException(DBLiterals.DB_EXCEPTION, e);
+        }
+    }
+
+    /**
+     * Метод для получения мероприятиятий, проходящих в заданном временном интервале
+     * @param begin                     Время начала интервала (Включительно)
+     * @param end                       Время конца интервала (Исключительно)
+     * @return                          Список найденных мероприятий
+     * @throws NotFoundException        Мероприятий не наайдено
+     * @throws QuerySyntaxException     Ошибка синтаксиса запроса
+     */
+    public List<Event> findWithInterval(LocalDateTime begin, LocalDateTime end) throws NotFoundException, DBException {
+        try {
+            List<Event> events = eventDAO.findByTimeInterval(begin, end);
             if (events == null) {
                 throw new NotFoundException(DBLiterals.EVENT_NOT_FOUND);
             }

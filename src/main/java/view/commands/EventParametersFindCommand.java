@@ -8,7 +8,6 @@ import view.Message;
  * Команда создания мероприятия с критериями
  */
 public class EventParametersFindCommand extends Command {
-    EventController eventController = new EventController();
     @Override
     public String execute(Message message) {
         var eventQuery = new EventQuery();

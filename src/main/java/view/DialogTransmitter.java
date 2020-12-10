@@ -72,6 +72,9 @@ public class DialogTransmitter {
                 message.setOperation(received);
                 userState.setProgress(user, new Progress(message, 0));
                 return "Введите имя искомого мероприятия";
+            case "На текущей неделе":
+                telegramKeyboard.createFindMenu();
+                return commandMap.get(received).execute(message);
             default:
                 if (userState.getProgress(user) == null) {
                     telegramKeyboard.createMainMenu();
@@ -152,6 +155,7 @@ public class DialogTransmitter {
         commandMap.put("Созданные мероприятия", new OwnEventsGetCommand());
         commandMap.put("По имени", new EventFindCommand());
         commandMap.put("По параметрам", new EventParametersFindCommand());
+        commandMap.put("На текущей неделе", new EventWeekFindCommand());
     }
 
     public ReplyKeyboardMarkup getReplyKeyboardMarkup() {

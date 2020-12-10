@@ -8,6 +8,7 @@ import database.utils.EventQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -36,7 +37,9 @@ public class EventDAOImpl extends DAO{
      */
     public Event findByName(String name) {
         try (Session session = openSession()) {
-            return session.createQuery("FROM Event WHERE name=:name", Event.class).setParameter(DBLiterals.NAME, name).getSingleResult();
+            return session.createQuery("FROM Event WHERE name=:name", Event.class)
+                    .setParameter(DBLiterals.NAME, name)
+                    .getSingleResult();
         }
     }
 
@@ -165,6 +168,21 @@ public class EventDAOImpl extends DAO{
             session.refresh(event);
             user.removeSubscribe(event);
             transaction.commit();
+        }
+    }
+
+    /**
+     * Метод отправляющий запрос на поиск мероприятий в заданном временном интервале
+     * @param begin         Время начала интервала (Включительно)
+     * @param end           Время конца интервала (Исключительно)
+     * @return              Найденные мероприятия
+     */
+    public List<Event> findByTimeInterval(LocalDateTime begin, LocalDateTime end) {
+        try (Session session = openSession()) {
+            return session.createQuery("FROM Event WHERE time >= :begin AND time < :end", Event.class)
+                    .setParameter("begin", begin)
+                    .setParameter("end", end)
+                    .getResultList();
         }
     }
 }

@@ -53,9 +53,11 @@ public class TelegramKeyboard {
         clearKeyboardRows();
         firstRow.add("По имени");
         firstRow.add("По параметрам");
-        secondRow.add("Назад");
+        secondRow.add("На текущей неделе");
+        thirdRow.add("Назад");
         keyboard.add(firstRow);
         keyboard.add(secondRow);
+        keyboard.add(thirdRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 

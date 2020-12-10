@@ -7,7 +7,6 @@ import view.Message;
  * Команда обновления мероприятия
  */
 public class UpdateEventCommand extends Command {
-    EventController eventController = new EventController();
 
     @Override
     public String execute(Message message) {

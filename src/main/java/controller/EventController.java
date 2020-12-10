@@ -9,8 +9,12 @@ import database.utils.EventQuery;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.*;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
 import java.util.*;
 
 /**
@@ -223,6 +227,22 @@ public class EventController extends Controller {
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return Keywords.EXCEPTION;
+        }
+    }
+
+    public String findForTheCurrentWeek() {
+        try {
+            LocalDate now = LocalDate.now();
+            TemporalField field = WeekFields.of(Locale.FRANCE).dayOfWeek();
+            LocalDateTime begin = now.with(field, 1).atStartOfDay();
+            LocalDateTime end = begin.plusDays(7);
+            List<Event> events = eventService.findWithInterval(begin, end);
+            return eventsToString(events);
+        } catch (NotFoundException e) {
+            return e.getMessage();
+        } catch (DBException e) {
+            logger.error(e.getMessage(), e);
+            return Keywords.EVENT_FIND_BY_EXCEPTION + e.getMessage();
         }
     }
 

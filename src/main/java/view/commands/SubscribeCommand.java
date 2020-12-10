@@ -7,7 +7,6 @@ import view.Message;
  * Команда подписки на мероприятие
  */
 public class SubscribeCommand extends Command {
-    EventController eventController = new EventController();
 
     @Override
     public String execute(Message message) {

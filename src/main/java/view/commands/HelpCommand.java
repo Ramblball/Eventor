@@ -9,7 +9,6 @@ import view.Message;
  * Команда вызова помощи
  */
 public class HelpCommand extends Command {
-    EventController eventController = new EventController();
     @Override
     public String execute(Message message) {
         return eventController.getHelp();

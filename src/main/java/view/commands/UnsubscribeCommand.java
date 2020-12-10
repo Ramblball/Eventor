@@ -7,7 +7,6 @@ import view.Message;
  * Команда отписки от мероприятия
  */
 public class UnsubscribeCommand extends Command {
-    EventController eventController = new EventController();
 
     @Override
     public String execute(Message message) {
