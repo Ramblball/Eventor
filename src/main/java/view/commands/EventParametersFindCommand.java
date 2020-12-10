@@ -13,7 +13,6 @@ public class EventParametersFindCommand extends Command {
     public String execute(Message message) {
         var eventQuery = new EventQuery();
         eventQuery.setName(message.getEventName());
-        eventQuery.setCategory(message.getEventCategory());
         eventQuery.setDescription(message.getEventDescription());
         eventQuery.setTime(message.getEventTime());
         eventQuery.setPlace(message.getEventPlace());

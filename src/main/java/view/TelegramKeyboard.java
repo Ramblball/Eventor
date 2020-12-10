@@ -5,6 +5,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 
 import java.util.ArrayList;
 
+/**
+ * Класс с методами создания клавиатур
+ */
 public class TelegramKeyboard {
     private final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
     private final ArrayList<KeyboardRow> keyboard = new ArrayList<>();

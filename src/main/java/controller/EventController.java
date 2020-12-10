@@ -49,9 +49,9 @@ public class EventController extends Controller {
      */
     public String create(Integer id, String name, String time, String place, String description) {
         try {
+            User currentUser = getCurrentUser(id);
             validator.checkEventParams(name, time, place, description);
             LocalDateTime dateTime = LocalDateTime.parse(time, DateTimeFormatter.ofPattern(Keywords.DATE_TIME_FORMAT));
-            User currentUser = getCurrentUser(id);
             Event event = new Event(name, place, dateTime, Category.Прогулка, description);
             eventService.create(currentUser, event);
             return String.format(Keywords.EVENT_CREATED, name);
@@ -60,7 +60,7 @@ public class EventController extends Controller {
             return Keywords.VALIDATION_EXCEPTION + e.getMessage();
         } catch (NotAuthorizedException e) {
             logger.error(e.getMessage(), e);
-            return Keywords.AUTH_EXCEPTION;
+            return Keywords.AUTH_EXCEPTION + e.getMessage();
         } catch (DBException e) {
             logger.error(e.getMessage(), e);
             return Keywords.EVENT_CREATE_EXCEPTION;
@@ -81,8 +81,8 @@ public class EventController extends Controller {
      */
     public String update(Integer id, String name, String time, String place, String description) {
         try {
-            validator.checkEventParams(name, time, place, description);
             User currentUser = getCurrentUser(id);
+            validator.checkEventParams(name, time, place, description);
             Event event = eventService.findByName(name);
             if (event == null) {
                 return Keywords.EVENT_NOT_FOUND;
@@ -101,7 +101,7 @@ public class EventController extends Controller {
             return Keywords.VALIDATION_EXCEPTION + e.getMessage();
         } catch (NotAuthorizedException e) {
             logger.error(e.getMessage(), e);
-            return Keywords.AUTH_EXCEPTION;
+            return Keywords.AUTH_EXCEPTION + e.getMessage();
         } catch (NotFoundException e) {
             return e.getMessage();
         } catch (DBException e) {
@@ -130,7 +130,7 @@ public class EventController extends Controller {
             return String.format(Keywords.EVENT_REMOVED, event.getName());
         } catch (NotAuthorizedException e) {
             logger.error(e.getMessage(), e);
-            return Keywords.AUTH_EXCEPTION;
+            return Keywords.AUTH_EXCEPTION + e.getMessage();
         } catch (NotFoundException e) {
             return e.getMessage();
         } catch (DBException e) {
@@ -154,7 +154,7 @@ public class EventController extends Controller {
             return eventsToString(events);
         } catch (NotAuthorizedException e) {
             logger.error(e.getMessage(), e);
-            return Keywords.AUTH_EXCEPTION;
+            return Keywords.AUTH_EXCEPTION + e.getMessage();
         }catch (DBException e) {
             logger.error(e.getMessage(), e);
             return Keywords.EVENT_FIND_BY_EXCEPTION + e.getMessage();
@@ -176,7 +176,7 @@ public class EventController extends Controller {
             return eventsToString(events);
         } catch (NotAuthorizedException e) {
             logger.error(e.getMessage(), e);
-            return Keywords.AUTH_EXCEPTION;
+            return Keywords.AUTH_EXCEPTION + e.getMessage();
         }catch (DBException e) {
             logger.error(e.getMessage(), e);
             return Keywords.EVENT_FIND_BY_EXCEPTION + e.getMessage();
@@ -235,8 +235,8 @@ public class EventController extends Controller {
      */
     public void subscribeManager(Integer id, String name, boolean f)
             throws NotFoundException, NotAuthorizedException, DBException {
-        Event event = eventService.findByName(name);
         User currentUser = getCurrentUser(id);
+        Event event = eventService.findByName(name);
         if (f) {
             eventService.subscribe(currentUser, event);
         } else {
@@ -258,7 +258,7 @@ public class EventController extends Controller {
             return e.getMessage();
         } catch (NotAuthorizedException e) {
             logger.error(e.getMessage(), e);
-            return Keywords.AUTH_EXCEPTION;
+            return Keywords.AUTH_EXCEPTION + e.getMessage();
         }catch (DBException e) {
             logger.error(e.getMessage(), e);
             return Keywords.EVENT_SUB_EXCEPTION + e.getMessage();
@@ -282,7 +282,7 @@ public class EventController extends Controller {
             return e.getMessage();
         } catch (NotAuthorizedException e) {
             logger.error(e.getMessage(), e);
-            return Keywords.AUTH_EXCEPTION;
+            return Keywords.AUTH_EXCEPTION + e.getMessage();
         }catch (DBException e) {
             logger.error(e.getMessage(), e);
             return Keywords.EVENT_UNSUB_EXCEPTION + e.getMessage();

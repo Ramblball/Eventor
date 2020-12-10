@@ -6,16 +6,25 @@ import org.telegram.telegrambots.meta.api.objects.User;
  * Класс сообщения для обработки сообщений от пользователя
  */
 public class Message {
+    private final User user;
+    private String operation;
     private String eventId;
     private String eventName;
     private String eventTime;
     private String eventPlace;
     private String eventDescription;
     private String eventCategory;
-    private User user;
 
+    public Message(User user) {
+        this.user = user;
+    }
 
-    public Message() {
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
     }
 
     public String getEventId() {
@@ -68,9 +77,5 @@ public class Message {
 
     public User getUser() {
         return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }

@@ -59,7 +59,6 @@ public class EventQuery {
     }
 
     public void setCategory(String category) {
-        if (category.length() == 0) return;
         try {
             this.category = CATEGORY_QUERY + Integer.parseInt(category);
         } catch (NumberFormatException e) {
