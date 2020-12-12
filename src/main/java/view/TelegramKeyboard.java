@@ -30,7 +30,7 @@ public class TelegramKeyboard {
      */
     public void hideMenu() {
         clearKeyboardRows();
-        firstRow.add("Назад");
+        firstRow.add("Назад " + Emoji.BACK);
         keyboard.add(firstRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
@@ -51,10 +51,10 @@ public class TelegramKeyboard {
      */
     public void createFindMenu() {
         clearKeyboardRows();
-        firstRow.add("По имени");
-        firstRow.add("По параметрам");
-        secondRow.add("На текущей неделе");
-        thirdRow.add("Назад");
+        firstRow.add("По имени " + Emoji.SPEECH_BALLOON);
+        firstRow.add("По параметрам " + Emoji.NIB);
+        secondRow.add("На текущей неделе " + Emoji.CALENDAR);
+        thirdRow.add("Назад " + Emoji.BACK);
         keyboard.add(firstRow);
         keyboard.add(secondRow);
         keyboard.add(thirdRow);
@@ -66,14 +66,14 @@ public class TelegramKeyboard {
      */
     public void createOperationMenu() {
         clearKeyboardRows();
-        firstRow.add("Создать");
-        firstRow.add("Изменить");
-        firstRow.add("Удалить");
-        thirdRow.add("Мои подписки");
-        secondRow.add("Подписаться");
-        secondRow.add("Отписаться");
-        thirdRow.add("Созданные мероприятия");
-        fourthRow.add("Назад");
+        firstRow.add("Создать " + Emoji.PLUS);
+        firstRow.add("Изменить " + Emoji.PENCIL);
+        firstRow.add("Удалить " + Emoji.MINUS);
+        thirdRow.add("Мои подписки " + Emoji.BOOKS);
+        secondRow.add("Подписаться " + Emoji.CHECK);
+        secondRow.add("Отписаться " + Emoji.X_MARK);
+        thirdRow.add("Созданные мероприятия " + Emoji.MEMO);
+        fourthRow.add("Назад " + Emoji.BACK);
         keyboard.add(firstRow);
         keyboard.add(secondRow);
         keyboard.add(thirdRow);
@@ -86,9 +86,9 @@ public class TelegramKeyboard {
      */
     public void createMainMenu() {
         clearKeyboardRows();
-        firstRow.add("Помощь");
-        secondRow.add("Управление подписками");
-        secondRow.add("Поиск");
+        firstRow.add("Помощь " + Emoji.INFO);
+        secondRow.add("Управление подписками " + Emoji.WRENCH);
+        secondRow.add("Поиск " + Emoji.MAGNIFYING_GLASS);
         keyboard.add(firstRow);
         keyboard.add(secondRow);
         replyKeyboardMarkup.setKeyboard(keyboard);

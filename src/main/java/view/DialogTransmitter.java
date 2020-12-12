@@ -46,15 +46,27 @@ public class DialogTransmitter {
             case "Мои подписки":
             case "Созданные мероприятия":
             case "Помощь":
+            case "Помощь " + Emoji.INFO:
+            case "Мои подписки " + Emoji.MEMO:
+            case "Созданные мероприятия " + Emoji.BOOKS:
+            case Emoji.INFO:
+            case Emoji.BOOKS:
+            case Emoji.MEMO:
                 telegramKeyboard.createMainMenu();
                 return commandMap.get(received).execute(message);
             case "Назад":
+            case "Назад " + Emoji.BACK:
+            case Emoji.BACK:
                 telegramKeyboard.createMainMenu();
                 return "Выберите пункт меню";
             case "Управление подписками":
+            case "Управление подписками " + Emoji.WRENCH:
+            case Emoji.WRENCH:
                 telegramKeyboard.createOperationMenu();
                 return "Что вы хотите сделать?";
             case "Поиск":
+            case Emoji.MAGNIFYING_GLASS:
+            case "Поиск " + Emoji.MAGNIFYING_GLASS:
                 telegramKeyboard.createFindMenu();
                 return "Как вы хотите искать?";
             case "Создать":
@@ -62,17 +74,33 @@ public class DialogTransmitter {
             case "Удалить":
             case "Подписаться":
             case "Отписаться":
+            case "Создать " + Emoji.PLUS:
+            case "Изменить " + Emoji.PENCIL:
+            case "Удалить " + Emoji.MINUS:
+            case "Подписаться " + Emoji.CHECK:
+            case "Отписаться " + Emoji.X_MARK:
+            case Emoji.PLUS:
+            case Emoji.MINUS:
+            case Emoji.PENCIL:
+            case Emoji.X_MARK:
+            case Emoji.CHECK:
                 telegramKeyboard.hideMenu();
                 message.setOperation(received);
                 userState.setProgress(user, new Progress(message, 0));
                 return "Введите название мероприятия";
             case "По имени":
             case "По параметрам":
+            case "По имени " + Emoji.SPEECH_BALLOON:
+            case "По параметрам " + Emoji.NIB:
+            case Emoji.SPEECH_BALLOON:
+            case Emoji.NIB:
                 telegramKeyboard.hideMenu();
                 message.setOperation(received);
                 userState.setProgress(user, new Progress(message, 0));
                 return "Введите имя искомого мероприятия";
             case "На текущей неделе":
+            case "На текущей неделе " + Emoji.CALENDAR:
+            case Emoji.CALENDAR:
                 telegramKeyboard.createFindMenu();
                 return commandMap.get(received).execute(message);
             default:
@@ -83,6 +111,10 @@ public class DialogTransmitter {
                 switch (userState.getProgress(user).getMessage().getOperation()) {
                     case "Создать":
                     case "Изменить":
+                    case "Изменить " + Emoji.PENCIL:
+                    case "Создать " + Emoji.PLUS:
+                    case Emoji.PLUS:
+                    case Emoji.PENCIL:
                         if (userState.getProgress(user).getIndex() == 0) {
                             message.setEventName(received);
                             userState.setProgress(user, new Progress(message, 1));
@@ -105,10 +137,14 @@ public class DialogTransmitter {
                             return commandMap.get(message.getOperation()).execute(message);
                         }
                     case "По имени":
+                    case "По имени " + Emoji.SPEECH_BALLOON:
+                    case Emoji.SPEECH_BALLOON:
                         message.setEventName(received);
                         telegramKeyboard.createFindMenu();
                         return commandMap.get(message.getOperation()).execute(message);
                     case "По параметрам":
+                    case "По параметрам " + Emoji.NIB:
+                    case Emoji.NIB:
                         if (userState.getProgress(user).getIndex() == 0) {
                             message.setEventName(received);
                             userState.setProgress(user, new Progress(message, 1));
@@ -133,6 +169,12 @@ public class DialogTransmitter {
                     case "Удалить":
                     case "Подписаться":
                     case "Отписаться":
+                    case "Удалить " + Emoji.MINUS:
+                    case "Подписаться " + Emoji.CHECK:
+                    case "Отписаться " + Emoji.X_MARK:
+                    case Emoji.MINUS:
+                    case Emoji.CHECK:
+                    case Emoji.X_MARK:
                         telegramKeyboard.createOperationMenu();
                         return commandMap.get(message.getOperation()).execute(message);
                     default:
@@ -156,6 +198,30 @@ public class DialogTransmitter {
         commandMap.put("По имени", new EventFindCommand());
         commandMap.put("По параметрам", new EventParametersFindCommand());
         commandMap.put("На текущей неделе", new EventWeekFindCommand());
+
+        commandMap.put("Создать " + Emoji.PLUS, new CreateEventCommand());
+        commandMap.put("Помощь " + Emoji.INFO, new HelpCommand());
+        commandMap.put("Удалить " + Emoji.MINUS, new RemoveEventCommand());
+        commandMap.put("Изменить " + Emoji.PENCIL, new UpdateEventCommand());
+        commandMap.put("Подписаться " + Emoji.CHECK, new SubscribeCommand());
+        commandMap.put("Отписаться " + Emoji.X_MARK, new UnsubscribeCommand());
+        commandMap.put("Мои подписки " + Emoji.BOOKS, new SubscribesGetCommand());
+        commandMap.put("Созданные мероприятия " + Emoji.MEMO, new OwnEventsGetCommand());
+        commandMap.put("По имени " + Emoji.SPEECH_BALLOON, new EventFindCommand());
+        commandMap.put("По параметрам " + Emoji.NIB, new EventParametersFindCommand());
+        commandMap.put("На текущей неделе " + Emoji.CALENDAR, new EventWeekFindCommand());
+
+        commandMap.put(Emoji.PLUS, new CreateEventCommand());
+        commandMap.put(Emoji.INFO, new HelpCommand());
+        commandMap.put(Emoji.MINUS, new RemoveEventCommand());
+        commandMap.put(Emoji.PENCIL, new UpdateEventCommand());
+        commandMap.put(Emoji.CHECK, new SubscribeCommand());
+        commandMap.put(Emoji.X_MARK, new UnsubscribeCommand());
+        commandMap.put(Emoji.BOOKS, new SubscribesGetCommand());
+        commandMap.put(Emoji.MEMO, new OwnEventsGetCommand());
+        commandMap.put(Emoji.SPEECH_BALLOON, new EventFindCommand());
+        commandMap.put(Emoji.NIB, new EventParametersFindCommand());
+        commandMap.put(Emoji.CALENDAR, new EventWeekFindCommand());
     }
 
     public ReplyKeyboardMarkup getReplyKeyboardMarkup() {
