@@ -128,6 +128,7 @@ public class Event {
         joiner.add(getId().toString());
         joiner.add(getName());
         joiner.add(getPlace());
+        joiner.add("<a href=\"tg://user?id=" + getUserId() + "\">Создатель мероприятия</a>");
         joiner.add(getTime().toLocalDate().toString()+ " " +
                 getTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
         joiner.add(getDescription());
