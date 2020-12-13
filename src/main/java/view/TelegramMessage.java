@@ -5,7 +5,7 @@ import org.telegram.telegrambots.meta.api.objects.User;
 /**
  * Класс сообщения для обработки сообщений от пользователя
  */
-public class Message {
+public class TelegramMessage {
     private final User user;
     private String operation;
     private String eventId;
@@ -15,7 +15,7 @@ public class Message {
     private String eventDescription;
     private String eventCategory;
 
-    public Message(User user) {
+    public TelegramMessage(User user) {
         this.user = user;
     }
 

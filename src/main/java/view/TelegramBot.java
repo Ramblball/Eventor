@@ -3,6 +3,7 @@ package view;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.awt.*;
@@ -17,6 +18,7 @@ import java.lang.reflect.InvocationTargetException;
 public class TelegramBot extends TelegramLongPollingBot {
     private final static String botName = "eventor_oop_bot";
     private final DialogTransmitter dialogTransmitter = new DialogTransmitter();
+    public static ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
 
 
     /**
@@ -54,8 +56,8 @@ public class TelegramBot extends TelegramLongPollingBot {
             new Thread(() -> {
                 synchronized (update.getMessage().getFrom()) {
                     SendMessage message = new SendMessage().setChatId(update.getMessage().getChatId())
-                            .setText(dialogTransmitter.getMessage(update.getMessage().getFrom(), update.getMessage().getText(), update.getMessage().getEntities()));
-                    message.setReplyMarkup(dialogTransmitter.getReplyKeyboardMarkup());
+                            .setText(dialogTransmitter.getMessage(update.getMessage()));
+                    message.setReplyMarkup(replyKeyboardMarkup);
                     sendResponse(message);
                 }
             }).start();

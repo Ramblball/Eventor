@@ -1,14 +1,13 @@
 package view.commands;
 
-import controller.UserController;
-import view.Message;
+import view.TelegramMessage;
 
 /**
  * Команда сохранения информаии о пользователе
  */
 public class UserCreateCommand extends Command {
     @Override
-    public String execute(Message message) {
-        return userController.create(message.getUser());
+    public String execute(TelegramMessage telegramMessage) {
+        return userController.create(telegramMessage.getUser());
     }
 }

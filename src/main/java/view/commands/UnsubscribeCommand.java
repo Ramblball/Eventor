@@ -1,7 +1,6 @@
 package view.commands;
 
-import controller.EventController;
-import view.Message;
+import view.TelegramMessage;
 
 /**
  * Команда отписки от мероприятия
@@ -9,7 +8,7 @@ import view.Message;
 public class UnsubscribeCommand extends Command {
 
     @Override
-    public String execute(Message message) {
-        return eventController.signOut(message.getUser().getId(), message.getEventId());
+    public String execute(TelegramMessage telegramMessage) {
+        return eventController.signOut(telegramMessage.getUser().getId(), telegramMessage.getEventId());
     }
 }

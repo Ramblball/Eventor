@@ -1,7 +1,6 @@
 package view.commands;
 
-import controller.EventController;
-import view.Message;
+import view.TelegramMessage;
 
 /**
  * Команда подписки на мероприятие
@@ -9,7 +8,7 @@ import view.Message;
 public class SubscribeCommand extends Command {
 
     @Override
-    public String execute(Message message) {
-        return eventController.signIn(message.getUser().getId(), message.getEventId());
+    public String execute(TelegramMessage telegramMessage) {
+        return eventController.signIn(telegramMessage.getUser().getId(), telegramMessage.getEventId());
     }
 }

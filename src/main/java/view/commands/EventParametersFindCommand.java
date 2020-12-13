@@ -1,20 +1,19 @@
 package view.commands;
 
-import controller.EventController;
 import database.utils.EventQuery;
-import view.Message;
+import view.TelegramMessage;
 
 /**
  * Команда создания мероприятия с критериями
  */
 public class EventParametersFindCommand extends Command {
     @Override
-    public String execute(Message message) {
+    public String execute(TelegramMessage telegramMessage) {
         var eventQuery = new EventQuery();
-        eventQuery.setName(message.getEventName());
-        eventQuery.setDescription(message.getEventDescription());
-        eventQuery.setTime(message.getEventTime());
-        eventQuery.setPlace(message.getEventPlace());
+        eventQuery.setName(telegramMessage.getEventName());
+        eventQuery.setDescription(telegramMessage.getEventDescription());
+        eventQuery.setTime(telegramMessage.getEventTime());
+        eventQuery.setPlace(telegramMessage.getEventPlace());
         return eventController.findWithFilter(eventQuery);
     }
 }

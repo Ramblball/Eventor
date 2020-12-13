@@ -1,6 +1,6 @@
 package view.commands;
 
-import view.Message;
+import view.TelegramMessage;
 
 /**
  * Команда поиска мероприятий за текущую неделю
@@ -8,7 +8,7 @@ import view.Message;
 public class EventWeekFindCommand extends Command{
 
     @Override
-    public String execute(Message message) {
+    public String execute(TelegramMessage telegramMessage) {
         return eventController.findForTheCurrentWeek();
     }
 }

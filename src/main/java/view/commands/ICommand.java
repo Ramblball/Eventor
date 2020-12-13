@@ -1,7 +1,7 @@
 package view.commands;
 
-import view.Message;
+import view.TelegramMessage;
 
 public interface ICommand {
-    String execute(Message message);
+    String execute(TelegramMessage telegramMessage);
 }

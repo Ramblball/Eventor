@@ -1,7 +1,6 @@
 package view.commands;
 
-import controller.EventController;
-import view.Message;
+import view.TelegramMessage;
 
 /**
  * Команда создания мероприятия
@@ -9,7 +8,7 @@ import view.Message;
 public class CreateEventCommand extends Command {
 
     @Override
-    public String execute(Message message) {
-        return eventController.create(message.getUser().getId(), message.getEventName(), message.getEventTime(), message.getEventPlace(), message.getEventDescription());
+    public String execute(TelegramMessage telegramMessage) {
+        return eventController.create(telegramMessage.getUser().getId(), telegramMessage.getEventName(), telegramMessage.getEventTime(), telegramMessage.getEventPlace(), telegramMessage.getEventDescription());
     }
 }

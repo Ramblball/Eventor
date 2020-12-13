@@ -1,7 +1,6 @@
 package view.commands;
 
-import controller.EventController;
-import view.Message;
+import view.TelegramMessage;
 
 /**
  * Команда обновления мероприятия
@@ -9,8 +8,8 @@ import view.Message;
 public class UpdateEventCommand extends Command {
 
     @Override
-    public String execute(Message message) {
-        return eventController.update(message.getUser().getId(), message.getEventName(),
-                message.getEventTime(), message.getEventPlace(), message.getEventDescription());
+    public String execute(TelegramMessage telegramMessage) {
+        return eventController.update(telegramMessage.getUser().getId(), telegramMessage.getEventName(),
+                telegramMessage.getEventTime(), telegramMessage.getEventPlace(), telegramMessage.getEventDescription());
     }
 }

@@ -19,7 +19,7 @@ public class TelegramKeyboard {
     /**
      * Задание параметров для клавиатуры
      */
-    TelegramKeyboard(){
+    public TelegramKeyboard(){
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
