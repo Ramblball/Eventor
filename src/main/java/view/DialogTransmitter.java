@@ -29,7 +29,7 @@ public class DialogTransmitter {
         answerHashMap.put("По параметрам", new FindAnswer());
         answerHashMap.put("На текущей неделе ", new FindWeekAnswer());
 
-        answerHashMap.put("Мои подписки " + Emoji.INFO, new MainMenuAnswer());
+        answerHashMap.put("Мои подписки " + Emoji.BOOKS, new MainMenuAnswer());
         answerHashMap.put("Созданные мероприятия " + Emoji.MEMO, new MainMenuAnswer());
         answerHashMap.put("Помощь " + Emoji.INFO, new MainMenuAnswer());
         answerHashMap.put("Назад " + Emoji.BACK, new ReturnBackAnswer());
@@ -43,12 +43,27 @@ public class DialogTransmitter {
         answerHashMap.put("По имени " + Emoji.SPEECH_BALLOON, new FindAnswer());
         answerHashMap.put("По параметрам " + Emoji.NIB, new FindAnswer());
         answerHashMap.put("На текущей неделе " + Emoji.CALENDAR, new FindWeekAnswer());
+
+        answerHashMap.put(Emoji.BOOKS, new MainMenuAnswer());
+        answerHashMap.put(Emoji.MEMO, new MainMenuAnswer());
+        answerHashMap.put(Emoji.INFO, new MainMenuAnswer());
+        answerHashMap.put(Emoji.BACK, new ReturnBackAnswer());
+        answerHashMap.put(Emoji.WRENCH, new OperationMenuAnswer());
+        answerHashMap.put(Emoji.MAGNIFYING_GLASS, new FindMenuAnswer());
+        answerHashMap.put(Emoji.PLUS, new OperationAnswer());
+        answerHashMap.put(Emoji.PENCIL, new OperationAnswer());
+        answerHashMap.put(Emoji.MINUS, new OperationAnswer());
+        answerHashMap.put(Emoji.CHECK, new OperationAnswer());
+        answerHashMap.put(Emoji.X_MARK, new OperationAnswer());
+        answerHashMap.put(Emoji.SPEECH_BALLOON, new FindAnswer());
+        answerHashMap.put(Emoji.NIB, new FindAnswer());
+        answerHashMap.put(Emoji.CALENDAR, new FindWeekAnswer());
     }
 
     /**Скрывает, открывает диалоги, сохраняет прогресс диалога
      * @return ответ пользователю
      */
     public String getMessage(Message message) {
-        return answerHashMap.get(message.getText()).send(message);
+        return answerHashMap.getOrDefault(message.getText(), new DefaultAnswer()).send(message);
     }
 }

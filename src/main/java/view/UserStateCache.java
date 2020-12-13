@@ -17,5 +17,9 @@ public class UserStateCache {
     public static void setProgress(User user, Progress progress) {
         map.put(user, progress);
     }
+
+    public static void setProgress(User user, Progress progress, int count) {
+        map.put(user, new Progress(progress.getMessage(), count));
+    }
 }
 
