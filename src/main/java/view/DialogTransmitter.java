@@ -123,7 +123,7 @@ public class DialogTransmitter {
                             return "Введите время мероприятия в формате " + Keywords.DATE_TIME_FORMAT;
                         }
                         if (userState.getProgress(user).getIndex() == 1) {
-                            message.setEventTime(applyFormatting(received, entities));
+                            message.setEventTime(received);
                             userState.setProgress(user, new Progress(message, 2));
                             return "Введите место мероприятия";
                         }
@@ -153,7 +153,7 @@ public class DialogTransmitter {
                             return "Введите время мероприятия в формате " + QueryLiterals.DATE_PATTERN;
                         }
                         if (userState.getProgress(user).getIndex() == 1) {
-                            message.setEventTime(applyFormatting(received, entities));
+                            message.setEventTime(received);
                             userState.setProgress(user, new Progress(message, 2));
                             return "Введите место мероприятия";
                         }
@@ -178,6 +178,7 @@ public class DialogTransmitter {
                     case Emoji.CHECK:
                     case Emoji.X_MARK:
                         telegramKeyboard.createOperationMenu();
+                        message.setEventName(applyFormatting(received, entities));
                         return commandMap.get(message.getOperation()).execute(message);
                     default:
                         telegramKeyboard.createMainMenu();
