@@ -54,7 +54,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             new Thread(() -> {
                 synchronized (update.getMessage().getFrom()) {
                     SendMessage message = new SendMessage().setChatId(update.getMessage().getChatId())
-                            .setText(dialogTransmitter.getMessage(update.getMessage().getFrom(), update.getMessage().getText()));
+                            .setText(dialogTransmitter.getMessage(update.getMessage().getFrom(), update.getMessage().getText(), update.getMessage().getEntities()));
                     message.setReplyMarkup(dialogTransmitter.getReplyKeyboardMarkup());
                     sendResponse(message);
                 }
