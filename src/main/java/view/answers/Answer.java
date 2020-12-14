@@ -9,6 +9,9 @@ import view.UserStateCache;
 
 import java.util.List;
 
+/**
+ * Общий класс, описывающий логику ответа
+ */
 public abstract class Answer implements IAnswer {
     protected TelegramKeyboard telegramKeyboard = new TelegramKeyboard();
     protected TelegramMessage telegramMessage;
@@ -16,6 +19,11 @@ public abstract class Answer implements IAnswer {
 
     public abstract String send(Message message);
 
+    /**
+     * Проверяет существование пользователя в кэше
+     * @param message сообщение из клиента телеграма
+     * @return обработанное сообщение типа TelegramMessage
+     */
     public TelegramMessage checkProgress(Message message){
         var user = message.getFrom();
         if (UserStateCache.getProgress(user) != null) {
@@ -26,6 +34,12 @@ public abstract class Answer implements IAnswer {
         return telegramMessage;
     }
 
+    /**
+     * Применяет форматирование для сохраняемых данных
+     * @param text текст, который нужно отформатировать
+     * @param entities сущности, хранящие информацию о форматировании
+     * @return отформатированный текст
+     */
     public String applyFormatting(String text, List<MessageEntity> entities){
         if (entities.isEmpty())
             return text;

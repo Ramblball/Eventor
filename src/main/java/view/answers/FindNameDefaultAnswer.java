@@ -3,6 +3,9 @@ package view.answers;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import view.UserStateCache;
 
+/**
+ * Класс, отвечающий на параметры для поиска
+ */
 public class FindNameDefaultAnswer extends Answer{
     @Override
     public String send(Message message) {

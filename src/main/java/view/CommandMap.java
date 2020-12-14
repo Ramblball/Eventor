@@ -4,6 +4,9 @@ import view.commands.*;
 
 import java.util.HashMap;
 
+/**
+ * Класс, который содержит
+ */
 public class CommandMap {
     private final HashMap<String, Command> commandMap = new HashMap<>();
 

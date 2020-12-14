@@ -6,7 +6,7 @@ import view.TelegramBot;
 public class FindWeekAnswer extends Answer{
     @Override
     public String send(Message message) {
-        telegramMessage = super.checkProgress(message);
+        telegramMessage = checkProgress(message);
         var received = message.getText();
         telegramKeyboard.createFindMenu();
         TelegramBot.replyKeyboardMarkup = telegramKeyboard.getReplyKeyboardMarkup();

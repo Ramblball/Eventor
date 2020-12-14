@@ -2,12 +2,12 @@ package view.answers;
 
 import controller.Keywords;
 import org.telegram.telegrambots.meta.api.objects.Message;
-import view.Progress;
-import view.TelegramMessage;
 import view.UserStateCache;
 
+/**
+ * Класс для ответа на создание, изменение и поиск по параметрам
+ */
 public class CreateEditFindParametersDefaultAnswer extends Answer {
-    //TODO: Если не заработает, то перенеси telegramMessage в кэш
     @Override
     public String send(Message message) {
         var user = message.getFrom();

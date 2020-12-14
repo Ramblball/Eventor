@@ -1,8 +1,10 @@
 package view.answers;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
-import view.TelegramKeyboard;
 
+/**
+ * Интерфейс, описывающий поведение ответа
+ */
 public interface IAnswer {
-    public String send(Message message);
+    String send(Message message);
 }

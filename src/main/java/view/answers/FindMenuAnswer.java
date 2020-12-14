@@ -2,8 +2,10 @@ package view.answers;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
 import view.TelegramBot;
-import view.TelegramKeyboard;
 
+/**
+ * Класс, отвечающий на поиск
+ */
 public class FindMenuAnswer extends Answer{
 
     @Override

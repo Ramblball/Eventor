@@ -6,6 +6,9 @@ import view.UserStateCache;
 
 import java.util.HashMap;
 
+/**
+ * Класс, который отвечает на запросы, не содержащихся в CommandMap
+ */
 public class DefaultAnswer extends Answer{
     private final HashMap<String, Answer> defaultAnswerHashMap = new HashMap<>();
 

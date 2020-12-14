@@ -5,10 +5,10 @@ import view.Progress;
 import view.TelegramBot;
 import view.UserStateCache;
 
-public class OperationAnswer extends Answer{
+public class OperationFindAnswer extends Answer{
     @Override
     public String send(Message message) {
-        telegramMessage = super.checkProgress(message);
+        telegramMessage = checkProgress(message);
         var received = message.getText();
         var user = message.getFrom();
         telegramKeyboard.hideMenu();

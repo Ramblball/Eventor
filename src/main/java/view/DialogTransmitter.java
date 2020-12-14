@@ -20,13 +20,13 @@ public class DialogTransmitter {
         answerHashMap.put("Назад", new ReturnBackAnswer());
         answerHashMap.put("Управление подписками", new OperationMenuAnswer());
         answerHashMap.put("Поиск", new FindMenuAnswer());
-        answerHashMap.put("Создать", new OperationAnswer());
-        answerHashMap.put("Изменить", new OperationAnswer());
-        answerHashMap.put("Удалить", new OperationAnswer());
-        answerHashMap.put("Подписаться", new OperationAnswer());
-        answerHashMap.put("Отписаться", new OperationAnswer());
-        answerHashMap.put("По имени", new FindAnswer());
-        answerHashMap.put("По параметрам", new FindAnswer());
+        answerHashMap.put("Создать", new OperationFindAnswer());
+        answerHashMap.put("Изменить", new OperationFindAnswer());
+        answerHashMap.put("Удалить", new OperationFindAnswer());
+        answerHashMap.put("Подписаться", new OperationFindAnswer());
+        answerHashMap.put("Отписаться", new OperationFindAnswer());
+        answerHashMap.put("По имени", new OperationFindAnswer());
+        answerHashMap.put("По параметрам", new OperationFindAnswer());
         answerHashMap.put("На текущей неделе ", new FindWeekAnswer());
 
         answerHashMap.put("Мои подписки " + Emoji.BOOKS, new MainMenuAnswer());
@@ -35,13 +35,13 @@ public class DialogTransmitter {
         answerHashMap.put("Назад " + Emoji.BACK, new ReturnBackAnswer());
         answerHashMap.put("Управление подписками " + Emoji.WRENCH, new OperationMenuAnswer());
         answerHashMap.put("Поиск " + Emoji.MAGNIFYING_GLASS, new FindMenuAnswer());
-        answerHashMap.put("Создать " + Emoji.PLUS, new OperationAnswer());
-        answerHashMap.put("Изменить " + Emoji.PENCIL, new OperationAnswer());
-        answerHashMap.put("Удалить " + Emoji.MINUS, new OperationAnswer());
-        answerHashMap.put("Подписаться " + Emoji.CHECK, new OperationAnswer());
-        answerHashMap.put("Отписаться " + Emoji.X_MARK, new OperationAnswer());
-        answerHashMap.put("По имени " + Emoji.SPEECH_BALLOON, new FindAnswer());
-        answerHashMap.put("По параметрам " + Emoji.NIB, new FindAnswer());
+        answerHashMap.put("Создать " + Emoji.PLUS, new OperationFindAnswer());
+        answerHashMap.put("Изменить " + Emoji.PENCIL, new OperationFindAnswer());
+        answerHashMap.put("Удалить " + Emoji.MINUS, new OperationFindAnswer());
+        answerHashMap.put("Подписаться " + Emoji.CHECK, new OperationFindAnswer());
+        answerHashMap.put("Отписаться " + Emoji.X_MARK, new OperationFindAnswer());
+        answerHashMap.put("По имени " + Emoji.SPEECH_BALLOON, new OperationFindAnswer());
+        answerHashMap.put("По параметрам " + Emoji.NIB, new OperationFindAnswer());
         answerHashMap.put("На текущей неделе " + Emoji.CALENDAR, new FindWeekAnswer());
 
         answerHashMap.put(Emoji.BOOKS, new MainMenuAnswer());
@@ -50,18 +50,19 @@ public class DialogTransmitter {
         answerHashMap.put(Emoji.BACK, new ReturnBackAnswer());
         answerHashMap.put(Emoji.WRENCH, new OperationMenuAnswer());
         answerHashMap.put(Emoji.MAGNIFYING_GLASS, new FindMenuAnswer());
-        answerHashMap.put(Emoji.PLUS, new OperationAnswer());
-        answerHashMap.put(Emoji.PENCIL, new OperationAnswer());
-        answerHashMap.put(Emoji.MINUS, new OperationAnswer());
-        answerHashMap.put(Emoji.CHECK, new OperationAnswer());
-        answerHashMap.put(Emoji.X_MARK, new OperationAnswer());
-        answerHashMap.put(Emoji.SPEECH_BALLOON, new FindAnswer());
-        answerHashMap.put(Emoji.NIB, new FindAnswer());
+        answerHashMap.put(Emoji.PLUS, new OperationFindAnswer());
+        answerHashMap.put(Emoji.PENCIL, new OperationFindAnswer());
+        answerHashMap.put(Emoji.MINUS, new OperationFindAnswer());
+        answerHashMap.put(Emoji.CHECK, new OperationFindAnswer());
+        answerHashMap.put(Emoji.X_MARK, new OperationFindAnswer());
+        answerHashMap.put(Emoji.SPEECH_BALLOON, new OperationFindAnswer());
+        answerHashMap.put(Emoji.NIB, new OperationFindAnswer());
         answerHashMap.put(Emoji.CALENDAR, new FindWeekAnswer());
     }
 
-    /**Скрывает, открывает диалоги, сохраняет прогресс диалога
-     * @return ответ пользователю
+    /**
+     * @param message сообщение из клиента телеграма
+     * @return ответ на сообщение из телеграма
      */
     public String getMessage(Message message) {
         return answerHashMap.getOrDefault(message.getText(), new DefaultAnswer()).send(message);
