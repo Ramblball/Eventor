@@ -1,4 +1,5 @@
 src/main/resources/hibernate.cfg.xml
+src/main/resources/log4j2.properties
 log/
 target/
 out/
@@ -9,4 +10,3 @@ out/
 *.iws
 *.txt
 *.log
-*.properties
