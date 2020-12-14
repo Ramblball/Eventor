@@ -5,9 +5,10 @@ import view.TelegramMessage;
 import view.commands.Unknown;
 
 /**
- * Класс, отвечающий на неизвестный запрос
+ * Класс для создания диалога при неизвестном запросе
  */
-public class UnknownAnswer extends Answer{
+public class UnknownAnswer extends Answer {
+
     @Override
     public String send(Message message) {
         return new Unknown().execute(new TelegramMessage(message.getFrom()));

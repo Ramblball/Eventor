@@ -5,7 +5,7 @@ import view.TelegramMessage;
 /**
  * Команда для получения мероприятий созданных пользователем
  */
-public class OwnEventsGetCommand extends Command{
+public class OwnEventsGetCommand extends Command {
 
     @Override
     public String execute(TelegramMessage telegramMessage) {

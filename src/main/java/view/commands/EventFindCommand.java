@@ -7,7 +7,6 @@ import view.TelegramMessage;
  */
 public class EventFindCommand extends Command {
 
-
     @Override
     public String execute(TelegramMessage telegramMessage) {
         return eventController.findByName(telegramMessage.getEventName());

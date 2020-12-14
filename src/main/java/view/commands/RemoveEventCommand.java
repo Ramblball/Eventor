@@ -9,6 +9,7 @@ public class RemoveEventCommand extends Command {
 
     @Override
     public String execute(TelegramMessage telegramMessage) {
-        return eventController.remove(telegramMessage.getUser().getId(), telegramMessage.getEventId());
+        return eventController
+                .remove(telegramMessage.getUser().getId(), telegramMessage.getEventName());
     }
 }

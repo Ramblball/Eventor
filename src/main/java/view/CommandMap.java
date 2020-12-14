@@ -5,12 +5,12 @@ import view.commands.*;
 import java.util.HashMap;
 
 /**
- * Класс, который содержит
+ * Класс, который содержит команды пользователя
  */
 public class CommandMap {
     private final HashMap<String, Command> commandMap = new HashMap<>();
 
-    public CommandMap(){
+    public CommandMap() {
         commandMap.put("/start", new UserCreateCommand());
         commandMap.put("Привет", new UserCreateCommand());
         commandMap.put("Создать", new CreateEventCommand());

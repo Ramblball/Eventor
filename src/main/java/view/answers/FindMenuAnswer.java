@@ -4,9 +4,9 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import view.TelegramBot;
 
 /**
- * Класс, отвечающий на поиск
+ * Класс для создания клавиатуры поиска
  */
-public class FindMenuAnswer extends Answer{
+public class FindMenuAnswer extends Answer {
 
     @Override
     public String send(Message message) {

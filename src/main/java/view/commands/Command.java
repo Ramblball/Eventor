@@ -5,7 +5,7 @@ import controller.UserController;
 import view.TelegramMessage;
 
 /**
- * Общий класс описывающий логику команд
+ * Класс описывающий общую логику команд
  */
 public abstract class Command implements ICommand {
     protected EventController eventController = new EventController();

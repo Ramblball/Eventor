@@ -9,6 +9,7 @@ public class UnsubscribeCommand extends Command {
 
     @Override
     public String execute(TelegramMessage telegramMessage) {
-        return eventController.signOut(telegramMessage.getUser().getId(), telegramMessage.getEventId());
+        return eventController
+                .signOut(telegramMessage.getUser().getId(), telegramMessage.getEventName());
     }
 }

@@ -2,6 +2,7 @@ package view.answers;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
+import org.telegram.telegrambots.meta.api.objects.User;
 import view.CommandMap;
 import view.TelegramMessage;
 import view.TelegramKeyboard;
@@ -10,7 +11,7 @@ import view.UserStateCache;
 import java.util.List;
 
 /**
- * Общий класс, описывающий логику ответа
+ * Класс описывающий общую логику диалогов
  */
 public abstract class Answer implements IAnswer {
     protected TelegramKeyboard telegramKeyboard = new TelegramKeyboard();
@@ -21,11 +22,11 @@ public abstract class Answer implements IAnswer {
 
     /**
      * Проверяет существование пользователя в кэше
-     * @param message сообщение из клиента телеграма
-     * @return обработанное сообщение типа TelegramMessage
+     * @param message   Сообщение из клиента телеграма
+     * @return          Обработанное сообщение типа TelegramMessage
      */
-    public TelegramMessage checkProgress(Message message){
-        var user = message.getFrom();
+    protected TelegramMessage checkProgress(Message message) {
+        User user = message.getFrom();
         if (UserStateCache.getProgress(user) != null) {
             telegramMessage = UserStateCache.getProgress(user).getMessage();
         } else {
@@ -36,17 +37,17 @@ public abstract class Answer implements IAnswer {
 
     /**
      * Применяет форматирование для сохраняемых данных
-     * @param text текст, который нужно отформатировать
-     * @param entities сущности, хранящие информацию о форматировании
-     * @return отформатированный текст
+     * @param text      текст, который нужно отформатировать
+     * @param entities  сущности, хранящие информацию о форматировании
+     * @return          отформатированный текст
      */
-    public String applyFormatting(String text, List<MessageEntity> entities){
+    protected String applyFormatting(String text, List<MessageEntity> entities) {
         if (entities.isEmpty())
             return text;
-        var sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         int shift = 0;
         sb.append(text);
-        for (MessageEntity entity:entities) {
+        for (MessageEntity entity : entities) {
             switch (entity.getType()) {
                 case "bold":
                     sb.insert(entity.getOffset() + shift, "<b>");
@@ -83,7 +84,7 @@ public abstract class Answer implements IAnswer {
         return sb.toString();
     }
 
-    public TelegramKeyboard getTelegramKeyboard() {
+    protected TelegramKeyboard getTelegramKeyboard() {
         return telegramKeyboard;
     }
 }

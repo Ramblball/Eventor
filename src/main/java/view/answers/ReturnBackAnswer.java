@@ -4,9 +4,10 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import view.TelegramBot;
 
 /**
- * Класс, отвечащий на возврат
+ * Класс для диалога отмены действия
  */
-public class ReturnBackAnswer extends Answer{
+public class ReturnBackAnswer extends Answer {
+
     @Override
     public String send(Message message) {
         telegramMessage = checkProgress(message);

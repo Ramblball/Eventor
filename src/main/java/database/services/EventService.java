@@ -11,6 +11,7 @@ import org.hibernate.QueryParameterException;
 import org.hibernate.exception.SQLGrammarException;
 import org.hibernate.hql.internal.ast.QuerySyntaxException;
 
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -55,6 +56,8 @@ public class EventService {
                 throw new NotFoundException(DBLiterals.EVENT_NOT_FOUND);
             }
             return event;
+        } catch (NoResultException e) {
+            throw new NotFoundException(DBLiterals.EVENT_NOT_FOUND);
         } catch (QuerySyntaxException e) {
             throw new DBException(DBLiterals.DB_EXCEPTION, e);
         }
@@ -165,7 +168,7 @@ public class EventService {
             Set<Event> createdEvents = user.getCreatedEvents();
             Set<Event> subscribes = user.getSubscribes();
             if (createdEvents.contains(event) || subscribes.contains(event)) {
-                return;
+                throw new DBException(DBLiterals.USER_CREATOR);
             }
             eventDAO.subscribe(user, event);
         } catch (PersistenceException e) {

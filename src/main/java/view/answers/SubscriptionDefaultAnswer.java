@@ -1,22 +1,29 @@
 package view.answers;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import view.UserStateCache;
+import java.util.List;
 
 /**
- * Класс, отвечающий на подписку, отписку, удаление
+ * Класс для диалога управления подпиской
  */
-public class SubscriptionDefaultAnswer extends Answer{
+public class SubscriptionDefaultAnswer extends Answer {
+
     @Override
     public String send(Message message) {
-        var received = message.getText();
-        var entities = message.getEntities();
+        String received = message.getText();
+        List<MessageEntity> entities = message.getEntities();
         telegramMessage = UserStateCache.getProgress(message.getFrom()).getMessage();
         telegramKeyboard.createOperationMenu();
-        if(entities != null)
+        if (entities != null) {
             telegramMessage.setEventName(applyFormatting(received, entities));
-        else
+        } else {
             telegramMessage.setEventName(received);
-        return commandMap.getCommandMap().get(telegramMessage.getOperation()).execute(telegramMessage);
+        }
+        return commandMap
+                .getCommandMap()
+                .get(telegramMessage.getOperation())
+                .execute(telegramMessage);
     }
 }

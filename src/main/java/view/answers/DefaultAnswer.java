@@ -2,17 +2,18 @@ package view.answers;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
 import view.Emoji;
+import view.Progress;
 import view.UserStateCache;
 
 import java.util.HashMap;
 
 /**
- * Класс, который отвечает на запросы, не содержащихся в CommandMap
+ * Класс описывающий для создания диалога работы с множеством параметров
  */
-public class DefaultAnswer extends Answer{
-    private final HashMap<String, Answer> defaultAnswerHashMap = new HashMap<>();
+public class DefaultAnswer extends Answer {
+    private static final HashMap<String, Answer> defaultAnswerHashMap = new HashMap<>();
 
-    public DefaultAnswer(){
+    static {
         defaultAnswerHashMap.put("Создать", new CreateEditFindParametersDefaultAnswer());
         defaultAnswerHashMap.put("Изменить", new CreateEditFindParametersDefaultAnswer());
         defaultAnswerHashMap.put("По параметрам", new CreateEditFindParametersDefaultAnswer());
@@ -38,10 +39,18 @@ public class DefaultAnswer extends Answer{
         defaultAnswerHashMap.put(Emoji.MINUS, new SubscriptionDefaultAnswer());
     }
 
+    public DefaultAnswer() {
+    }
+
     @Override
     public String send(Message message) {
-        var progress = UserStateCache.getProgress(message.getFrom());
-        var operation = progress.getMessage().getOperation();
-        return defaultAnswerHashMap.getOrDefault(operation, new UnknownAnswer()).send(message);
+        Progress progress = UserStateCache.getProgress(message.getFrom());
+        if (progress == null) {
+            return new UnknownAnswer().send(message);
+        }
+        String operation = progress.getMessage().getOperation();
+        return defaultAnswerHashMap
+                .getOrDefault(operation, new UnknownAnswer())
+                .send(message);
     }
 }

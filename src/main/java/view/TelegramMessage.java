@@ -8,12 +8,10 @@ import org.telegram.telegrambots.meta.api.objects.User;
 public class TelegramMessage {
     private final User user;
     private String operation;
-    private String eventId;
     private String eventName;
     private String eventTime;
     private String eventPlace;
     private String eventDescription;
-    private String eventCategory;
 
     public TelegramMessage(User user) {
         this.user = user;
@@ -25,14 +23,6 @@ public class TelegramMessage {
 
     public void setOperation(String operation) {
         this.operation = operation;
-    }
-
-    public String getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(String eventId) {
-        this.eventId = eventId;
     }
 
     public String getEventName() {
@@ -65,14 +55,6 @@ public class TelegramMessage {
 
     public void setEventDescription(String eventDescription) {
         this.eventDescription = eventDescription;
-    }
-
-    public String getEventCategory() {
-        return eventCategory;
-    }
-
-    public void setEventCategory(String eventCategory) {
-        this.eventCategory = eventCategory;
     }
 
     public User getUser() {

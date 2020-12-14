@@ -61,8 +61,9 @@ public class DialogTransmitter {
     }
 
     /**
-     * @param message сообщение из клиента телеграма
-     * @return ответ на сообщение из телеграма
+     * Скрывает, открывает диалоги, сохраняет прогресс диалога
+     * @param message   сообщение из клиента телеграма
+     * @return          ответ пользователю
      */
     public String getMessage(Message message) {
         return answerHashMap.getOrDefault(message.getText(), new DefaultAnswer()).send(message);

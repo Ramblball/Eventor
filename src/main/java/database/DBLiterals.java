@@ -76,4 +76,6 @@ public final class DBLiterals {
     public static final String USER_ALREADY_EXIST_EXCEPTION = "Пользовтеля уже создан";
     //Ошибка, мероприятие не найдено
     public static final String EVENT_NOT_FOUND = "Мероприятий не найдено";
+    //Ошибка, попытка подписаться на собственное мероприятие
+    public static final String USER_CREATOR = "Вы являетесь создаталем мероприятия";
 }

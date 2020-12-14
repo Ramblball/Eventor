@@ -4,9 +4,10 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import view.TelegramBot;
 
 /**
- * Класс, отвечающий на управление подписками
+ * Класс для создания меню управления подписками
  */
-public class OperationMenuAnswer extends Answer{
+public class OperationMenuAnswer extends Answer {
+
     @Override
     public String send(Message message) {
         telegramMessage = checkProgress(message);

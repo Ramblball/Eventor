@@ -31,7 +31,7 @@ public final class Keywords {
     //Дата и время уже прошли
     public final static String PAST_DATE = "Введенная дата уже прошла";
     //Слишком длинное место проведения
-    public final static String LONG_PLACE = "Описание мета проведения должно быть короче 128 символов";
+    public final static String LONG_PLACE = "Описание места проведения должно быть короче 128 символов";
     //Слишком длинное описание
     public final static String LONG_DESCRIPTION = "Описание должно быть короче 512 символов";
     //Внутренняя ошибка модели

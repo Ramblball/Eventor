@@ -125,8 +125,7 @@ public class Event {
     @Override
     public String toString() {
         StringJoiner joiner = new StringJoiner("\n");
-        joiner.add(getId().toString());
-        joiner.add(getName());
+        joiner.add("<b>"+getName()+"</b>");
         joiner.add(getPlace());
         joiner.add("<a href=\"tg://user?id=" + getUserId() + "\">Создатель мероприятия</a>");
         joiner.add(getTime().toLocalDate().toString()+ " " +

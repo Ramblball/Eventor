@@ -3,7 +3,7 @@ package view;
 /**
  * Класс, храняющий константы с unicode кодами для эмодзи
  */
-public class Emoji {
+public final class Emoji {
     public static final String PLUS = "\u2795";
     public static final String MINUS = "\u2796";
     public static final String PENCIL = "\u270F";

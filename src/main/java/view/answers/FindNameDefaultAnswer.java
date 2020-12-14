@@ -1,22 +1,29 @@
 package view.answers;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
+import org.telegram.telegrambots.meta.api.objects.MessageEntity;
 import view.UserStateCache;
+import java.util.List;
 
 /**
- * Класс, отвечающий на параметры для поиска
+ * Класс для посторения диалога поиска по имени
  */
-public class FindNameDefaultAnswer extends Answer{
+public class FindNameDefaultAnswer extends Answer {
+
     @Override
     public String send(Message message) {
-        var received = message.getText();
-        var entities = message.getEntities();
+        String received = message.getText();
+        List<MessageEntity> entities = message.getEntities();
         telegramMessage = UserStateCache.getProgress(message.getFrom()).getMessage();
-        if(entities != null)
+        if (entities != null) {
             telegramMessage.setEventName(applyFormatting(received, entities));
-        else
+        } else {
             telegramMessage.setEventName(received);
+        }
         telegramKeyboard.createFindMenu();
-        return commandMap.getCommandMap().get(telegramMessage.getOperation()).execute(telegramMessage);
+        return commandMap
+                .getCommandMap()
+                .get(telegramMessage.getOperation())
+                .execute(telegramMessage);
     }
 }
