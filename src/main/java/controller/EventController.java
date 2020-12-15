@@ -161,7 +161,7 @@ public class EventController extends Controller {
             return Keywords.AUTH_EXCEPTION + e.getMessage();
         }catch (DBException e) {
             logger.error(e.getMessage(), e);
-            return Keywords.EVENT_FIND_BY_EXCEPTION + e.getMessage();
+            return Keywords.EVENT_FIND_EXCEPTION + e.getMessage();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return Keywords.EXCEPTION;
@@ -183,7 +183,7 @@ public class EventController extends Controller {
             return Keywords.AUTH_EXCEPTION + e.getMessage();
         }catch (DBException e) {
             logger.error(e.getMessage(), e);
-            return Keywords.EVENT_FIND_BY_EXCEPTION + e.getMessage();
+            return Keywords.EVENT_FIND_EXCEPTION + e.getMessage();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return Keywords.EXCEPTION;
@@ -203,7 +203,7 @@ public class EventController extends Controller {
             return e.getMessage();
         }catch (DBException e) {
             logger.error(e.getMessage(), e);
-            return Keywords.EVENT_FIND_BY_EXCEPTION + e.getMessage();
+            return Keywords.EVENT_FIND_EXCEPTION + e.getMessage();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return Keywords.EXCEPTION;
@@ -242,7 +242,7 @@ public class EventController extends Controller {
             return e.getMessage();
         } catch (DBException e) {
             logger.error(e.getMessage(), e);
-            return Keywords.EVENT_FIND_BY_EXCEPTION + e.getMessage();
+            return Keywords.EVENT_FIND_EXCEPTION + e.getMessage();
         }
     }
 

@@ -23,7 +23,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     /**
      * Возрвращает имя бота
-     * @return              Имя телеграм бота
+     * @return          Имя телеграм бота
      */
     @Override
     public String getBotUsername() {
@@ -32,13 +32,13 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     /**
      * Возвращает токен бота из текстового файла
-     * @return              Токен телеграм бота для доступа
+     * @return          Токен телеграм бота для доступа
      */
     @Override
     public String getBotToken() {
-        String token = "";
+        String token;
         try {
-            var br = new BufferedReader(new FileReader("token.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("token.txt"));
             token = br.readLine();
         } catch (IOException e) {
             token = System.getenv("TOKEN");
@@ -48,7 +48,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     /**
      * Получает сообщение от пользователя и отдаёт на обработку в DialogTransmitter
-     * @param update        Сообщение от пользователя в виде Update
+     * @param update    Сообщение от пользователя в виде Update
      */
     @Override
     public void onUpdateReceived(Update update) {
@@ -68,7 +68,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     /**
      * Метод для отправки ответа пользователю
-     * @param message       Ответ
+     * @param message   Ответ
      */
     private void sendResponse(SendMessage message) {
         try {

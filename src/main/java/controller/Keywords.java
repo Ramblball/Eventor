@@ -10,7 +10,7 @@ public final class Keywords {
     //Пользователь создан
     public final static String USER_CREATED = "Добро пожаловать, '%s'";
     //Пользователь обновлен
-    public final static String USER_UPDATED = "Ваше имя обновлено на '%s'";
+    public final static String USER_UPDATED = "Ваше имя изменено на '%s'";
     //Мероприятие создано
     public final static String EVENT_CREATED = "Мероприятие '%s' создано";
     //Мероприятие обновлено
@@ -26,8 +26,6 @@ public final class Keywords {
      */
     //Слишком длинное название
     public final static String LONG_NAME = "Название должно быть короче 32 символов";
-    //Неверный формат ввода даты
-    public final static String INVALID_TIME = "Используйте формат yyyy-MM-dd HH:mm для задания времени";
     //Дата и время уже прошли
     public final static String PAST_DATE = "Введенная дата уже прошла";
     //Слишком длинное место проведения
@@ -38,12 +36,12 @@ public final class Keywords {
     public final static String EXCEPTION = "Непредвиденная ошибка...";
     //Пользователь пытается именить чужое мероприятие
     public final static String NOT_CREATED_UPDATE = "Вы не можете изменять мероприятия других пользователей";
-    //Не найдено мероприятие с введенным id
+    //Не найдено мероприятие с введенным названием
     public final static String EVENT_NOT_FOUND = "Мероприятие не найдено";
     //Список мероприятий пуст
     public final static String NO_EVENTS = "У вас нет мероприятий";
-    //пользователя нет в бд
-    public final static String USER_NOT_FOUND_EXCEPTION = "Пользователь не найден";
+    //Пользователя нет в базе данных
+    public final static String USER_NOT_FOUND_EXCEPTION = "Пользователь не найден:\n";
     //Ошибка валидации
     public final static String VALIDATION_EXCEPTION = "Ошибка в введеных данных:\n";
     //Ошибка создания пользователя
@@ -58,8 +56,6 @@ public final class Keywords {
     public final static String EVENT_UPDATE_EXCEPTION = "Не удалось обновить мероприятие:\n";
     //Ошибка удаления меропрития
     public final static String EVENT_REMOVE_EXCEPTION = "Не удалось удалить мероприятие:\n";
-    //Ошибка поиска меропритий
-    public final static String EVENT_FIND_BY_EXCEPTION = "Не удалось найти ваши мероприятия:\n";
     //Ошибка поиска меропрития
     public final static String EVENT_FIND_EXCEPTION = "Не удалось найти ваши мероприятия:\n";
     //Ошибка подписки на меропритие

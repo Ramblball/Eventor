@@ -94,9 +94,6 @@ public class TelegramKeyboard {
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
-    /**
-     * @return разметка клавиатуры
-     */
     public ReplyKeyboardMarkup getReplyKeyboardMarkup() {
         return replyKeyboardMarkup;
     }
