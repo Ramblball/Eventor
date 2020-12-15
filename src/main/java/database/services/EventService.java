@@ -167,8 +167,11 @@ public class EventService {
         try {
             Set<Event> createdEvents = user.getCreatedEvents();
             Set<Event> subscribes = user.getSubscribes();
-            if (createdEvents.contains(event) || subscribes.contains(event)) {
+            if (createdEvents.contains(event)) {
                 throw new DBException(DBLiterals.USER_CREATOR);
+            }
+            if (subscribes.contains(event)) {
+                throw new DBException(DBLiterals.USER_SUBSCRIBER);
             }
             eventDAO.subscribe(user, event);
         } catch (PersistenceException e) {
