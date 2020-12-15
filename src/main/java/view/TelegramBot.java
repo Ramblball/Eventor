@@ -41,7 +41,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             var br = new BufferedReader(new FileReader("token.txt"));
             token = br.readLine();
         } catch (IOException e) {
-            e.printStackTrace();
+            token = System.getenv("TOKEN");
         }
         return token;
     }
