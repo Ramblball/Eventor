@@ -7,6 +7,8 @@ import database.exception.NotFoundException;
 import database.model.Event;
 import database.model.User;
 import database.utils.EventQuery;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.QueryParameterException;
 import org.hibernate.exception.SQLGrammarException;
 import org.hibernate.hql.internal.ast.QuerySyntaxException;
@@ -22,25 +24,6 @@ import java.util.Set;
  */
 public class EventService {
     private static final EventDAOImpl eventDAO = new EventDAOImpl();
-
-    /**
-     * Метод для получения мероприятия по уникальному идентификатору
-     * @param id                    Уникальный идентификатор мероприятия
-     * @return                      Найденное мероприятие
-     * @throws NotFoundException    Мероприятий не найдено
-     * @throws QuerySyntaxException Ошибка синтаксиса запроса
-     */
-    public Event findById(int id) throws NotFoundException, DBException {
-        try {
-            Event event = eventDAO.findById(id);
-            if (event == null) {
-                throw new NotFoundException(DBLiterals.EVENT_NOT_FOUND);
-            }
-            return event;
-        } catch (QuerySyntaxException e) {
-            throw new DBException(DBLiterals.DB_EXCEPTION, e);
-        }
-    }
 
     /**
      * Метод для получения мероприятия по названию

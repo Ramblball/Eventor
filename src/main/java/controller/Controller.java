@@ -7,7 +7,7 @@ import database.services.EventService;
 import database.services.UserService;
 
 /**
- * Общий класс слоев взаимодействия представления и модели приложения
+ * Класс, описывающий общую логику взаимодействия представления и модели приложения
  */
 public abstract class Controller {
     protected static final Validator validator = new Validator();

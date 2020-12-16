@@ -11,14 +11,13 @@ import org.apache.logging.log4j.LogManager;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.*;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.*;
 
 /**
- * Обеспечение взаимодействия пользователя с мероприятиями
+ * Класс для взаимодействия пользователя с мероприятиями
  */
 public class EventController extends Controller {
     private static final Logger logger = LogManager.getLogger(EventController.class);
@@ -75,7 +74,7 @@ public class EventController extends Controller {
     }
 
     /**
-     * Метод для обновления сущствующего мероприятия
+     * Метод для обновления существующего мероприятия
      * @param id            Уникальный идентификатор создателя
      * @param name          Название мероприятия
      * @param time          Время начала мероприятия
@@ -119,7 +118,7 @@ public class EventController extends Controller {
 
     /**
      * Метод для удаления мероприятия
-     * @param userId        уникальный идентификатор создателя
+     * @param userId        Уникальный идентификатор создателя
      * @param name          Название удаляемого мероприятия
      * @return              Результат удаления
      */
@@ -251,24 +250,6 @@ public class EventController extends Controller {
     }
 
     /**
-     * Метод для подписки или отписки от мероприятия
-     * @param id            Уникальный идентификатор пользователя
-     * @param name          Название мероприятия
-     * @param f             Подписаться - true
-     *                      Отписаться - false
-     */
-    public void subscribeManager(Integer id, String name, boolean f)
-            throws NotFoundException, NotAuthorizedException, DBException {
-        User currentUser = getCurrentUser(id);
-        Event event = eventService.findByName(name);
-        if (f) {
-            eventService.subscribe(currentUser, event);
-        } else {
-            eventService.unsubscribe(currentUser, event);
-        }
-    }
-
-    /**
      * Метод для подписки пользователя на мероприятие
      * @param id            Уникальный идентификатор пользователя
      * @param name          Название мероприятия
@@ -276,7 +257,9 @@ public class EventController extends Controller {
      */
     public String signIn(Integer id, String name) {
         try {
-            subscribeManager(id, name, true);
+            User currentUser = getCurrentUser(id);
+            Event event = eventService.findByName(name);
+            eventService.subscribe(currentUser, event);
             return Keywords.EVENT_SIGNED;
         } catch (NotFoundException e) {
             return e.getMessage();
@@ -294,13 +277,15 @@ public class EventController extends Controller {
 
     /**
      * Метод для отписки пользователя от мероприятия
-     * @param id            Id создателя
+     * @param id            Уникальный идентификатор создателя
      * @param name          Название мероприятия
      * @return              Результат отписки
      */
     public String signOut(Integer id, String name) {
         try {
-            subscribeManager(id, name, false);
+            User currentUser = getCurrentUser(id);
+            Event event = eventService.findByName(name);
+            eventService.unsubscribe(currentUser, event);
             return Keywords.EVENT_UNSIGNED;
         } catch (NotFoundException e) {
             return e.getMessage();

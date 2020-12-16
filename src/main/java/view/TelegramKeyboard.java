@@ -26,7 +26,7 @@ public class TelegramKeyboard {
     }
 
     /**
-     * Скрытие меню, установка кнопки возврата
+     * Метод для создания меню, и установки кнопки возврата
      */
     public void hideMenu() {
         clearKeyboardRows();
@@ -36,7 +36,7 @@ public class TelegramKeyboard {
     }
 
     /**
-     * Очистка клавиатуры
+     * Метод для отчистки клавиатуры
      */
     public void clearKeyboardRows() {
         keyboard.clear();
@@ -47,7 +47,7 @@ public class TelegramKeyboard {
     }
 
     /**
-     * Создание кнопок поиска
+     * Метод для создания кнопок поиска
      */
     public void createFindMenu() {
         clearKeyboardRows();
@@ -62,7 +62,7 @@ public class TelegramKeyboard {
     }
 
     /**
-     * Создание кнопок основных действий
+     * Метод для создания кнопок основных действий
      */
     public void createOperationMenu() {
         clearKeyboardRows();
@@ -82,7 +82,7 @@ public class TelegramKeyboard {
     }
 
     /**
-     * Создание кнопок с разделами
+     * Метод для создания кнопок с разделами
      */
     public void createMainMenu() {
         clearKeyboardRows();

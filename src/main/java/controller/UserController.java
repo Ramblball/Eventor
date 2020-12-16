@@ -7,7 +7,7 @@ import controller.exception.NotAuthorizedException;
 import database.exception.DBException;
 
 /**
- * Обеспечение взаимодействия пользователя с его моделью
+ * Класс для взаимодействия пользователя с его моделью
  */
 public class UserController extends Controller{
     private static final Logger logger = LogManager.getLogger(UserController.class);

@@ -16,11 +16,12 @@ public class Main {
         HibernateSessionFactory.getSessionFactory();
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
-        logger.info("Приложение запущено");
         try {
             telegramBotsApi.registerBot(new TelegramBot());
+            logger.info("Приложение запущено");
         } catch (TelegramApiException e) {
             e.printStackTrace();
+            logger.error("Ошибка инициализации бота", e);
         }
     }
 }

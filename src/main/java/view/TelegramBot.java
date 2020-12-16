@@ -22,7 +22,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
 
     /**
-     * Возрвращает имя бота
+     * Метод для получения имени бота
      * @return          Имя телеграм бота
      */
     @Override
@@ -70,7 +70,7 @@ public class TelegramBot extends TelegramLongPollingBot {
      * Метод для отправки ответа пользователю
      * @param message   Ответ
      */
-    private void sendResponse(SendMessage message) {
+    private synchronized void sendResponse(SendMessage message) {
         try {
             EventQueue.invokeAndWait(() -> {
                 try {

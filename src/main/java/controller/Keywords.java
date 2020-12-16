@@ -34,7 +34,7 @@ public final class Keywords {
     public final static String LONG_DESCRIPTION = "Описание должно быть короче 512 символов";
     //Внутренняя ошибка модели
     public final static String EXCEPTION = "Непредвиденная ошибка...";
-    //Пользователь пытается именить чужое мероприятие
+    //Пользователь пытается изменить чужое мероприятие
     public final static String NOT_CREATED_UPDATE = "Вы не можете изменять мероприятия других пользователей";
     //Не найдено мероприятие с введенным названием
     public final static String EVENT_NOT_FOUND = "Мероприятие не найдено";
