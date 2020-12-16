@@ -15,7 +15,7 @@ public abstract class Controller {
     protected static final EventService eventService = new EventService();
 
     /**
-     * Возвращает информацию о пользователе, работающем с ботом
+     * Возвращает информацию о пользователе, работающим с ботом
      * @param id                        Уникальный идентификатор пользователя
      * @return                          Объект текущего пользователя
      * @throws DBException              Ошибка при обращении к бд

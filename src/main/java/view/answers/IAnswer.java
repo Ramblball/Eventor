@@ -8,7 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 public interface IAnswer {
 
     /**
-     * Матод для постоения диалога с пользователем
+     * Метод для построения диалога с пользователем
      * @param message       Объект с введенными данными
      * @return              Ответ на запрос
      */

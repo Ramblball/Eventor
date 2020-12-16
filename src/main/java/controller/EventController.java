@@ -24,15 +24,15 @@ public class EventController extends Controller {
     private static final Logger logger = LogManager.getLogger(EventController.class);
 
     /**
-     * Метод дял получения подсказки по работе с приложением
+     * Метод для получения подсказки по работе с приложением
      * @return              Помощь
      */
     public String getHelp() {
         StringJoiner stringJoiner = new StringJoiner("\n");
-        stringJoiner.add("Это бот для создания мероприятий.\n");
-        stringJoiner.add("Управление подписками:");
+        stringJoiner.add("<b>Это бот для создания мероприятий.</b>\n");
+        stringJoiner.add("<i>Управление подписками:</i>");
         stringJoiner.add("  Действия для управления мероприятиями\n");
-        stringJoiner.add("Поиск:");
+        stringJoiner.add("<i>Поиск:<i>");
         stringJoiner.add("  По имени - по полному названию мероприятия");
         stringJoiner.add("  По параметрам:");
         stringJoiner.add("      Часть названия мероприятия");
@@ -170,7 +170,7 @@ public class EventController extends Controller {
 
     /**
      * Метод для получения мероприятий на которые пользователь подписан
-     * @param id            уникальный идентификатор пользователя
+     * @param id            Уникальный идентификатор пользователя
      * @return              Список мероприятий
      */
     public String getSubscribes(Integer id) {
@@ -191,7 +191,7 @@ public class EventController extends Controller {
     }
 
     /**
-     * Мето для поиска мероприятий по заданным критериям
+     * Метод для поиска мероприятий по заданным критериям
      * @param query         EventQuery с заданными параметрами поиска
      * @return              Список мероприятий
      */
@@ -211,7 +211,7 @@ public class EventController extends Controller {
     }
 
     /**
-     * Метод для поиска мероприятие по его названию
+     * Метод для поиска мероприятия по его названию
      * @param name          Название мероприятия
      * @return              Найденное мероприятие
      */
@@ -230,6 +230,10 @@ public class EventController extends Controller {
         }
     }
 
+    /**
+     * Метод для предоставления мероприятий, которые случатся на текущей неделе
+     * @return              Найденное мероприятие
+     */
     public String findForTheCurrentWeek() {
         try {
             LocalDate now = LocalDate.now();
@@ -292,7 +296,7 @@ public class EventController extends Controller {
      * Метод для отписки пользователя от мероприятия
      * @param id            Id создателя
      * @param name          Название мероприятия
-     * @return            Результат отписки
+     * @return              Результат отписки
      */
     public String signOut(Integer id, String name) {
         try {
@@ -313,7 +317,7 @@ public class EventController extends Controller {
     }
 
     /**
-     * Мето для преобразования списка мероприятий в удобный для чтения формат
+     * Метод для преобразования списка мероприятий в удобный для чтения формат
      * @param events      Список мероприятий
      * @return            Список мероприятий в удобном для чтения формате
      */

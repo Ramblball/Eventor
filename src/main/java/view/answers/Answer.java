@@ -11,7 +11,7 @@ import view.UserStateCache;
 import java.util.List;
 
 /**
- * Класс описывающий общую логику диалогов
+ * Класс, описывающий общую логику диалогов
  */
 public abstract class Answer implements IAnswer {
     protected TelegramKeyboard telegramKeyboard = new TelegramKeyboard();
@@ -37,9 +37,9 @@ public abstract class Answer implements IAnswer {
 
     /**
      * Применяет форматирование для сохраняемых данных
-     * @param text      текст, который нужно отформатировать
-     * @param entities  сущности, хранящие информацию о форматировании
-     * @return          отформатированный текст
+     * @param text      Текст, который нужно отформатировать
+     * @param entities  Сущности, хранящие информацию о форматировании
+     * @return          Отформатированный текст
      */
     protected String applyFormatting(String text, List<MessageEntity> entities) {
         if (entities.isEmpty())
@@ -82,9 +82,5 @@ public abstract class Answer implements IAnswer {
             }
         }
         return sb.toString();
-    }
-
-    protected TelegramKeyboard getTelegramKeyboard() {
-        return telegramKeyboard;
     }
 }

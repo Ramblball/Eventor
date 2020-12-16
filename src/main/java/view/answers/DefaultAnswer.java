@@ -8,7 +8,7 @@ import view.UserStateCache;
 import java.util.HashMap;
 
 /**
- * Класс описывающий для создания диалога работы с множеством параметров
+ * Класс для создания диалога работы со множеством параметров
  */
 public class DefaultAnswer extends Answer {
     private static final HashMap<String, Answer> defaultAnswerHashMap = new HashMap<>();

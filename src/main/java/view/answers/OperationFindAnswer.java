@@ -7,7 +7,7 @@ import view.TelegramBot;
 import view.UserStateCache;
 
 /**
- * Класс для запроса на ввод названия мероприятия
+ * Класс для ответа на ввод названия мероприятия
  */
 public class OperationFindAnswer extends Answer {
 

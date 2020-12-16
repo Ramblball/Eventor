@@ -11,7 +11,7 @@ import view.TelegramBot;
 import java.util.List;
 
 /**
- * Класс описывающий диалог работы со всеми полями мероприятий
+ * Класс, описывающий диалог работы со всеми полями мероприятий
  */
 public class CreateEditFindParametersDefaultAnswer extends Answer {
 
