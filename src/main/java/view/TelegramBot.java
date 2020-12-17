@@ -1,5 +1,7 @@
 package view;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -12,12 +14,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
+import view.dialog.Dialog;
+
 /**
  * Класс инициализации и взаимодействия с телеграм ботом
  */
 public class TelegramBot extends TelegramLongPollingBot {
     private final static String botName = "eventor_oop_bot";
-    private final DialogTransmitter dialogTransmitter = new DialogTransmitter();
+    private static final Logger logger = LogManager.getLogger(TelegramBot.class);
     public static ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
 
 
@@ -55,9 +59,10 @@ public class TelegramBot extends TelegramLongPollingBot {
         if (update.hasMessage() && update.getMessage().hasText()) {
             new Thread(() -> {
                 synchronized (update.getMessage().getFrom()) {
+                    logger.info(update.getMessage().getFrom().getFirstName() + " => " + update.getMessage().getText());
                     SendMessage message = new SendMessage()
                             .setChatId(update.getMessage().getChatId())
-                            .setText(dialogTransmitter.getMessage(update.getMessage()))
+                            .setText(Dialog.get(update.getMessage()))
                             .setParseMode("HTML");
                     message.setReplyMarkup(replyKeyboardMarkup);
                     sendResponse(message);
@@ -80,7 +85,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                 }
             });
         } catch (InterruptedException | InvocationTargetException e) {
-            e.printStackTrace();
+            logger.error("Ошибка при отправке данных", e);
         }
     }
 }

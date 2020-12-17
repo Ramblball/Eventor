@@ -31,7 +31,7 @@ public class EventController extends Controller {
         stringJoiner.add("<b>Это бот для создания мероприятий.</b>\n");
         stringJoiner.add("<i>Управление подписками:</i>");
         stringJoiner.add("  Действия для управления мероприятиями\n");
-        stringJoiner.add("<i>Поиск:<i>");
+        stringJoiner.add("<i>Поиск:</i>");
         stringJoiner.add("  По имени - по полному названию мероприятия");
         stringJoiner.add("  По параметрам:");
         stringJoiner.add("      Часть названия мероприятия");

@@ -1,11 +1,11 @@
-package view.answers;
+package view.dialog;
 
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 /**
  * Интерфейс, описывающий поведение ответа
  */
-public interface IAnswer {
+public interface IDialog {
 
     /**
      * Метод для построения диалога с пользователем

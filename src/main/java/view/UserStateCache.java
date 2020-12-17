@@ -1,5 +1,6 @@
 package view;
 
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
 import java.util.HashMap;
 
@@ -16,6 +17,17 @@ public class UserStateCache {
 
     public static void setProgress(User user, Progress progress) {
         map.put(user, progress);
+    }
+
+    public static TelegramMessage checkProgress(Message message) {
+        TelegramMessage telegramMessage;
+        User user = message.getFrom();
+        if (getProgress(user) != null) {
+            telegramMessage = getProgress(user).getMessage();
+        } else {
+            telegramMessage = new TelegramMessage(user);
+        }
+        return telegramMessage;
     }
 }
 

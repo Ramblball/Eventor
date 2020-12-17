@@ -1,39 +1,10 @@
-package view.answers;
+package view;
 
-import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.MessageEntity;
-import org.telegram.telegrambots.meta.api.objects.User;
-import view.CommandMap;
-import view.TelegramMessage;
-import view.TelegramKeyboard;
-import view.UserStateCache;
 
 import java.util.List;
 
-/**
- * Класс, описывающий общую логику диалогов
- */
-public abstract class Answer implements IAnswer {
-    protected TelegramKeyboard telegramKeyboard = new TelegramKeyboard();
-    protected TelegramMessage telegramMessage;
-    protected final CommandMap commandMap = new CommandMap();
-
-    public abstract String send(Message message);
-
-    /**
-     * Проверяет существование пользователя в кэше
-     * @param message   Сообщение из клиента телеграма
-     * @return          Обработанное сообщение типа TelegramMessage
-     */
-    protected TelegramMessage checkProgress(Message message) {
-        User user = message.getFrom();
-        if (UserStateCache.getProgress(user) != null) {
-            telegramMessage = UserStateCache.getProgress(user).getMessage();
-        } else {
-            telegramMessage = new TelegramMessage(user);
-        }
-        return telegramMessage;
-    }
+public class Formatter {
 
     /**
      * Применяет форматирование для сохраняемых данных
@@ -41,7 +12,7 @@ public abstract class Answer implements IAnswer {
      * @param entities  Сущности, хранящие информацию о форматировании
      * @return          Отформатированный текст
      */
-    protected String applyFormatting(String text, List<MessageEntity> entities) {
+    public String applyFormatting(String text, List<MessageEntity> entities) {
         if (entities.isEmpty())
             return text;
         StringBuilder sb = new StringBuilder();
