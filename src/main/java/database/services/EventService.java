@@ -132,12 +132,16 @@ public class EventService {
      * Метод получения всех созданных мероприятий
      * @return list of all events
      */
-    public List<Event> findAll() throws NotFoundException {
-        List<Event> events = eventDAO.findAll();
-        if (events == null) {
-            throw new NotFoundException(DBLiterals.EVENT_NOT_FOUND);
+    public List<Event> findAll() throws NotFoundException, DBException {
+        try {
+            List<Event> events = eventDAO.findAll();
+            if (events == null) {
+                throw new NotFoundException(DBLiterals.EVENT_NOT_FOUND);
+            }
+            return events;
+        } catch (NoResultException e) {
+            throw new DBException(DBLiterals.DB_EXCEPTION, e);
         }
-        return events;
     }
 
     /**

@@ -85,6 +85,13 @@ public enum Command implements ICommand {
         }
     },
 
+    EventFindRandom("Случайное" , "Случайное " + Emoji.RANDOM, Emoji.RANDOM) {
+        @Override
+        public String execute(TelegramMessage telegramMessage) {
+            return eventController.findRandom();
+        }
+    },
+
     // Команда удаления мероприятия
     EventRemove("Удалить", "Удалить " + Emoji.MINUS, Emoji.MINUS) {
         @Override

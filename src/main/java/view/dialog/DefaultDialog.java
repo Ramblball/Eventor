@@ -109,7 +109,7 @@ public enum DefaultDialog implements IDialog{
     Unknown() {
         @Override
         public String send(Message message) {
-            return Command.valueOf("unknown").execute(new TelegramMessage(message.getFrom()));
+            return Command.valueOf("Unknown").execute(new TelegramMessage(message.getFrom()));
         }
     };
 

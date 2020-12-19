@@ -48,8 +48,9 @@ public enum Dialog implements IDialog {
         }
     },
 
-    // Метод для посторения диалога поиска за текущую неделю
-    FindWeek("На текущей неделе", "На текущей неделе " + Emoji.CALENDAR, Emoji.CALENDAR) {
+    // Метод для получения мероприятий, не требующих ввод данных
+    FindWeek("На текущей неделе", "На текущей неделе " + Emoji.CALENDAR, Emoji.CALENDAR,
+            "Случайное" , "Случайное " + Emoji.RANDOM, Emoji.RANDOM) {
         @Override
         public String send(Message message) {
             telegramMessage = UserStateCache.checkProgress(message);

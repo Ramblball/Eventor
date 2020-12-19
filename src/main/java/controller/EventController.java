@@ -9,6 +9,7 @@ import database.utils.EventQuery;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+import javax.persistence.NoResultException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.*;
@@ -241,6 +242,24 @@ public class EventController extends Controller {
             LocalDateTime end = begin.plusDays(7);
             List<Event> events = eventService.findWithInterval(begin, end);
             return eventsToString(events);
+        } catch (NotFoundException e) {
+            return e.getMessage();
+        } catch (DBException e) {
+            logger.error(e.getMessage(), e);
+            return Keywords.EVENT_FIND_EXCEPTION + e.getMessage();
+        }
+    }
+
+    /**
+     * Метод для поиска случайного мероприятия
+     * @return              Случайное мероприятие
+     */
+    public String findRandom() {
+        try {
+            Random random = new Random();
+            List<Event> events = eventService.findAll();
+            int index = random.nextInt(events.size());
+            return events.get(index).toString();
         } catch (NotFoundException e) {
             return e.getMessage();
         } catch (DBException e) {

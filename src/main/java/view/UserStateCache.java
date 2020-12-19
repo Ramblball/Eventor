@@ -30,4 +30,3 @@ public class UserStateCache {
         return telegramMessage;
     }
 }
-
