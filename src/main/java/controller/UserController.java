@@ -7,7 +7,7 @@ import controller.exception.NotAuthorizedException;
 import database.exception.DBException;
 
 /**
- * Обеспечение взаимодействия пользователя с его моделью
+ * Класс для взаимодействия пользователя с его моделью
  */
 public class UserController extends Controller{
     private static final Logger logger = LogManager.getLogger(UserController.class);
@@ -45,7 +45,7 @@ public class UserController extends Controller{
             return String.format(Keywords.USER_UPDATED, tgUser.getFirstName());
         } catch (NotAuthorizedException e) {
             logger.error(e.getMessage(), e);
-            return Keywords.AUTH_EXCEPTION;
+            return Keywords.AUTH_EXCEPTION + e.getMessage();
         } catch (DBException e) {
             logger.error(e.getMessage(), e);
             return Keywords.USER_UPDATE_EXCEPTION + e.getMessage();

@@ -5,6 +5,7 @@ import org.hibernate.QueryParameterException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.StringJoiner;
 
 import static database.utils.QueryLiterals.*;
 
@@ -31,13 +32,11 @@ public class EventQuery {
     public void setTime(String time) {
         try {
             LocalDate date = LocalDate.parse(time, DateTimeFormatter.ofPattern(DATE_PATTERN));
-            StringBuilder builder = new StringBuilder();
-            builder.append(TIME_QUERY_1);
-            builder.append(date);
-            builder.append(TIME_QUERY_2);
-            builder.append(date);
-            builder.append(TIME_QUERY_3);
-            this.time = builder.toString();
+            this.time = TIME_QUERY_1 +
+                    date +
+                    TIME_QUERY_2 +
+                    date +
+                    TIME_QUERY_3;
         } catch (DateTimeParseException e) {
             this.time = null;
         }
@@ -46,20 +45,16 @@ public class EventQuery {
     public void setDescription(String description) {
         if (description.length() == 0) return;
         String[] words = description.split("[ ]");
-        StringBuilder builder = new StringBuilder();
-        builder.append(DESCRIPTION_QUERY);
+        StringJoiner builder = new StringJoiner(FOLLOWING);
+        builder.add(DESCRIPTION_QUERY);
         for (String word : words) {
-            builder.append(word);
-            builder.append(FOLLOWING);
+            builder.add(word);
         }
-        int last = builder.lastIndexOf(FOLLOWING);
-        builder.delete(last, last + 3);
-        builder.append(BRACKET);
+        builder.add(BRACKET);
         this.description = builder.toString();
     }
 
     public void setCategory(String category) {
-        if (category.length() == 0) return;
         try {
             this.category = CATEGORY_QUERY + Integer.parseInt(category);
         } catch (NumberFormatException e) {
@@ -80,34 +75,27 @@ public class EventQuery {
      * @return            Строка SQL запроса к базе данных
      */
     public String execute() throws QueryParameterException{
-        StringBuilder builder = new StringBuilder();
+        StringJoiner builder = new StringJoiner(AND);
         if (isEmpty()) {
             throw new QueryParameterException("Попытка выполнить запрос без параметров");
         }
-        builder.append(EXECUTED_QUERY);
+        builder.add(EXECUTED_QUERY);
         if (name != null) {
-            builder.append(name);
-            builder.append(AND);
+            builder.add(name);
         }
         if (place != null) {
-            builder.append(place);
-            builder.append(AND);
+            builder.add(place);
         }
         if (time != null){
-            builder.append(time);
-            builder.append(AND);
+            builder.add(time);
         }
         if (description != null) {
-            builder.append(description);
-            builder.append(AND);
+            builder.add(description);
         }
         if (category != null) {
-            builder.append(category);
-            builder.append(AND);
+            builder.add(category);
         }
-        int last = builder.lastIndexOf(AND);
-        builder.delete(last, last + 4);
-        builder.append(ORDER_QUERY);
+        builder.add(ORDER_QUERY);
         return builder.toString();
     }
 }

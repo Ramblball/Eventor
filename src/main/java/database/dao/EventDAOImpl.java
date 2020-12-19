@@ -8,40 +8,32 @@ import database.utils.EventQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Класс слой запросов к базе данных к таблице мероприятий
+ * Класс запросов к базе данных к таблице мероприятий
  */
 public class EventDAOImpl extends DAO{
 
     /**
-     * Метод отправляющий запрос на поиск мероприятий по уникальному идентификатору
-     * @param id            Уникальный идентификатор мероприятия
-     * @return              Объект мероприятия
-     */
-    public Event findById(int id) {
-        try (Session session = openSession()) {
-            return session.get(Event.class, id);
-        }
-    }
-
-    /**
-     * Метод отправляющий запрос на поиск по имени
+     * Метод для отправки запроса на поиск по имени
      * @param name          Название мероприятия
      * @return              Объект мероприятия
      */
     public Event findByName(String name) {
         try (Session session = openSession()) {
-            return session.createQuery("FROM Event WHERE name=:name", Event.class).setParameter(DBLiterals.NAME, name).getSingleResult();
+            return session.createQuery("FROM Event WHERE name=:name", Event.class)
+                    .setParameter(DBLiterals.NAME, name)
+                    .getSingleResult();
         }
     }
 
     /**
-     * Метод отправляющий запрос на создание меропритяия
+     * Метод для отправки запроса на создание меропритятия
      * @param user          Создатель
      * @param event         Мероприятие
      */
@@ -62,7 +54,7 @@ public class EventDAOImpl extends DAO{
     }
 
     /**
-     * Метод отправляющий запрос на обновление мероприятия
+     * Метод для отправки запроса на обновление мероприятия
      * @param event         Мероприятие
      */
     public void update(Event event) {
@@ -80,7 +72,7 @@ public class EventDAOImpl extends DAO{
     }
 
     /**
-     * Метод отправляющий запрос на удаление мероприятия
+     * Метод для отправки запроса на удаление мероприятия
      * @param user          Создатель
      * @param event         Мероприятие
      */
@@ -97,7 +89,7 @@ public class EventDAOImpl extends DAO{
     }
 
     /**
-     * Метод отправляющий запрос на поиск  всех мероприятий
+     * Метод для отправки запроса на поиск всех мероприятий
      * @return              Список мероприятий
      */
     public List<Event> findAll() {
@@ -107,7 +99,7 @@ public class EventDAOImpl extends DAO{
     }
 
     /**
-     * Метод отправляющий запрос на поиск мероприятий по заданным критериям
+     * Метод для отправки запроса на поиск мероприятий по заданным критериям
      * @param query         Запрос с критериями поиска
      * @return              Найденные мероприятия
      */
@@ -139,7 +131,7 @@ public class EventDAOImpl extends DAO{
     }
 
     /**
-     * Метод отправляющий запрос на подписку пользоватля на мероприятие
+     * Метод для отправки запроса на подписку пользоватля на мероприятие
      * @param user          Пользователь
      * @param event         Мероприятие
      */
@@ -154,7 +146,7 @@ public class EventDAOImpl extends DAO{
     }
 
     /**
-     * Метод отправляющий запрос на отписку пользователя от мероприятия
+     * Метод для отправки запроса на отписку пользователя от мероприятия
      * @param user          Пользователь
      * @param event         Мероприятие
      */
@@ -165,6 +157,21 @@ public class EventDAOImpl extends DAO{
             session.refresh(event);
             user.removeSubscribe(event);
             transaction.commit();
+        }
+    }
+
+    /**
+     * Метод для отправки запроса на поиск мероприятий в заданном временном интервале
+     * @param begin         Время начала интервала (Включительно)
+     * @param end           Время конца интервала (Исключительно)
+     * @return              Найденные мероприятия
+     */
+    public List<Event> findByTimeInterval(LocalDateTime begin, LocalDateTime end) {
+        try (Session session = openSession()) {
+            return session.createQuery("FROM Event WHERE time >= :begin AND time < :end", Event.class)
+                    .setParameter("begin", begin)
+                    .setParameter("end", end)
+                    .getResultList();
         }
     }
 }

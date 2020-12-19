@@ -46,10 +46,11 @@ public final class DBLiterals {
     /*
     ----------------- Форматы данных --------------------------------
      */
+    //Формат даты
     public final static String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm";
     /*
     ----------------- Поля для вставки параметров --------------------------------
-    */
+     */
     //Поле имени при поиске
     public final static String NAME = "name";
     //Поле описания при создании вектора
@@ -69,11 +70,15 @@ public final class DBLiterals {
     ----------------- Ошибки при обращнии к бд --------------------------------
      */
     //Ошибка обращения к бд
-    public static final String DB_EXCEPTION = "Ошибка при обращении к базе данных:";
+    public static final String DB_EXCEPTION = "Ошибка при обращении к базе данных";
     //Ошибка, пользователь не найден
-    public static final String USER_NOT_EXIST = "Пользовтеля не существует";
+    public static final String USER_NOT_EXIST = "Пользователя не существует";
     //Ошибка, пользователь уже создан
-    public static final String USER_ALREADY_EXIST_EXCEPTION = "Пользовтеля уже создан";
+    public static final String USER_ALREADY_EXIST_EXCEPTION = "Пользовтель уже создан";
     //Ошибка, мероприятие не найдено
     public static final String EVENT_NOT_FOUND = "Мероприятий не найдено";
+    //Ошибка, попытка подписаться на собственное мероприятие
+    public static final String USER_CREATOR = "Вы являетесь создаталем мероприятия";
+    //Ошибка, попытка подписаться на мероприятие, на которое уже подписан
+    public static final String USER_SUBSCRIBER = "Вы уже подписаны на это мероприятие";
 }

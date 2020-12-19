@@ -6,12 +6,12 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 /**
- * Класс слой запросов к базе данных к таблице пользователей
+ * Класс запросов к базе данных к таблице пользователей
  */
 public class UserDAOImpl extends DAO{
 
     /**
-     * Метод отправляющий запрос на поиск по уникальному идентификатору
+     * Метод для отправки запроса на поиск по уникальному идентификатору
      * @param id            Уникальный идентификатор пользователя
      * @return              Объект пользователя
      */
@@ -20,21 +20,6 @@ public class UserDAOImpl extends DAO{
             session.enableFetchProfile(DBLiterals.USER_WITH_CREATED);
             session.enableFetchProfile(DBLiterals.USERS_WITH_SUBSCRIBES);
             return session.get(User.class, id);
-        }
-    }
-
-    /**
-     * Метод отправляющий запрос на поиск по имени
-     * @param name          Имя пользователя
-     * @return              Объект пользователя
-     */
-    public User findByName(String name) {
-        try (Session session = openSession()) {
-            session.enableFetchProfile(DBLiterals.USER_WITH_CREATED);
-            session.enableFetchProfile(DBLiterals.USERS_WITH_SUBSCRIBES);
-            return session.createQuery(DBLiterals.FIND_BY_NAME_QUERY, User.class)
-                    .setParameter(DBLiterals.NAME, name)
-                    .getSingleResult();
         }
     }
 
@@ -51,25 +36,13 @@ public class UserDAOImpl extends DAO{
     }
 
     /**
-     * Метод отправляющий запрос на обновление пользователя
+     * Метод для отправки запроса на обновление пользователя
      * @param user          Объект пользователя
      */
     public void update(User user) {
         try (Session session = openSession()){
             Transaction transaction = session.beginTransaction();
             session.update(user);
-            transaction.commit();
-        }
-    }
-
-    /**
-     * Метод отправляющий запрос на удаление пользователя
-     * @param user          Объект пользователя
-     */
-    public void remove(User user) {
-        try (Session session = openSession()) {
-            Transaction transaction = session.beginTransaction();
-            session.delete(user);
             transaction.commit();
         }
     }

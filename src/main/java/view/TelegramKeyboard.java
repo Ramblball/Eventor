@@ -5,6 +5,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 
 import java.util.ArrayList;
 
+/**
+ * Класс с методами создания клавиатур
+ */
 public class TelegramKeyboard {
     private final ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
     private final ArrayList<KeyboardRow> keyboard = new ArrayList<>();
@@ -16,24 +19,24 @@ public class TelegramKeyboard {
     /**
      * Задание параметров для клавиатуры
      */
-    TelegramKeyboard(){
+    public TelegramKeyboard() {
         replyKeyboardMarkup.setSelective(true);
         replyKeyboardMarkup.setResizeKeyboard(true);
         replyKeyboardMarkup.setOneTimeKeyboard(true);
     }
 
     /**
-     * Скрытие меню, установка кнопки возврата
+     * Метод для создания меню, и установки кнопки возврата
      */
     public void hideMenu() {
         clearKeyboardRows();
-        firstRow.add("Назад");
+        firstRow.add("Назад " + Emoji.BACK);
         keyboard.add(firstRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
     /**
-     * Очистка клавиатуры
+     * Метод для отчистки клавиатуры
      */
     public void clearKeyboardRows() {
         keyboard.clear();
@@ -44,31 +47,33 @@ public class TelegramKeyboard {
     }
 
     /**
-     * Создание кнопок поиска
+     * Метод для создания кнопок поиска
      */
     public void createFindMenu() {
         clearKeyboardRows();
-        firstRow.add("По имени");
-        firstRow.add("По параметрам");
-        secondRow.add("Назад");
+        firstRow.add("По имени " + Emoji.SPEECH_BALLOON);
+        firstRow.add("По параметрам " + Emoji.NIB);
+        secondRow.add("На текущей неделе " + Emoji.CALENDAR);
+        thirdRow.add("Назад " + Emoji.BACK);
         keyboard.add(firstRow);
         keyboard.add(secondRow);
+        keyboard.add(thirdRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
     /**
-     * Создание кнопок основных действий
+     * Метод для создания кнопок основных действий
      */
     public void createOperationMenu() {
         clearKeyboardRows();
-        firstRow.add("Создать");
-        firstRow.add("Изменить");
-        firstRow.add("Удалить");
-        thirdRow.add("Мои подписки");
-        secondRow.add("Подписаться");
-        secondRow.add("Отписаться");
-        thirdRow.add("Созданные мероприятия");
-        fourthRow.add("Назад");
+        firstRow.add("Создать " + Emoji.PLUS);
+        firstRow.add("Изменить " + Emoji.PENCIL);
+        firstRow.add("Удалить " + Emoji.MINUS);
+        thirdRow.add("Мои подписки " + Emoji.BOOKS);
+        secondRow.add("Подписаться " + Emoji.CHECK);
+        secondRow.add("Отписаться " + Emoji.X_MARK);
+        thirdRow.add("Созданные мероприятия " + Emoji.MEMO);
+        fourthRow.add("Назад " + Emoji.BACK);
         keyboard.add(firstRow);
         keyboard.add(secondRow);
         keyboard.add(thirdRow);
@@ -77,21 +82,18 @@ public class TelegramKeyboard {
     }
 
     /**
-     * Создание кнопок с разделами
+     * Метод для создания кнопок с разделами
      */
     public void createMainMenu() {
         clearKeyboardRows();
-        firstRow.add("Помощь");
-        secondRow.add("Управление подписками");
-        secondRow.add("Поиск");
+        firstRow.add("Помощь " + Emoji.INFO);
+        secondRow.add("Управление подписками " + Emoji.WRENCH);
+        secondRow.add("Поиск " + Emoji.MAGNIFYING_GLASS);
         keyboard.add(firstRow);
         keyboard.add(secondRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
-    /**
-     * @return разметка клавиатуры
-     */
     public ReplyKeyboardMarkup getReplyKeyboardMarkup() {
         return replyKeyboardMarkup;
     }

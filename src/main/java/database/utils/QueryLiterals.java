@@ -3,7 +3,7 @@ package database.utils;
 /**
  * Класс с литералами для EventQuery
  */
-public class QueryLiterals {
+public final class QueryLiterals {
     /*
     ----------------- Запросы --------------------------------
      */

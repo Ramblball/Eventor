@@ -4,12 +4,12 @@ import database.utils.HibernateSessionFactory;
 import org.hibernate.Session;
 
 /**
- * Общий класс слоев отправки запросов к базе данных
+ * Класс, описывающий общую логику отправки запросов к базе данных
  */
 public abstract class DAO {
 
     /**
-     * Метод создания сессии рабоыт с пользователем
+     * Метод создания сессии работы с пользователем
      * @return            Сессия взаимодействия с базой данных
      */
     protected Session openSession(){

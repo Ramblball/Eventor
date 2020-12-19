@@ -5,25 +5,24 @@ import org.telegram.telegrambots.meta.api.objects.User;
 /**
  * Класс сообщения для обработки сообщений от пользователя
  */
-public class Message {
-    private String eventId;
+public class TelegramMessage {
+    private final User user;
+    private String operation;
     private String eventName;
     private String eventTime;
     private String eventPlace;
     private String eventDescription;
-    private String eventCategory;
-    private User user;
 
-
-    public Message() {
+    public TelegramMessage(User user) {
+        this.user = user;
     }
 
-    public String getEventId() {
-        return eventId;
+    public String getOperation() {
+        return operation;
     }
 
-    public void setEventId(String eventId) {
-        this.eventId = eventId;
+    public void setOperation(String operation) {
+        this.operation = operation;
     }
 
     public String getEventName() {
@@ -58,19 +57,7 @@ public class Message {
         this.eventDescription = eventDescription;
     }
 
-    public String getEventCategory() {
-        return eventCategory;
-    }
-
-    public void setEventCategory(String eventCategory) {
-        this.eventCategory = eventCategory;
-    }
-
     public User getUser() {
         return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }

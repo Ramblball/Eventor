@@ -1,7 +1,16 @@
 package view.commands;
 
-import view.Message;
+import view.TelegramMessage;
 
+/**
+ * Интерфейс, описывающий поведение комманд
+ */
 public interface ICommand {
-    String execute(Message message);
+
+    /**
+     * Метод для выполнения команды пользователя
+     * @param telegramMessage   Обработанное сообщение пользователя
+     * @return                  Результат исполнения
+     */
+    String execute(TelegramMessage telegramMessage);
 }

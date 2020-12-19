@@ -7,11 +7,15 @@ import database.exception.NotFoundException;
 import database.model.Event;
 import database.model.User;
 import database.utils.EventQuery;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.QueryParameterException;
 import org.hibernate.exception.SQLGrammarException;
 import org.hibernate.hql.internal.ast.QuerySyntaxException;
 
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -20,25 +24,6 @@ import java.util.Set;
  */
 public class EventService {
     private static final EventDAOImpl eventDAO = new EventDAOImpl();
-
-    /**
-     * Метод для получения мероприятия по уникальному идентификатору
-     * @param id                    Уникальный идентификатор мероприятия
-     * @return                      Найденное мероприятие
-     * @throws NotFoundException    Мероприятий не найдено
-     * @throws QuerySyntaxException Ошибка синтаксиса запроса
-     */
-    public Event findById(int id) throws NotFoundException, DBException {
-        try {
-            Event event = eventDAO.findById(id);
-            if (event == null) {
-                throw new NotFoundException(DBLiterals.EVENT_NOT_FOUND);
-            }
-            return event;
-        } catch (QuerySyntaxException e) {
-            throw new DBException(DBLiterals.DB_EXCEPTION, e);
-        }
-    }
 
     /**
      * Метод для получения мероприятия по названию
@@ -54,6 +39,8 @@ public class EventService {
                 throw new NotFoundException(DBLiterals.EVENT_NOT_FOUND);
             }
             return event;
+        } catch (NoResultException e) {
+            throw new NotFoundException(DBLiterals.EVENT_NOT_FOUND);
         } catch (QuerySyntaxException e) {
             throw new DBException(DBLiterals.DB_EXCEPTION, e);
         }
@@ -122,6 +109,26 @@ public class EventService {
     }
 
     /**
+     * Метод для получения мероприятиятий, проходящих в заданном временном интервале
+     * @param begin                     Время начала интервала (Включительно)
+     * @param end                       Время конца интервала (Исключительно)
+     * @return                          Список найденных мероприятий
+     * @throws NotFoundException        Мероприятий не наайдено
+     * @throws QuerySyntaxException     Ошибка синтаксиса запроса
+     */
+    public List<Event> findWithInterval(LocalDateTime begin, LocalDateTime end) throws NotFoundException, DBException {
+        try {
+            List<Event> events = eventDAO.findByTimeInterval(begin, end);
+            if (events == null) {
+                throw new NotFoundException(DBLiterals.EVENT_NOT_FOUND);
+            }
+            return events;
+        } catch (SQLGrammarException | QueryParameterException e) {
+            throw new DBException(DBLiterals.DB_EXCEPTION, e);
+        }
+    }
+
+    /**
      * Метод получения всех созданных мероприятий
      * @return list of all events
      */
@@ -134,7 +141,7 @@ public class EventService {
     }
 
     /**
-     * Мтод для подписки пользователя на участие в мероприятии
+     * Метод для подписки пользователя на участие в мероприятии
      * @param user                  Пользователь
      * @param event                 Мероприятие
      * @throws PersistenceException Ошибка сохранения
@@ -143,8 +150,11 @@ public class EventService {
         try {
             Set<Event> createdEvents = user.getCreatedEvents();
             Set<Event> subscribes = user.getSubscribes();
-            if (createdEvents.contains(event) || subscribes.contains(event)) {
-                return;
+            if (createdEvents.contains(event)) {
+                throw new DBException(DBLiterals.USER_CREATOR);
+            }
+            if (subscribes.contains(event)) {
+                throw new DBException(DBLiterals.USER_SUBSCRIBER);
             }
             eventDAO.subscribe(user, event);
         } catch (PersistenceException e) {
