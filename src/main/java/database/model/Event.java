@@ -3,6 +3,7 @@ package database.model;
 import database.DBLiterals;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.FetchProfile;
+import view.TelegramBot;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -163,6 +164,8 @@ public class Event {
         joiner.add("<a href=\"tg://user?id=" + getUserId() + "\">Создатель мероприятия</a>");
         joiner.add(getTime().toLocalDate().toString()+ " " +
                 getTime().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+        joiner.add("<a href=\"https://api.telegram.org/bot" + TelegramBot.getToken() + "/sendlocation?chat_id=" +
+                getUserId() + "&latitude=" + getLatitude() + "&longitude=" + getLongitude() + "\">Место мероприятия</a>");
         joiner.add("Осталось " + (getLimit() - getSubscribers().size()) + " мест");
         joiner.add(getDescription());
         return joiner.toString();
