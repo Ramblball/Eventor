@@ -88,6 +88,14 @@ public class EventService {
         }
     }
 
+    public void removeCompleted() throws DBException {
+        try {
+            eventDAO.deleteCompleted();
+        } catch (PersistenceException e) {
+            throw new DBException(DBLiterals.DB_EXCEPTION, e);
+        }
+    }
+
     /**
      * Метод для получения мероприятий по параметрам, заданным в query
      * @param query                     EventQuery с параметрами поиска

@@ -9,7 +9,6 @@ import database.utils.EventQuery;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
-import javax.persistence.NoResultException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.*;

@@ -89,6 +89,23 @@ public class EventDAOImpl extends DAO{
     }
 
     /**
+     * Метод для отправки запроса на удаление прошедших мероприятий
+     */
+    public void deleteCompleted() {
+        try (Session session = openSession()) {
+            session.enableFetchProfile(DBLiterals.EVENT_WITH_SUBSCRIBERS);
+            List<Event> events = session.createQuery("FROM Event WHERE time <= :now", Event.class)
+                    .setParameter("now", LocalDateTime.now())
+                    .getResultList();
+            session.getTransaction().begin();
+            for (Event event : events) {
+                session.delete(event);
+            }
+            session.getTransaction().commit();
+        }
+    }
+
+    /**
      * Метод для отправки запроса на поиск всех мероприятий
      * @return              Список мероприятий
      */
