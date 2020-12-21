@@ -168,7 +168,7 @@ public class Event {
         joiner.add("<a href=\"https://api.telegram.org/bot" + TelegramBot.getToken() + "/sendlocation?chat_id=" +
                 getUserId() + "&latitude=" + getLatitude() + "&longitude=" + getLongitude() + "\">Место мероприятия</a>");
         joiner.add("Осталось " + (getLimit() - getSubscribers().size()) + " мест");
-        joiner.add("Осталось дней до начала: " + ChronoUnit.DAYS.between(getTime(), LocalDateTime.now()));
+        joiner.add("Осталось дней до начала: " + ChronoUnit.DAYS.between(LocalDateTime.now(), getTime()));
         joiner.add(getDescription());
         return joiner.toString();
     }
