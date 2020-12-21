@@ -56,10 +56,12 @@ public class TelegramBot extends TelegramLongPollingBot {
      */
     @Override
     public void onUpdateReceived(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage()) {
             new Thread(() -> {
                 synchronized (update.getMessage().getFrom()) {
-                    logger.info(update.getMessage().getFrom().getFirstName() + " => " + update.getMessage().getText());
+                    if (update.getMessage().hasText()) {
+                        logger.info(update.getMessage().getFrom().getFirstName() + " => " + update.getMessage().getText());
+                    }
                     SendMessage message = new SendMessage()
                             .setChatId(update.getMessage().getChatId())
                             .setText(Dialog.get(update.getMessage()))

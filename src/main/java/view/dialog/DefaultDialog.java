@@ -53,6 +53,8 @@ public enum DefaultDialog implements IDialog{
                         return "Воспользуйтесь метками на карте!";
                     }
                     telegramMessage.setEventPlace("Place");
+                    telegramMessage.setEventLatitude(message.getLocation().getLatitude());
+                    telegramMessage.setEventLongitude(message.getLocation().getLongitude());
                     UserStateCache.setProgress(user, new Progress(telegramMessage, 3));
                     return "Введите максимальное количество участников от 2 до 20";
                 case 3:
