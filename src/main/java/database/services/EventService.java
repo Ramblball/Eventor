@@ -7,8 +7,6 @@ import database.exception.NotFoundException;
 import database.model.Event;
 import database.model.User;
 import database.utils.EventQuery;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.QueryParameterException;
 import org.hibernate.exception.SQLGrammarException;
 import org.hibernate.hql.internal.ast.QuerySyntaxException;
@@ -161,12 +159,16 @@ public class EventService {
     public void subscribe(User user, Event event) throws DBException{
         try {
             Set<Event> createdEvents = user.getCreatedEvents();
-            Set<Event> subscribes = user.getSubscribes();
             if (createdEvents.contains(event)) {
                 throw new DBException(DBLiterals.USER_CREATOR);
             }
+            Set<Event> subscribes = user.getSubscribes();
             if (subscribes.contains(event)) {
                 throw new DBException(DBLiterals.USER_SUBSCRIBER);
+            }
+            Set<User> subscribers = event.getSubscribers();
+            if (subscribers.size() == event.getLimit()) {
+                throw new DBException(DBLiterals.LIMIT_ACHIEVED);
             }
             eventDAO.subscribe(user, event);
         } catch (PersistenceException e) {

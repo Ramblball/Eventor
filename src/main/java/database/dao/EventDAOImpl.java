@@ -8,7 +8,6 @@ import database.utils.EventQuery;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -26,7 +25,9 @@ public class EventDAOImpl extends DAO{
      */
     public Event findByName(String name) {
         try (Session session = openSession()) {
-            return session.createQuery("FROM Event WHERE name=:name", Event.class)
+            session.enableFetchProfile(DBLiterals.EVENT_WITH_SUBSCRIBERS);
+            return session.createQuery("FROM Event WHERE name=:name AND time > :now", Event.class)
+                    .setParameter("now", LocalDateTime.now())
                     .setParameter(DBLiterals.NAME, name)
                     .getSingleResult();
         }
@@ -111,7 +112,10 @@ public class EventDAOImpl extends DAO{
      */
     public List<Event> findAll() {
         try (Session session = openSession()) {
-            return session.createQuery("FROM Event", Event.class).getResultList();
+            session.enableFetchProfile(DBLiterals.EVENT_WITH_SUBSCRIBERS);
+            return session.createQuery("FROM Event WHERE time > :now AND limit > subscribers.size", Event.class)
+                    .setParameter("now", LocalDateTime.now())
+                    .getResultList();
         }
     }
 
@@ -122,6 +126,7 @@ public class EventDAOImpl extends DAO{
      */
     public List<Event> find(EventQuery query) {
         try (Session session = openSession()) {
+            session.enableFetchProfile(DBLiterals.EVENT_WITH_SUBSCRIBERS);
             if (query.isEmpty()) {
                 return null;
             }
@@ -130,16 +135,19 @@ public class EventDAOImpl extends DAO{
             List<Object[]> rows = session.createSQLQuery(query.execute()).list();
             for (Object[] row : rows) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DBLiterals.DATE_TIME_FORMAT);
-                String time = row[3].toString().substring(0, 16);
+                String time = row[2].toString().substring(0, 16);
                 Event event = new Event(
                         row[1].toString(),
-                        row[2].toString(),
+                        row[9].toString(),
+                        Float.parseFloat(row[7].toString()),
+                        Float.parseFloat(row[8].toString()),
+                        Integer.parseInt(row[6].toString()),
                         LocalDateTime.parse(time, formatter),
-                        Category.values()[Integer.parseInt(row[6].toString())],
-                        row[4].toString()
+                        Category.values()[Integer.parseInt(row[5].toString())],
+                        row[3].toString()
                 );
                 event.setId(Integer.parseInt(row[0].toString()));
-                event.setUserId(Integer.parseInt(row[5].toString()));
+                event.setUserId(Integer.parseInt(row[4].toString()));
                 result.add(event);
             }
             session.getTransaction().commit();
@@ -185,7 +193,8 @@ public class EventDAOImpl extends DAO{
      */
     public List<Event> findByTimeInterval(LocalDateTime begin, LocalDateTime end) {
         try (Session session = openSession()) {
-            return session.createQuery("FROM Event WHERE time >= :begin AND time < :end", Event.class)
+            session.enableFetchProfile(DBLiterals.EVENT_WITH_SUBSCRIBERS);
+            return session.createQuery("FROM Event WHERE time >= :begin AND time < :end AND limit > subscribers.size", Event.class)
                     .setParameter("begin", begin)
                     .setParameter("end", end)
                     .getResultList();

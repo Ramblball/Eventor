@@ -39,6 +39,7 @@ public enum Command implements ICommand {
                             telegramMessage.getEventName(),
                             telegramMessage.getEventTime(),
                             telegramMessage.getEventPlace(),
+                            telegramMessage.getEventLimit(),
                             telegramMessage.getEventDescription());
         }
     },
@@ -52,6 +53,7 @@ public enum Command implements ICommand {
                             telegramMessage.getEventName(),
                             telegramMessage.getEventTime(),
                             telegramMessage.getEventPlace(),
+                            telegramMessage.getEventLimit(),
                             telegramMessage.getEventDescription());
         }
     },

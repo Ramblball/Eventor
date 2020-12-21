@@ -27,6 +27,8 @@ public final class DBLiterals {
     public final static String USERS_WITH_SUBSCRIBES = "users_with_subscribes";
     //Название fetch профиля для получения мероприятий, созданных пользоваелем
     public final static String USER_WITH_CREATED = "user_with_created";
+    //Название fetch профиля для получения пользователей, участвующих в мероприятии
+    public final static String EVENT_WITH_SUBSCRIBERS = "events_with_subscribers";
     /*
     ----------------- Поля для маппинга --------------------------------
      */
@@ -34,6 +36,8 @@ public final class DBLiterals {
     public final static String SUBSCRIBES = "subscribes";
     //Название поля с мероприятиями, созданных пользоваелем в User
     public final static String CREATED_EVENTS = "createdEvents";
+    //Название поля с пользователями, которые учавствуют в мероприятии
+    public final static String SUBSCRIBERS = "subscribers";
     //название поля с создателем мероприятия в Event
     public final static String USER = "user";
     /*
@@ -43,6 +47,8 @@ public final class DBLiterals {
     public final static String USER_ID = "user_id";
     //Столбец с id мероприятия в users_events
     public final static String EVENT_ID = "event_id";
+    //Столбец с ограничением учатников мероприятия в events
+    public final static String LIMIT = "\"limit\"";
     /*
     ----------------- Форматы данных --------------------------------
      */
@@ -81,4 +87,6 @@ public final class DBLiterals {
     public static final String USER_CREATOR = "Вы являетесь создаталем мероприятия";
     //Ошибка, попытка подписаться на мероприятие, на которое уже подписан
     public static final String USER_SUBSCRIBER = "Вы уже подписаны на это мероприятие";
+    //Ошибка, попытка подписаться на мероприятие, когда лимит участников уже достигнут
+    public static final String LIMIT_ACHIEVED = "Мест не осталось";
 }

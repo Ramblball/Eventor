@@ -49,13 +49,17 @@ public enum DefaultDialog implements IDialog{
                     UserStateCache.setProgress(user, new Progress(telegramMessage, 2));
                     return "Введите место мероприятия";
                 case 2:
-                    telegramMessage.setEventPlace(
-                            entities != null
-                                    ? formatter.applyFormatting(received, entities)
-                                    : received);
+                    if (!message.hasLocation()) {
+                        return "Воспользуйтесь метками на карте!";
+                    }
+                    telegramMessage.setEventPlace("Place");
                     UserStateCache.setProgress(user, new Progress(telegramMessage, 3));
-                    return "Введите описание мероприятия";
+                    return "Введите максимальное количество участников от 2 до 20";
                 case 3:
+                    telegramMessage.setEventLimit(received);
+                    UserStateCache.setProgress(user, new Progress(telegramMessage, 4));
+                    return "Введите описание мероприятия";
+                case 4:
                     telegramMessage.setEventDescription(
                             entities != null
                                     ? formatter.applyFormatting(received, entities)

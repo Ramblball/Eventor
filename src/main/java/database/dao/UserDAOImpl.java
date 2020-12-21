@@ -19,6 +19,7 @@ public class UserDAOImpl extends DAO{
         try (Session session = openSession()) {
             session.enableFetchProfile(DBLiterals.USER_WITH_CREATED);
             session.enableFetchProfile(DBLiterals.USERS_WITH_SUBSCRIBES);
+            session.enableFetchProfile(DBLiterals.EVENT_WITH_SUBSCRIBERS);
             return session.get(User.class, id);
         }
     }

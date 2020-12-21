@@ -47,15 +47,20 @@ public class EventController extends Controller {
      * @param name          Название мероприятия
      * @param time          Время начала мероприятия
      * @param place         Место проведения мероприятия
+     * @param lat           Широта места проведения мероприятия
+     * @param lng           Долгота места проведения мероприятия
+     * @param limit         Максимальное количество подписчиков
      * @param description   Описание мероприятия
      * @return              Результат создания
      */
-    public String create(Integer id, String name, String time, String place, String description) {
+    public String create(Integer id, String name, String time,
+                         String place, Float lat, Float lng, String limit, String description) {
         try {
             User currentUser = getCurrentUser(id);
-            validator.checkEventParams(name, time, place, description);
+            validator.checkEventParams(name, time, limit, description);
             LocalDateTime dateTime = LocalDateTime.parse(time, DateTimeFormatter.ofPattern(Keywords.DATE_TIME_FORMAT));
-            Event event = new Event(name, place, dateTime, Category.Прогулка, description);
+            Integer intLimit = Integer.parseInt(limit);
+            Event event = new Event(name, place, lat, lng, intLimit, dateTime, Category.Прогулка, description);
             eventService.create(currentUser, event);
             return String.format(Keywords.EVENT_CREATED, name);
         } catch (ValidationException e) {
@@ -66,7 +71,7 @@ public class EventController extends Controller {
             return Keywords.AUTH_EXCEPTION + e.getMessage();
         } catch (DBException e) {
             logger.error(e.getMessage(), e);
-            return Keywords.EVENT_CREATE_EXCEPTION;
+            return Keywords.EVENT_CREATE_EXCEPTION + e.getMessage();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return Keywords.EXCEPTION;
@@ -79,13 +84,17 @@ public class EventController extends Controller {
      * @param name          Название мероприятия
      * @param time          Время начала мероприятия
      * @param place         Место проведения мероприятия
+     * @param lat           Широта места проведения мероприятия
+     * @param lng           Долгота места проведения мероприятия
+     * @param limit         Максимальное количество подписчиков
      * @param description   Описание мероприятия
      * @return              Результат обновления
      */
-    public String update(Integer id, String name, String time, String place, String description) {
+    public String update(Integer id, String name, String time,
+                         String place, Float lat, Float lng, String limit, String description) {
         try {
             User currentUser = getCurrentUser(id);
-            validator.checkEventParams(name, time, place, description);
+            validator.checkEventParams(name, time, limit, description);
             Event event = eventService.findByName(name);
             if (event == null) {
                 return Keywords.EVENT_NOT_FOUND;
@@ -96,6 +105,9 @@ public class EventController extends Controller {
             event.setName(name);
             event.setTime(LocalDateTime.parse(time, DateTimeFormatter.ofPattern(Keywords.DATE_TIME_FORMAT)));
             event.setPlace(place);
+            event.setLatitude(lat);
+            event.setLongitude(lng);
+            event.setLimit(Integer.parseInt(limit));
             event.setDescription(description);
             eventService.update(event);
             return String.format(Keywords.EVENT_UPDATED, name);

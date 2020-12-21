@@ -11,6 +11,7 @@ public class TelegramMessage {
     private String eventName;
     private String eventTime;
     private String eventPlace;
+    private String eventLimit;
     private String eventDescription;
 
     public TelegramMessage(User user) {
@@ -55,6 +56,13 @@ public class TelegramMessage {
 
     public void setEventDescription(String eventDescription) {
         this.eventDescription = eventDescription;
+    }
+
+    public String getEventLimit() {
+        return eventLimit;
+    }
+    public void setEventLimit(String eventLimit) {
+        this.eventLimit = eventLimit;
     }
 
     public User getUser() {
