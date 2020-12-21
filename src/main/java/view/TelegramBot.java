@@ -23,7 +23,6 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final static String botName = "eventor_oop_bot";
     private static final Logger logger = LogManager.getLogger(TelegramBot.class);
     public static ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
-    private static String botToken;
 
 
     /**
@@ -41,6 +40,7 @@ public class TelegramBot extends TelegramLongPollingBot {
      */
     @Override
     public String getBotToken() {
+        String botToken;
         try {
             BufferedReader br = new BufferedReader(new FileReader("token.txt"));
             botToken = br.readLine();
@@ -89,9 +89,5 @@ public class TelegramBot extends TelegramLongPollingBot {
         } catch (InterruptedException | InvocationTargetException e) {
             logger.error("Ошибка при отправке данных", e);
         }
-    }
-
-    public static String getToken(){
-        return botToken;
     }
 }
