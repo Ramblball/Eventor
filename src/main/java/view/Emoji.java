@@ -34,4 +34,6 @@ public final class Emoji {
     public static final String SPEECH_BALLOON = "\uD83D\uDCAC";
     // Поиск случайного мероприятия
     public static final String RANDOM = "\uD83C\uDF81";
+    // Поиск GIF
+    public static final String CAMERA = "\uD83D\uDCF9";
 }

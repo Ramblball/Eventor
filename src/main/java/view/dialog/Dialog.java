@@ -1,5 +1,7 @@
 package view.dialog;
 
+import at.mukprojects.giphy4j.Giphy;
+import at.mukprojects.giphy4j.entity.search.SearchFeed;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
 import view.*;
@@ -94,6 +96,21 @@ public enum Dialog implements IDialog {
             UserStateCache.setProgress(message.getFrom(), null);
             TelegramBot.replyKeyboardMarkup = telegramKeyboard.getReplyKeyboardMarkup();
             return "Выберите пункт меню";
+        }
+    },
+
+    //Метод для построения диалога поиска GIF
+    FindGIF("Найти GIF", "Найти GIF " + Emoji.CAMERA, Emoji.CAMERA){
+        @Override
+        public String send(Message message){
+            telegramMessage = UserStateCache.checkProgress(message);
+            String received = message.getText();
+            User user = message.getFrom();
+            telegramKeyboard.hideMenu();
+            telegramMessage.setOperation(received);
+            UserStateCache.setProgress(user, new Progress(telegramMessage, 0));
+            TelegramBot.replyKeyboardMarkup = telegramKeyboard.getReplyKeyboardMarkup();
+            return "Какую GIF вы хотите найти?";
         }
     },
 

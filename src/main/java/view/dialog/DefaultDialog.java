@@ -109,7 +109,8 @@ public enum DefaultDialog implements IDialog{
     // Метод для построения диалога управления подпиской
     EventSubscribe("Подписаться", "Подписаться " + Emoji.CHECK, Emoji.CHECK,
             "Отписаться", "Отписаться " + Emoji.X_MARK, Emoji.X_MARK,
-            "Удалить", "Удалить " + Emoji.MINUS, Emoji.MINUS) {
+            "Удалить", "Удалить " + Emoji.MINUS, Emoji.MINUS,
+            "Найти GIF", "Найти GIF " + Emoji.CAMERA, Emoji.CAMERA) {
         @Override
         public String send(Message message) {
             String received = message.getText();

@@ -54,6 +54,11 @@
             <artifactId>telegrambots</artifactId>
             <version>4.9.2</version>
         </dependency>
+        <dependency>
+            <groupId>at.mukprojects</groupId>
+            <artifactId>giphy4j</artifactId>
+            <version>1.0.1</version>
+        </dependency>
 
     </dependencies>
     

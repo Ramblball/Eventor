@@ -89,10 +89,12 @@ public class TelegramKeyboard {
     public void createMainMenu() {
         clearKeyboardRows();
         firstRow.add("Помощь " + Emoji.INFO);
-        secondRow.add("Управление подписками " + Emoji.WRENCH);
-        secondRow.add("Поиск " + Emoji.MAGNIFYING_GLASS);
+        secondRow.add("Найти GIF " + Emoji.CAMERA);
+        thirdRow.add("Управление подписками " + Emoji.WRENCH);
+        thirdRow.add("Поиск " + Emoji.MAGNIFYING_GLASS);
         keyboard.add(firstRow);
         keyboard.add(secondRow);
+        keyboard.add(thirdRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 

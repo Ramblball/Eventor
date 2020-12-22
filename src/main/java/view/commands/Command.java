@@ -1,11 +1,20 @@
 package view.commands;
 
+import at.mukprojects.giphy4j.Giphy;
+import at.mukprojects.giphy4j.entity.search.SearchFeed;
+import at.mukprojects.giphy4j.exception.GiphyException;
 import controller.EventController;
 import controller.UserController;
 import database.utils.EventQuery;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import view.Emoji;
 import view.TelegramMessage;
+import view.dialog.DefaultDialog;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -138,6 +147,32 @@ public enum Command implements ICommand {
         @Override
         public String execute(TelegramMessage telegramMessage) {
             return eventController.getSubscribes(telegramMessage.getUser().getId());
+        }
+    },
+
+    //Команда для получения GIF по запросу пользователя
+    FindGIF("Найти GIF", "Найти GIF " + Emoji.CAMERA, Emoji.CAMERA){
+        @Override
+        public String execute(TelegramMessage telegramMessage){
+            Logger logger = LogManager.getLogger(DefaultDialog.class);
+            String apiToken;
+            try {
+                BufferedReader br = new BufferedReader(new FileReader("apitoken.txt"));
+                apiToken = br.readLine();
+            } catch (IOException e) {
+                apiToken = System.getenv("API_TOKEN");
+            }
+            Giphy giphy = new Giphy(apiToken);
+            SearchFeed feed = null;
+            try {
+                feed = giphy.search(telegramMessage.getEventName(), 1, 0);
+            } catch (GiphyException e) {
+                logger.error(e.getMessage(), e);
+            }
+            assert feed != null;
+            if (feed.getDataList().isEmpty())
+                return "На данный запрос не найдено GIF";
+            return feed.getDataList().get(0).getImages().getOriginal().getUrl();
         }
     },
 
