@@ -1,4 +1,4 @@
-package controller.exception;
+package view.exception;
 
 /**
  * Класс ошибки, выкидываемой при выполнении пользовательских команд

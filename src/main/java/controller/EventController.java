@@ -1,7 +1,6 @@
 package controller;
 
-import controller.exception.NotAuthorizedException;
-import controller.exception.ValidationException;
+import view.exception.NotAuthorizedException;
 import database.exception.DBException;
 import database.exception.NotFoundException;
 import database.model.*;
@@ -57,15 +56,11 @@ public class EventController extends Controller {
                          String place, Float lat, Float lng, String limit, String description) {
         try {
             User currentUser = getCurrentUser(id);
-            validator.checkEventParams(name, time, limit, description);
             LocalDateTime dateTime = LocalDateTime.parse(time, DateTimeFormatter.ofPattern(Keywords.DATE_TIME_FORMAT));
             Integer intLimit = Integer.parseInt(limit);
             Event event = new Event(name, place, lat, lng, intLimit, dateTime, Category.Прогулка, description);
             eventService.create(currentUser, event);
             return String.format(Keywords.EVENT_CREATED, name);
-        } catch (ValidationException e) {
-            logger.error(e.getMessage(), e);
-            return Keywords.VALIDATION_EXCEPTION + e.getMessage();
         } catch (NotAuthorizedException e) {
             logger.error(e.getMessage(), e);
             return Keywords.AUTH_EXCEPTION + e.getMessage();
@@ -94,7 +89,6 @@ public class EventController extends Controller {
                          String place, Float lat, Float lng, String limit, String description) {
         try {
             User currentUser = getCurrentUser(id);
-            validator.checkEventParams(name, time, limit, description);
             Event event = eventService.findByName(name);
             if (event == null) {
                 return Keywords.EVENT_NOT_FOUND;
@@ -111,9 +105,6 @@ public class EventController extends Controller {
             event.setDescription(description);
             eventService.update(event);
             return String.format(Keywords.EVENT_UPDATED, name);
-        } catch (ValidationException e) {
-            logger.error(e.getMessage(), e);
-            return Keywords.VALIDATION_EXCEPTION + e.getMessage();
         } catch (NotAuthorizedException e) {
             logger.error(e.getMessage(), e);
             return Keywords.AUTH_EXCEPTION + e.getMessage();
