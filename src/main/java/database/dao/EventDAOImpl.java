@@ -34,7 +34,7 @@ public class EventDAOImpl extends DAO{
     }
 
     /**
-     * Метод для отправки запроса на создание меропритятия
+     * Метод для отправки запроса на создание мероприятия
      * @param user          Создатель
      * @param event         Мероприятие
      */
@@ -91,18 +91,21 @@ public class EventDAOImpl extends DAO{
 
     /**
      * Метод для отправки запроса на удаление прошедших мероприятий
+     * @return              Количество удаленных мероприятий
      */
-    public void deleteCompleted() {
+    public int deleteCompleted() {
         try (Session session = openSession()) {
             session.enableFetchProfile(DBLiterals.EVENT_WITH_SUBSCRIBERS);
             List<Event> events = session.createQuery("FROM Event WHERE time <= :now", Event.class)
                     .setParameter("now", LocalDateTime.now())
                     .getResultList();
+            int count = events.size();
             session.getTransaction().begin();
             for (Event event : events) {
                 session.delete(event);
             }
             session.getTransaction().commit();
+            return count;
         }
     }
 
@@ -156,7 +159,7 @@ public class EventDAOImpl extends DAO{
     }
 
     /**
-     * Метод для отправки запроса на подписку пользоватля на мероприятие
+     * Метод для отправки запроса на подписку пользователя на мероприятие
      * @param user          Пользователь
      * @param event         Мероприятие
      */

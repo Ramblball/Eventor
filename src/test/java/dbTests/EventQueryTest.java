@@ -22,7 +22,6 @@ public class EventQueryTest {
     public void validTest1() {
         EventQuery query = new EventQuery();
         query.setName("event");
-        query.setPlace("Pushkin st.");
         query.setDescription("Very long and interesting description");
         query.setCategory("1");
 
@@ -46,7 +45,7 @@ public class EventQueryTest {
             Event event = service.findAll().get(0);
             query.setName(event.getName());
             query.setCategory(event.getCategory().toString());
-            query.setPlace(event.getPlace());
+//            query.setPlace(event.getPlace());
             query.setDescription(event.getDescription());
             query.setTime(event.getTime().toLocalDate().toString());
 

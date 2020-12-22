@@ -85,7 +85,7 @@ public enum Dialog implements IDialog {
         }
     },
 
-    // Метод для посторения диалога отмены действия
+    // Метод для построения диалога отмены действия
     ReturnBack("Назад", "Назад " + Emoji.BACK, Emoji.BACK) {
         @Override
         public String send(Message message) {
@@ -97,7 +97,7 @@ public enum Dialog implements IDialog {
         }
     },
 
-    // Метод для посторения диалога при неизвестном запросе
+    // Метод для построения диалога при неизвестном запросе
     Unknown() {
         @Override
         public String send(Message message) {

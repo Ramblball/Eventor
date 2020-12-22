@@ -24,9 +24,11 @@ public class EventQuery {
         this.name = NAME_QUERY + name + PERCENT;
     }
 
-    public void setPlace(String place) {
-        if (place.length() == 0) return;
-        this.place = PLACE_QUERY + place + PERCENT;
+    public void setPlace(Float lat, Float lng) {
+        this.place = PLACE_QUERY_1 + lat +
+                    PLACE_QUERY_2 + lat +
+                    PLACE_QUERY_3 + lng +
+                    PLACE_QUERY_4;
     }
 
     public void setTime(String time) {

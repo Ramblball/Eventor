@@ -73,7 +73,7 @@ public class EventService {
     }
 
     /**
-     * Метод для уаления меропритятия
+     * Метод для удаления мероприятия
      * @param user                  Создатель
      * @param event                 Удаляемое мероприятие
      * @throws PersistenceException Ошибка сохранения
@@ -86,9 +86,15 @@ public class EventService {
         }
     }
 
-    public void removeCompleted() throws DBException {
+    /**
+     * Метод для удаления прошедших мероприятий
+     * @return                      Количество удаленных мероприятий
+     */
+    public int removeCompleted() throws DBException {
         try {
-            eventDAO.deleteCompleted();
+            return eventDAO.deleteCompleted();
+        } catch (NoResultException e) {
+            return 0;
         } catch (PersistenceException e) {
             throw new DBException(DBLiterals.DB_EXCEPTION, e);
         }
@@ -99,7 +105,7 @@ public class EventService {
      * @param query                     EventQuery с параметрами поиска
      * @return                          Список найденных мероприятий
      * @throws NotFoundException        Мероприятий не найдено
-     * @throws SQLGrammarException      Ошибка сиснтаксиса SQL запроса
+     * @throws SQLGrammarException      Ошибка синтаксиса SQL запроса
      * @throws QueryParameterException  Попытка поиска без заданных параметров
      */
     public List<Event> findWithFilter(EventQuery query) throws NotFoundException, DBException {
@@ -115,11 +121,11 @@ public class EventService {
     }
 
     /**
-     * Метод для получения мероприятиятий, проходящих в заданном временном интервале
+     * Метод для получения мероприятий, проходящих в заданном временном интервале
      * @param begin                     Время начала интервала (Включительно)
      * @param end                       Время конца интервала (Исключительно)
      * @return                          Список найденных мероприятий
-     * @throws NotFoundException        Мероприятий не наайдено
+     * @throws NotFoundException        Мероприятий не найдено
      * @throws QuerySyntaxException     Ошибка синтаксиса запроса
      */
     public List<Event> findWithInterval(LocalDateTime begin, LocalDateTime end) throws NotFoundException, DBException {

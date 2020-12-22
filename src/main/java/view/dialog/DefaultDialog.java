@@ -16,7 +16,7 @@ import java.util.Map;
 
 public enum DefaultDialog implements IDialog{
 
-    // Метод для посторения диалога при неизвестном запросе
+    // Метод для построения диалога при неизвестном запросе
     Default() {
         @Override
         public String send(Message message) {
@@ -106,7 +106,7 @@ public enum DefaultDialog implements IDialog{
         }
     },
 
-    // Метод для посторения диалога управления подпиской
+    // Метод для построения диалога управления подпиской
     EventSubscribe("Подписаться", "Подписаться " + Emoji.CHECK, Emoji.CHECK,
             "Отписаться", "Отписаться " + Emoji.X_MARK, Emoji.X_MARK,
             "Удалить", "Удалить " + Emoji.MINUS, Emoji.MINUS) {
@@ -123,7 +123,7 @@ public enum DefaultDialog implements IDialog{
         }
     },
 
-    // Метод для посторения диалога при неизвестном запросе
+    // Метод для построения диалога при неизвестном запросе
     Unknown() {
         @Override
         public String send(Message message) {

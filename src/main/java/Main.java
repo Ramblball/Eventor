@@ -10,15 +10,12 @@ import view.commands.Command;
 import view.dialog.DefaultDialog;
 import view.dialog.Dialog;
 
-import java.util.Timer;
-
 /**
  * Входная точка приложения
  */
 public class Main {
     private static final Logger logger = LogManager.getLogger(Main.class);
-    private static final EventRemoveTask task = new EventRemoveTask();
-    private static final Timer timer = new Timer();
+    private static final EventRemoveTask databaseCleaner = new EventRemoveTask();
 
     public static void main(String[] args) {
         init();
@@ -34,7 +31,7 @@ public class Main {
 
     private static void init() {
         HibernateSessionFactory.getSessionFactory();
-        timer.scheduleAtFixedRate(task, 0, 60 * 60 * 1000);
+        databaseCleaner.init();
         Dialog dialog = Dialog.Unknown;
         DefaultDialog defaultDialog = DefaultDialog.Unknown;
         Command command = Command.Unknown;

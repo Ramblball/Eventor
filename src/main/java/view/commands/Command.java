@@ -22,7 +22,7 @@ public enum Command implements ICommand {
         }
     },
 
-    // Команда сохранения информаии о пользователе
+    // Команда сохранения информации о пользователе
     UserCreate("/start", "Привет") {
         @Override
         public String execute(TelegramMessage telegramMessage) {
@@ -78,7 +78,7 @@ public enum Command implements ICommand {
             eventQuery.setName(telegramMessage.getEventName());
             eventQuery.setDescription(telegramMessage.getEventDescription());
             eventQuery.setTime(telegramMessage.getEventTime());
-            eventQuery.setPlace(telegramMessage.getEventPlace());
+            eventQuery.setPlace(telegramMessage.getEventLatitude(), telegramMessage.getEventLongitude());
             return eventController.findWithFilter(eventQuery);
         }
     },

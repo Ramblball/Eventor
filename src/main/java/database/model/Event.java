@@ -3,7 +3,6 @@ package database.model;
 import database.DBLiterals;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.FetchProfile;
-import view.TelegramBot;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

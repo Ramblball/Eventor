@@ -5,24 +5,31 @@ import database.services.EventService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
-public class EventRemoveTask extends TimerTask {
+/**
+ * Класс для выполнения метода отчистки прошедших мероприятий с периодичностью в 1 час
+ */
+public class EventRemoveTask {
     private static final Logger logger = LogManager.getLogger(EventRemoveTask.class);
     private final static EventService service = new EventService();
-    private static final Timer timer = new Timer();
 
-    final Runnable remover = () -> {
-        try {
-            service.removeCompleted();
-        } catch (DBException e) {
-            logger.error("Ошибка при удалении устаревших мероприятий", e);
-        }
-    };
+    public void init() {
+        ScheduledExecutorService scheduledExecutor = Executors.newScheduledThreadPool(1);
 
-    @Override
-    public void run() {
-        remover.run();
+        final Runnable remover = () -> {
+            try {
+                int count = service.removeCompleted();
+                logger.info("Удалено " + count + "мероприятий");
+            } catch (DBException e) {
+                logger.error("Ошибка при удалении устаревших мероприятий", e);
+            }
+        };
+        
+        ScheduledFuture<?> scheduledFuture =
+                scheduledExecutor.scheduleAtFixedRate(remover, 0, 60 * 60, TimeUnit.SECONDS);
     }
 }

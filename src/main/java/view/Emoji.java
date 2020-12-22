@@ -1,7 +1,7 @@
 package view;
 
 /**
- * Класс, храняющий константы с unicode кодами для эмодзи
+ * Класс для хранения констант с unicode кодами для эмодзи
  */
 public final class Emoji {
     // Создание мероприятия
@@ -12,7 +12,7 @@ public final class Emoji {
     public static final String PENCIL = "\u270F";
     // Подписаться на мероприятие
     public static final String CHECK = "\u2714";
-    // Отпасаться от мероприятия
+    // Отписаться от мероприятия
     public static final String X_MARK = "\u2716";
     // Возвращение
     public static final String BACK = "\uD83D\uDD19";
