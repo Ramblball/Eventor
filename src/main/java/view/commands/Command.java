@@ -5,6 +5,7 @@ import at.mukprojects.giphy4j.entity.search.SearchFeed;
 import at.mukprojects.giphy4j.exception.GiphyException;
 import controller.EventController;
 import controller.UserController;
+import database.model.Event;
 import database.utils.EventQuery;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -163,8 +164,12 @@ public enum Command implements ICommand {
             }
             Giphy giphy = new Giphy(apiToken);
             SearchFeed feed = null;
+            String description = eventController.getEventDescription(telegramMessage.getEventName());
+            if (description == null) {
+                return "Мероприятие не найдено";
+            }
             try {
-                feed = giphy.search(telegramMessage.getEventName(), 1, 0);
+                feed = giphy.search(description, 1, 0);
             } catch (GiphyException e) {
                 logger.error(e.getMessage(), e);
             }
@@ -179,7 +184,7 @@ public enum Command implements ICommand {
     Unknown() {
         @Override
         public String execute(TelegramMessage telegramMessage) {
-            return "Неивестная команда. Введите \"Помощь\"";
+            return "Неизвестная команда. Введите \"Помощь\"";
         }
     };
 

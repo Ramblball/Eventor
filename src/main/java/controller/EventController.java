@@ -323,6 +323,21 @@ public class EventController extends Controller {
     }
 
     /**
+     * Метод для получения описания мероприятия по его названию
+     * @param name          Название мероприятия
+     * @return              Описание мероприятия
+     */
+    public String getEventDescription(String name) {
+        try {
+            var event = eventService.findByName(name);
+            return event.getDescription();
+        } catch (NotFoundException | DBException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+    /**
      * Метод для преобразования списка мероприятий в удобный для чтения формат
      * @param events      Список мероприятий
      * @return            Список мероприятий в удобном для чтения формате

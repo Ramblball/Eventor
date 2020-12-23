@@ -73,7 +73,8 @@ public enum Dialog implements IDialog {
             "Подписаться", "Подписаться " + Emoji.CHECK, Emoji.CHECK,
             "Отписаться", "Отписаться " + Emoji.X_MARK, Emoji.X_MARK,
             "По имени", "По имени " + Emoji.SPEECH_BALLOON, Emoji.SPEECH_BALLOON,
-            "По параметрам", "По параметрам " + Emoji.NIB, Emoji.NIB) {
+            "По параметрам", "По параметрам " + Emoji.NIB, Emoji.NIB,
+            "Найти GIF", "Найти GIF " + Emoji.CAMERA, Emoji.CAMERA) {
         @Override
         public String send(Message message) {
             telegramMessage = UserStateCache.checkProgress(message);
@@ -96,21 +97,6 @@ public enum Dialog implements IDialog {
             UserStateCache.setProgress(message.getFrom(), null);
             TelegramBot.replyKeyboardMarkup = telegramKeyboard.getReplyKeyboardMarkup();
             return "Выберите пункт меню";
-        }
-    },
-
-    //Метод для построения диалога поиска GIF
-    FindGIF("Найти GIF", "Найти GIF " + Emoji.CAMERA, Emoji.CAMERA){
-        @Override
-        public String send(Message message){
-            telegramMessage = UserStateCache.checkProgress(message);
-            String received = message.getText();
-            User user = message.getFrom();
-            telegramKeyboard.hideMenu();
-            telegramMessage.setOperation(received);
-            UserStateCache.setProgress(user, new Progress(telegramMessage, 0));
-            TelegramBot.replyKeyboardMarkup = telegramKeyboard.getReplyKeyboardMarkup();
-            return "Какую GIF вы хотите найти?";
         }
     },
 
