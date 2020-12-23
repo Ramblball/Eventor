@@ -5,6 +5,7 @@ import database.model.Category;
 import database.model.Event;
 import database.model.User;
 import database.utils.EventQuery;
+import database.utils.HibernateSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -16,7 +17,15 @@ import java.util.List;
 /**
  * Класс запросов к базе данных к таблице мероприятий
  */
-public class EventDAOImpl extends DAO{
+public class EventDAOImpl implements DAO<Event> {
+
+    /**
+     * Метод создания сессии работы с пользователем
+     * @return            Сессия взаимодействия с базой данных
+     */
+    private Session openSession(){
+        return HibernateSessionFactory.getSessionFactory().openSession();
+    }
 
     /**
      * Метод для отправки запроса на поиск по имени
@@ -34,21 +43,32 @@ public class EventDAOImpl extends DAO{
     }
 
     /**
-     * Метод для отправки запроса на создание мероприятия
-     * @param user          Создатель
-     * @param event         Мероприятие
+     * Метод для отправки запроса на поиск по уникальному идентификатору
+     * @param id            Уникальный идентификатор мероприятия
+     * @return              Объект мероприятия
      */
-    public void create(User user, Event event) {
+    @Override
+    public Event findById(int id) {
+        try (Session session = openSession()) {
+            session.enableFetchProfile(DBLiterals.EVENT_WITH_SUBSCRIBERS);
+            return session.get(Event.class, id);
+        }
+    }
+
+    /**
+     * Метод для отправки запроса на создание мероприятия
+     * @param entity         Мероприятие
+     */
+    @Override
+    public void create(Event entity) {
         try (Session session = openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.refresh(user);
-            user.addCreatedEvent(event);
-            session.save(event);
+            session.save(entity);
             transaction.commit();
             transaction.begin();
             session.createSQLQuery(DBLiterals.CREATE_EVENT_SET_VECTOR_QUERY)
-                    .setParameter(DBLiterals.EVENT_ID, event.getId())
-                    .setParameter(DBLiterals.DESCRIPTION, event.getDescription())
+                    .setParameter(DBLiterals.EVENT_ID, entity.getId())
+                    .setParameter(DBLiterals.DESCRIPTION, entity.getDescription())
                     .executeUpdate();
             transaction.commit();
         }
@@ -56,17 +76,18 @@ public class EventDAOImpl extends DAO{
 
     /**
      * Метод для отправки запроса на обновление мероприятия
-     * @param event         Мероприятие
+     * @param entity         Мероприятие
      */
-    public void update(Event event) {
+    @Override
+    public void update(Event entity) {
         try (Session session = openSession()){
             Transaction transaction = session.beginTransaction();
-            session.update(event);
+            session.update(entity);
             transaction.commit();
             transaction.begin();
             session.createSQLQuery(DBLiterals.UPDATE_EVENT_UPDATE_VECTOR_QUERY)
-                    .setParameter(DBLiterals.DESCRIPTION, event.getDescription())
-                    .setParameter(DBLiterals.EVENT_ID, event.getId())
+                    .setParameter(DBLiterals.DESCRIPTION, entity.getDescription())
+                    .setParameter(DBLiterals.EVENT_ID, entity.getId())
                     .executeUpdate();
             transaction.commit();
         }
@@ -74,17 +95,13 @@ public class EventDAOImpl extends DAO{
 
     /**
      * Метод для отправки запроса на удаление мероприятия
-     * @param user          Создатель
-     * @param event         Мероприятие
+     * @param entity         Мероприятие
      */
-    public void delete(User user, Event event) {
-        try (Session session = openSession()) {
-            session.refresh(user);
-            user.removeCreatedEvent(event);
-        }
+    @Override
+    public void remove(Event entity) {
         try (Session session = openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.delete(event);
+            session.delete(entity);
             transaction.commit();
         }
     }
@@ -146,7 +163,7 @@ public class EventDAOImpl extends DAO{
                         Float.parseFloat(row[8].toString()),
                         Integer.parseInt(row[6].toString()),
                         LocalDateTime.parse(time, formatter),
-                        Category.values()[Integer.parseInt(row[5].toString())],
+                        Integer.parseInt(row[4].toString()),
                         row[3].toString()
                 );
                 event.setId(Integer.parseInt(row[0].toString()));

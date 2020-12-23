@@ -49,14 +49,15 @@ public class Event {
     }
 
     public Event(String name, String place, Float lat, Float lng, Integer limit,
-                 LocalDateTime time, Category category, String description) {
+                 LocalDateTime time, int user, String description) {
         this.name = name;
         this.place = place;
         this.latitude = lat;
         this.longitude = lng;
         this.limit = limit;
         this.time = time;
-        this.category = category.ordinal();
+        this.category = 0;
+        this.userId = user;
         this.description = description;
     }
 

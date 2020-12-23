@@ -58,8 +58,8 @@ public class EventController extends Controller {
             User currentUser = getCurrentUser(id);
             LocalDateTime dateTime = LocalDateTime.parse(time, DateTimeFormatter.ofPattern(Keywords.DATE_TIME_FORMAT));
             Integer intLimit = Integer.parseInt(limit);
-            Event event = new Event(name, place, lat, lng, intLimit, dateTime, Category.Прогулка, description);
-            eventService.create(currentUser, event);
+            Event event = new Event(name, place, lat, lng, intLimit, dateTime, currentUser.getId(), description);
+            eventService.create(event);
             return String.format(Keywords.EVENT_CREATED, name);
         } catch (NotAuthorizedException e) {
             logger.error(e.getMessage(), e);
@@ -132,7 +132,7 @@ public class EventController extends Controller {
             if (event.getUserId() != currentUser.getId()) {
                 return Keywords.NOT_CREATED_UPDATE;
             }
-            eventService.remove(currentUser, event);
+            eventService.remove(event);
             return String.format(Keywords.EVENT_REMOVED, event.getName());
         } catch (NotAuthorizedException e) {
             logger.error(e.getMessage(), e);

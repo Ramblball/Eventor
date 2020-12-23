@@ -154,7 +154,6 @@ public enum Command implements ICommand {
     FindGIF("Найти GIF", "Найти GIF " + Emoji.CAMERA, Emoji.CAMERA){
         @Override
         public String execute(TelegramMessage telegramMessage){
-            Logger logger = LogManager.getLogger(DefaultDialog.class);
             String apiToken;
             try {
                 BufferedReader br = new BufferedReader(new FileReader("apitoken.txt"));
@@ -186,6 +185,7 @@ public enum Command implements ICommand {
 
     protected EventController eventController = new EventController();
     protected UserController userController = new UserController();
+    private static final Logger logger = LogManager.getLogger(DefaultDialog.class);
 
     protected static class Commands {
         private final static Map<String, ICommand> values = new HashMap<>();

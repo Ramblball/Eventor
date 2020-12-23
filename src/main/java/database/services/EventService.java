@@ -46,13 +46,12 @@ public class EventService {
 
     /**
      * Метод для создания мероприятия
-     * @param user                  Создатель
      * @param event                 Новое мероприятие
      * @throws PersistenceException Ошибка сохранения
      */
-    public void create(User user, Event event) throws DBException{
+    public void create(Event event) throws DBException{
         try {
-            eventDAO.create(user, event);
+            eventDAO.create(event);
         } catch (PersistenceException e) {
             throw new DBException(DBLiterals.DB_EXCEPTION, e);
         }
@@ -74,13 +73,12 @@ public class EventService {
 
     /**
      * Метод для удаления мероприятия
-     * @param user                  Создатель
      * @param event                 Удаляемое мероприятие
      * @throws PersistenceException Ошибка сохранения
      */
-    public void remove(User user, Event event) throws DBException {
+    public void remove(Event event) throws DBException {
         try {
-            eventDAO.delete(user, event);
+            eventDAO.remove(event);
         } catch (PersistenceException e) {
             throw new DBException(DBLiterals.DB_EXCEPTION, e);
         }
