@@ -42,16 +42,16 @@ public class Validator {
 
     /**
      * Метод для валидации ограничения на число участников
-     * @param limit                         Ограничение кол-ва участников мероприятия
+     * @param strLimit                         Ограничение кол-ва участников мероприятия
      * @throws OutOfFieldBorderException    Введенный параметр находится вне допустимых границ
      */
-    public void checkLimit(String limit) throws ValidationException {
+    public void checkLimit(String strLimit) throws ValidationException {
         try {
-            int lim = Integer.parseInt(limit);
-            if (lim < 2) {
+            int intLimit = Integer.parseInt(strLimit);
+            if (intLimit < 2) {
                 throw new OutOfFieldBorderException("Слишком мало мест на мероприятие");
             }
-            if (lim > 20) {
+            if (intLimit > 20) {
                 throw new OutOfFieldBorderException("Слишком много мест на мероприятие");
             }
         } catch (NumberFormatException e) {

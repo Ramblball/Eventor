@@ -29,6 +29,13 @@ public class Main {
         }
     }
 
+    /**
+     * Метод для инициализации контекста приложения
+     *  Подключение базы данных
+     *  Задача удаления прошедших мероприятий
+     *  Команд и диалогов
+     *  Контекст бота
+     */
     private static void init() {
         HibernateSessionFactory.getSessionFactory();
         databaseCleaner.init();

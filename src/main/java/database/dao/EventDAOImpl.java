@@ -93,7 +93,7 @@ public class EventDAOImpl extends DAO{
      * Метод для отправки запроса на удаление прошедших мероприятий
      * @return              Количество удаленных мероприятий
      */
-    public int deleteCompleted() {
+    public int deleteCompletedEvents() {
         try (Session session = openSession()) {
             session.enableFetchProfile(DBLiterals.EVENT_WITH_SUBSCRIBERS);
             List<Event> events = session.createQuery("FROM Event WHERE time <= :now", Event.class)

@@ -22,8 +22,8 @@ public class EventRemoveTask {
 
         final Runnable remover = () -> {
             try {
-                int count = service.removeCompleted();
-                logger.info("Удалено " + count + "мероприятий");
+                int count = service.removeCompletedEvents();
+                logger.info(String.format("Удалено %d мероприятий", count));
             } catch (DBException e) {
                 logger.error("Ошибка при удалении устаревших мероприятий", e);
             }

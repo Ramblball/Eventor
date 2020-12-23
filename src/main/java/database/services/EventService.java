@@ -90,9 +90,9 @@ public class EventService {
      * Метод для удаления прошедших мероприятий
      * @return                      Количество удаленных мероприятий
      */
-    public int removeCompleted() throws DBException {
+    public int removeCompletedEvents() throws DBException {
         try {
-            return eventDAO.deleteCompleted();
+            return eventDAO.deleteCompletedEvents();
         } catch (NoResultException e) {
             return 0;
         } catch (PersistenceException e) {
