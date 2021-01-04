@@ -1,7 +1,6 @@
 package controller;
 
-import controller.exception.NotAuthorizedException;
-import controller.exception.ValidationException;
+import view.exception.NotAuthorizedException;
 import database.exception.DBException;
 import database.exception.NotFoundException;
 import database.model.*;
@@ -47,26 +46,27 @@ public class EventController extends Controller {
      * @param name          Название мероприятия
      * @param time          Время начала мероприятия
      * @param place         Место проведения мероприятия
+     * @param lat           Широта места проведения мероприятия
+     * @param lng           Долгота места проведения мероприятия
+     * @param limit         Максимальное количество подписчиков
      * @param description   Описание мероприятия
      * @return              Результат создания
      */
-    public String create(Integer id, String name, String time, String place, String description) {
+    public String create(Integer id, String name, String time,
+                         String place, Float lat, Float lng, String limit, String description) {
         try {
             User currentUser = getCurrentUser(id);
-            validator.checkEventParams(name, time, place, description);
             LocalDateTime dateTime = LocalDateTime.parse(time, DateTimeFormatter.ofPattern(Keywords.DATE_TIME_FORMAT));
-            Event event = new Event(name, place, dateTime, Category.Прогулка, description);
-            eventService.create(currentUser, event);
+            Integer intLimit = Integer.parseInt(limit);
+            Event event = new Event(name, place, lat, lng, intLimit, dateTime, currentUser.getId(), description);
+            eventService.create(event);
             return String.format(Keywords.EVENT_CREATED, name);
-        } catch (ValidationException e) {
-            logger.error(e.getMessage(), e);
-            return Keywords.VALIDATION_EXCEPTION + e.getMessage();
         } catch (NotAuthorizedException e) {
             logger.error(e.getMessage(), e);
             return Keywords.AUTH_EXCEPTION + e.getMessage();
         } catch (DBException e) {
             logger.error(e.getMessage(), e);
-            return Keywords.EVENT_CREATE_EXCEPTION;
+            return Keywords.EVENT_CREATE_EXCEPTION + e.getMessage();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return Keywords.EXCEPTION;
@@ -79,13 +79,16 @@ public class EventController extends Controller {
      * @param name          Название мероприятия
      * @param time          Время начала мероприятия
      * @param place         Место проведения мероприятия
+     * @param lat           Широта места проведения мероприятия
+     * @param lng           Долгота места проведения мероприятия
+     * @param limit         Максимальное количество подписчиков
      * @param description   Описание мероприятия
      * @return              Результат обновления
      */
-    public String update(Integer id, String name, String time, String place, String description) {
+    public String update(Integer id, String name, String time,
+                         String place, Float lat, Float lng, String limit, String description) {
         try {
             User currentUser = getCurrentUser(id);
-            validator.checkEventParams(name, time, place, description);
             Event event = eventService.findByName(name);
             if (event == null) {
                 return Keywords.EVENT_NOT_FOUND;
@@ -96,12 +99,12 @@ public class EventController extends Controller {
             event.setName(name);
             event.setTime(LocalDateTime.parse(time, DateTimeFormatter.ofPattern(Keywords.DATE_TIME_FORMAT)));
             event.setPlace(place);
+            event.setLatitude(lat);
+            event.setLongitude(lng);
+            event.setLimit(Integer.parseInt(limit));
             event.setDescription(description);
             eventService.update(event);
             return String.format(Keywords.EVENT_UPDATED, name);
-        } catch (ValidationException e) {
-            logger.error(e.getMessage(), e);
-            return Keywords.VALIDATION_EXCEPTION + e.getMessage();
         } catch (NotAuthorizedException e) {
             logger.error(e.getMessage(), e);
             return Keywords.AUTH_EXCEPTION + e.getMessage();
@@ -129,7 +132,7 @@ public class EventController extends Controller {
             if (event.getUserId() != currentUser.getId()) {
                 return Keywords.NOT_CREATED_UPDATE;
             }
-            eventService.remove(currentUser, event);
+            eventService.remove(event);
             return String.format(Keywords.EVENT_REMOVED, event.getName());
         } catch (NotAuthorizedException e) {
             logger.error(e.getMessage(), e);
@@ -250,6 +253,24 @@ public class EventController extends Controller {
     }
 
     /**
+     * Метод для поиска случайного мероприятия
+     * @return              Случайное мероприятие
+     */
+    public String findRandom() {
+        try {
+            Random random = new Random();
+            List<Event> events = eventService.findAll();
+            int index = random.nextInt(events.size());
+            return events.get(index).toString();
+        } catch (NotFoundException e) {
+            return e.getMessage();
+        } catch (DBException e) {
+            logger.error(e.getMessage(), e);
+            return Keywords.EVENT_FIND_EXCEPTION + e.getMessage();
+        }
+    }
+
+    /**
      * Метод для подписки пользователя на мероприятие
      * @param id            Уникальный идентификатор пользователя
      * @param name          Название мероприятия
@@ -299,6 +320,21 @@ public class EventController extends Controller {
             logger.error(e.getMessage(), e);
             return Keywords.EXCEPTION;
         }
+    }
+
+    /**
+     * Метод для получения описания мероприятия по его названию
+     * @param name          Название мероприятия
+     * @return              Описание мероприятия
+     */
+    public String getEventDescription(String name) {
+        try {
+            var event = eventService.findByName(name);
+            return event.getDescription();
+        } catch (NotFoundException | DBException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return null;
     }
 
     /**

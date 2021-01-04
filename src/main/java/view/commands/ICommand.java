@@ -3,7 +3,7 @@ package view.commands;
 import view.TelegramMessage;
 
 /**
- * Интерфейс, описывающий поведение комманд
+ * Интерфейс, описывающий поведение команд
  */
 public interface ICommand {
 

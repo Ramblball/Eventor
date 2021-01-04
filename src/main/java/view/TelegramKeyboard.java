@@ -54,10 +54,12 @@ public class TelegramKeyboard {
         firstRow.add("По имени " + Emoji.SPEECH_BALLOON);
         firstRow.add("По параметрам " + Emoji.NIB);
         secondRow.add("На текущей неделе " + Emoji.CALENDAR);
-        thirdRow.add("Назад " + Emoji.BACK);
+        thirdRow.add("Случайное " + Emoji.RANDOM);
+        fourthRow.add("Назад " + Emoji.BACK);
         keyboard.add(firstRow);
         keyboard.add(secondRow);
         keyboard.add(thirdRow);
+        keyboard.add(fourthRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
@@ -87,10 +89,12 @@ public class TelegramKeyboard {
     public void createMainMenu() {
         clearKeyboardRows();
         firstRow.add("Помощь " + Emoji.INFO);
-        secondRow.add("Управление подписками " + Emoji.WRENCH);
-        secondRow.add("Поиск " + Emoji.MAGNIFYING_GLASS);
+        secondRow.add("Найти GIF " + Emoji.CAMERA);
+        thirdRow.add("Управление подписками " + Emoji.WRENCH);
+        thirdRow.add("Поиск " + Emoji.MAGNIFYING_GLASS);
         keyboard.add(firstRow);
         keyboard.add(secondRow);
+        keyboard.add(thirdRow);
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 

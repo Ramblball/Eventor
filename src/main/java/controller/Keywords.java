@@ -28,8 +28,6 @@ public final class Keywords {
     public final static String LONG_NAME = "Название должно быть короче 32 символов";
     //Дата и время уже прошли
     public final static String PAST_DATE = "Введенная дата уже прошла";
-    //Слишком длинное место проведения
-    public final static String LONG_PLACE = "Описание места проведения должно быть короче 128 символов";
     //Слишком длинное описание
     public final static String LONG_DESCRIPTION = "Описание должно быть короче 512 символов";
     //Внутренняя ошибка модели
@@ -43,24 +41,24 @@ public final class Keywords {
     //Пользователя нет в базе данных
     public final static String USER_NOT_FOUND_EXCEPTION = "Пользователь не найден:\n";
     //Ошибка валидации
-    public final static String VALIDATION_EXCEPTION = "Ошибка в введеных данных:\n";
+    public final static String VALIDATION_EXCEPTION = "Ошибка в введенных данных:\n";
     //Ошибка создания пользователя
     public final static String USER_CREATE_EXCEPTION = "Не удалось создать пользователя:\n";
     //Ошибка обновления пользователя
     public final static String USER_UPDATE_EXCEPTION = "Не удалось сохранить изменения:\n";
     //Пользователь не авторизован
     public final static String AUTH_EXCEPTION = "Не удалось найти ваши данные, введите /start";
-    //Ошибка создания меропрития
+    //Ошибка создания мероприятия
     public final static String EVENT_CREATE_EXCEPTION = "Не удалось создать мероприятие:\n";
-    //Ошибка обновления меропрития
+    //Ошибка обновления мероприятия
     public final static String EVENT_UPDATE_EXCEPTION = "Не удалось обновить мероприятие:\n";
-    //Ошибка удаления меропрития
+    //Ошибка удаления мероприятия
     public final static String EVENT_REMOVE_EXCEPTION = "Не удалось удалить мероприятие:\n";
-    //Ошибка поиска меропрития
+    //Ошибка поиска мероприятия
     public final static String EVENT_FIND_EXCEPTION = "Не удалось найти ваши мероприятия:\n";
-    //Ошибка подписки на меропритие
+    //Ошибка подписки на мероприятия
     public final static String EVENT_SUB_EXCEPTION = "Не удалось оформить подписку:\n";
-    //Ошибка отписки от меропрития
+    //Ошибка отписки от мероприятия
     public final static String EVENT_UNSUB_EXCEPTION = "Не удалось отписаться:\n";
     /*
     ----------------- Форматы данных --------------------------------

@@ -7,8 +7,6 @@ import database.exception.NotFoundException;
 import database.model.Event;
 import database.model.User;
 import database.utils.EventQuery;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.hibernate.QueryParameterException;
 import org.hibernate.exception.SQLGrammarException;
 import org.hibernate.hql.internal.ast.QuerySyntaxException;
@@ -48,13 +46,12 @@ public class EventService {
 
     /**
      * Метод для создания мероприятия
-     * @param user                  Создатель
      * @param event                 Новое мероприятие
      * @throws PersistenceException Ошибка сохранения
      */
-    public void create(User user, Event event) throws DBException{
+    public void create(Event event) throws DBException{
         try {
-            eventDAO.create(user, event);
+            eventDAO.create(event);
         } catch (PersistenceException e) {
             throw new DBException(DBLiterals.DB_EXCEPTION, e);
         }
@@ -75,14 +72,27 @@ public class EventService {
     }
 
     /**
-     * Метод для уаления меропритятия
-     * @param user                  Создатель
+     * Метод для удаления мероприятия
      * @param event                 Удаляемое мероприятие
      * @throws PersistenceException Ошибка сохранения
      */
-    public void remove(User user, Event event) throws DBException {
+    public void remove(Event event) throws DBException {
         try {
-            eventDAO.delete(user, event);
+            eventDAO.remove(event);
+        } catch (PersistenceException e) {
+            throw new DBException(DBLiterals.DB_EXCEPTION, e);
+        }
+    }
+
+    /**
+     * Метод для удаления прошедших мероприятий
+     * @return                      Количество удаленных мероприятий
+     */
+    public int removeCompletedEvents() throws DBException {
+        try {
+            return eventDAO.deleteCompletedEvents();
+        } catch (NoResultException e) {
+            return 0;
         } catch (PersistenceException e) {
             throw new DBException(DBLiterals.DB_EXCEPTION, e);
         }
@@ -93,7 +103,7 @@ public class EventService {
      * @param query                     EventQuery с параметрами поиска
      * @return                          Список найденных мероприятий
      * @throws NotFoundException        Мероприятий не найдено
-     * @throws SQLGrammarException      Ошибка сиснтаксиса SQL запроса
+     * @throws SQLGrammarException      Ошибка синтаксиса SQL запроса
      * @throws QueryParameterException  Попытка поиска без заданных параметров
      */
     public List<Event> findWithFilter(EventQuery query) throws NotFoundException, DBException {
@@ -109,11 +119,11 @@ public class EventService {
     }
 
     /**
-     * Метод для получения мероприятиятий, проходящих в заданном временном интервале
+     * Метод для получения мероприятий, проходящих в заданном временном интервале
      * @param begin                     Время начала интервала (Включительно)
      * @param end                       Время конца интервала (Исключительно)
      * @return                          Список найденных мероприятий
-     * @throws NotFoundException        Мероприятий не наайдено
+     * @throws NotFoundException        Мероприятий не найдено
      * @throws QuerySyntaxException     Ошибка синтаксиса запроса
      */
     public List<Event> findWithInterval(LocalDateTime begin, LocalDateTime end) throws NotFoundException, DBException {
@@ -132,12 +142,16 @@ public class EventService {
      * Метод получения всех созданных мероприятий
      * @return list of all events
      */
-    public List<Event> findAll() throws NotFoundException {
-        List<Event> events = eventDAO.findAll();
-        if (events == null) {
-            throw new NotFoundException(DBLiterals.EVENT_NOT_FOUND);
+    public List<Event> findAll() throws NotFoundException, DBException {
+        try {
+            List<Event> events = eventDAO.findAll();
+            if (events == null) {
+                throw new NotFoundException(DBLiterals.EVENT_NOT_FOUND);
+            }
+            return events;
+        } catch (NoResultException e) {
+            throw new DBException(DBLiterals.DB_EXCEPTION, e);
         }
-        return events;
     }
 
     /**
@@ -149,12 +163,16 @@ public class EventService {
     public void subscribe(User user, Event event) throws DBException{
         try {
             Set<Event> createdEvents = user.getCreatedEvents();
-            Set<Event> subscribes = user.getSubscribes();
             if (createdEvents.contains(event)) {
                 throw new DBException(DBLiterals.USER_CREATOR);
             }
+            Set<Event> subscribes = user.getSubscribes();
             if (subscribes.contains(event)) {
                 throw new DBException(DBLiterals.USER_SUBSCRIBER);
+            }
+            Set<User> subscribers = event.getSubscribers();
+            if (subscribers.size() == event.getLimit()) {
+                throw new DBException(DBLiterals.LIMIT_ACHIEVED);
             }
             eventDAO.subscribe(user, event);
         } catch (PersistenceException e) {

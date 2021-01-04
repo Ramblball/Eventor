@@ -1,11 +1,21 @@
 package view.commands;
 
+import at.mukprojects.giphy4j.Giphy;
+import at.mukprojects.giphy4j.entity.search.SearchFeed;
+import at.mukprojects.giphy4j.exception.GiphyException;
 import controller.EventController;
 import controller.UserController;
+import database.model.Event;
 import database.utils.EventQuery;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import view.Emoji;
 import view.TelegramMessage;
+import view.dialog.DefaultDialog;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +32,7 @@ public enum Command implements ICommand {
         }
     },
 
-    // Команда сохранения информаии о пользователе
+    // Команда сохранения информации о пользователе
     UserCreate("/start", "Привет") {
         @Override
         public String execute(TelegramMessage telegramMessage) {
@@ -39,6 +49,9 @@ public enum Command implements ICommand {
                             telegramMessage.getEventName(),
                             telegramMessage.getEventTime(),
                             telegramMessage.getEventPlace(),
+                            telegramMessage.getEventLatitude(),
+                            telegramMessage.getEventLongitude(),
+                            telegramMessage.getEventLimit(),
                             telegramMessage.getEventDescription());
         }
     },
@@ -52,6 +65,9 @@ public enum Command implements ICommand {
                             telegramMessage.getEventName(),
                             telegramMessage.getEventTime(),
                             telegramMessage.getEventPlace(),
+                            telegramMessage.getEventLatitude(),
+                            telegramMessage.getEventLongitude(),
+                            telegramMessage.getEventLimit(),
                             telegramMessage.getEventDescription());
         }
     },
@@ -72,7 +88,7 @@ public enum Command implements ICommand {
             eventQuery.setName(telegramMessage.getEventName());
             eventQuery.setDescription(telegramMessage.getEventDescription());
             eventQuery.setTime(telegramMessage.getEventTime());
-            eventQuery.setPlace(telegramMessage.getEventPlace());
+            eventQuery.setPlace(telegramMessage.getEventLatitude(), telegramMessage.getEventLongitude());
             return eventController.findWithFilter(eventQuery);
         }
     },
@@ -82,6 +98,13 @@ public enum Command implements ICommand {
         @Override
         public String execute(TelegramMessage telegramMessage) {
             return eventController.findForTheCurrentWeek();
+        }
+    },
+
+    EventFindRandom("Случайное" , "Случайное " + Emoji.RANDOM, Emoji.RANDOM) {
+        @Override
+        public String execute(TelegramMessage telegramMessage) {
+            return eventController.findRandom();
         }
     },
 
@@ -128,16 +151,46 @@ public enum Command implements ICommand {
         }
     },
 
+    //Команда для получения GIF по запросу пользователя
+    FindGIF("Найти GIF", "Найти GIF " + Emoji.CAMERA, Emoji.CAMERA){
+        @Override
+        public String execute(TelegramMessage telegramMessage){
+            String apiToken;
+            try {
+                BufferedReader br = new BufferedReader(new FileReader("apitoken.txt"));
+                apiToken = br.readLine();
+            } catch (IOException e) {
+                apiToken = System.getenv("API_TOKEN");
+            }
+            Giphy giphy = new Giphy(apiToken);
+            SearchFeed feed = null;
+            String description = eventController.getEventDescription(telegramMessage.getEventName());
+            if (description == null) {
+                return "Мероприятие не найдено";
+            }
+            try {
+                feed = giphy.search(description, 1, 0);
+            } catch (GiphyException e) {
+                logger.error(e.getMessage(), e);
+            }
+            assert feed != null;
+            if (feed.getDataList().isEmpty())
+                return "На данный запрос не найдено GIF";
+            return feed.getDataList().get(0).getImages().getOriginal().getUrl();
+        }
+    },
+
     // Команда ошибки при вызове несуществующей команды
     Unknown() {
         @Override
         public String execute(TelegramMessage telegramMessage) {
-            return "Неивестная команда. Введите \"Помощь\"";
+            return "Неизвестная команда. Введите \"Помощь\"";
         }
     };
 
     protected EventController eventController = new EventController();
     protected UserController userController = new UserController();
+    private static final Logger logger = LogManager.getLogger(DefaultDialog.class);
 
     protected static class Commands {
         private final static Map<String, ICommand> values = new HashMap<>();

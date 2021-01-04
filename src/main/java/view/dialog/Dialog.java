@@ -1,5 +1,7 @@
 package view.dialog;
 
+import at.mukprojects.giphy4j.Giphy;
+import at.mukprojects.giphy4j.entity.search.SearchFeed;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.User;
 import view.*;
@@ -48,8 +50,9 @@ public enum Dialog implements IDialog {
         }
     },
 
-    // Метод для посторения диалога поиска за текущую неделю
-    FindWeek("На текущей неделе", "На текущей неделе " + Emoji.CALENDAR, Emoji.CALENDAR) {
+    // Метод для получения мероприятий, не требующих ввод данных
+    FindWeek("На текущей неделе", "На текущей неделе " + Emoji.CALENDAR, Emoji.CALENDAR,
+            "Случайное" , "Случайное " + Emoji.RANDOM, Emoji.RANDOM) {
         @Override
         public String send(Message message) {
             telegramMessage = UserStateCache.checkProgress(message);
@@ -70,7 +73,8 @@ public enum Dialog implements IDialog {
             "Подписаться", "Подписаться " + Emoji.CHECK, Emoji.CHECK,
             "Отписаться", "Отписаться " + Emoji.X_MARK, Emoji.X_MARK,
             "По имени", "По имени " + Emoji.SPEECH_BALLOON, Emoji.SPEECH_BALLOON,
-            "По параметрам", "По параметрам " + Emoji.NIB, Emoji.NIB) {
+            "По параметрам", "По параметрам " + Emoji.NIB, Emoji.NIB,
+            "Найти GIF", "Найти GIF " + Emoji.CAMERA, Emoji.CAMERA) {
         @Override
         public String send(Message message) {
             telegramMessage = UserStateCache.checkProgress(message);
@@ -84,7 +88,7 @@ public enum Dialog implements IDialog {
         }
     },
 
-    // Метод для посторения диалога отмены действия
+    // Метод для построения диалога отмены действия
     ReturnBack("Назад", "Назад " + Emoji.BACK, Emoji.BACK) {
         @Override
         public String send(Message message) {
@@ -96,7 +100,7 @@ public enum Dialog implements IDialog {
         }
     },
 
-    // Метод для посторения диалога при неизвестном запросе
+    // Метод для построения диалога при неизвестном запросе
     Unknown() {
         @Override
         public String send(Message message) {

@@ -40,14 +40,14 @@ public class TelegramBot extends TelegramLongPollingBot {
      */
     @Override
     public String getBotToken() {
-        String token;
+        String botToken;
         try {
             BufferedReader br = new BufferedReader(new FileReader("token.txt"));
-            token = br.readLine();
+            botToken = br.readLine();
         } catch (IOException e) {
-            token = System.getenv("TOKEN");
+            botToken = System.getenv("TOKEN");
         }
-        return token;
+        return botToken;
     }
 
     /**
@@ -56,10 +56,12 @@ public class TelegramBot extends TelegramLongPollingBot {
      */
     @Override
     public void onUpdateReceived(Update update) {
-        if (update.hasMessage() && update.getMessage().hasText()) {
+        if (update.hasMessage()) {
             new Thread(() -> {
                 synchronized (update.getMessage().getFrom()) {
-                    logger.info(update.getMessage().getFrom().getFirstName() + " => " + update.getMessage().getText());
+                    if (update.getMessage().hasText()) {
+                        logger.info(update.getMessage().getFrom().getFirstName() + " => " + update.getMessage().getText());
+                    }
                     SendMessage message = new SendMessage()
                             .setChatId(update.getMessage().getChatId())
                             .setText(Dialog.get(update.getMessage()))

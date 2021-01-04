@@ -23,17 +23,21 @@ public final class DBLiterals {
     /*
     ----------------- Профили подгрузки --------------------------------
      */
-    //Название fetch профиля для получения мероприятий, в которых пользователь учавствует
+    //Название fetch профиля для получения мероприятий, в которых пользователь участвует
     public final static String USERS_WITH_SUBSCRIBES = "users_with_subscribes";
-    //Название fetch профиля для получения мероприятий, созданных пользоваелем
+    //Название fetch профиля для получения мероприятий, созданных пользователем
     public final static String USER_WITH_CREATED = "user_with_created";
+    //Название fetch профиля для получения пользователей, участвующих в мероприятии
+    public final static String EVENT_WITH_SUBSCRIBERS = "events_with_subscribers";
     /*
     ----------------- Поля для маппинга --------------------------------
      */
-    //Название поля с мероприятиями, в которых пользователь учавствует в User
+    //Название поля с мероприятиями, в которых пользователь участвует в User
     public final static String SUBSCRIBES = "subscribes";
-    //Название поля с мероприятиями, созданных пользоваелем в User
+    //Название поля с мероприятиями, созданных пользователем в User
     public final static String CREATED_EVENTS = "createdEvents";
+    //Название поля с пользователями, которые участвуют в мероприятии
+    public final static String SUBSCRIBERS = "subscribers";
     //название поля с создателем мероприятия в Event
     public final static String USER = "user";
     /*
@@ -43,6 +47,8 @@ public final class DBLiterals {
     public final static String USER_ID = "user_id";
     //Столбец с id мероприятия в users_events
     public final static String EVENT_ID = "event_id";
+    //Столбец с ограничением участников мероприятия в events
+    public final static String LIMIT = "\"limit\"";
     /*
     ----------------- Форматы данных --------------------------------
      */
@@ -67,18 +73,20 @@ public final class DBLiterals {
     public static final String UPDATE_EVENT_UPDATE_VECTOR_QUERY =
             "UPDATE eventor_schema.event_vector SET event_description = to_tsvector(:description) WHERE event_id = :event_id";
     /*
-    ----------------- Ошибки при обращнии к бд --------------------------------
+    ----------------- Ошибки при обращении к бд --------------------------------
      */
     //Ошибка обращения к бд
     public static final String DB_EXCEPTION = "Ошибка при обращении к базе данных";
     //Ошибка, пользователь не найден
     public static final String USER_NOT_EXIST = "Пользователя не существует";
     //Ошибка, пользователь уже создан
-    public static final String USER_ALREADY_EXIST_EXCEPTION = "Пользовтель уже создан";
+    public static final String USER_ALREADY_EXIST_EXCEPTION = "Пользователь уже создан";
     //Ошибка, мероприятие не найдено
     public static final String EVENT_NOT_FOUND = "Мероприятий не найдено";
     //Ошибка, попытка подписаться на собственное мероприятие
-    public static final String USER_CREATOR = "Вы являетесь создаталем мероприятия";
+    public static final String USER_CREATOR = "Вы являетесь создателем мероприятия";
     //Ошибка, попытка подписаться на мероприятие, на которое уже подписан
     public static final String USER_SUBSCRIBER = "Вы уже подписаны на это мероприятие";
+    //Ошибка, попытка подписаться на мероприятие, когда лимит участников уже достигнут
+    public static final String LIMIT_ACHIEVED = "Мест не осталось";
 }

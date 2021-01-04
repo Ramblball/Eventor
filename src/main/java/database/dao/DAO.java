@@ -1,18 +1,15 @@
 package database.dao;
 
-import database.utils.HibernateSessionFactory;
-import org.hibernate.Session;
-
 /**
- * Класс, описывающий общую логику отправки запросов к базе данных
+ * Интерфейс, описывающий основные методы отправки запросов к базе данных
  */
-public abstract class DAO {
+public interface DAO<T> {
 
-    /**
-     * Метод создания сессии работы с пользователем
-     * @return            Сессия взаимодействия с базой данных
-     */
-    protected Session openSession(){
-        return HibernateSessionFactory.getSessionFactory().openSession();
-    }
+    T findById(int id);
+
+    void create(T entity);
+
+    void update(T entity);
+
+    void remove(T entity);
 }

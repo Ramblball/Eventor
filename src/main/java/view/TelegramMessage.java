@@ -11,6 +11,9 @@ public class TelegramMessage {
     private String eventName;
     private String eventTime;
     private String eventPlace;
+    private Float  eventLatitude;
+    private Float  eventLongitude;
+    private String eventLimit;
     private String eventDescription;
 
     public TelegramMessage(User user) {
@@ -20,7 +23,6 @@ public class TelegramMessage {
     public String getOperation() {
         return operation;
     }
-
     public void setOperation(String operation) {
         this.operation = operation;
     }
@@ -28,7 +30,6 @@ public class TelegramMessage {
     public String getEventName() {
         return eventName;
     }
-
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
@@ -36,7 +37,6 @@ public class TelegramMessage {
     public String getEventTime() {
         return eventTime;
     }
-
     public void setEventTime(String eventTime) {
         this.eventTime = eventTime;
     }
@@ -44,7 +44,6 @@ public class TelegramMessage {
     public String getEventPlace() {
         return eventPlace;
     }
-
     public void setEventPlace(String eventPlace) {
         this.eventPlace = eventPlace;
     }
@@ -52,9 +51,29 @@ public class TelegramMessage {
     public String getEventDescription() {
         return eventDescription;
     }
-
     public void setEventDescription(String eventDescription) {
         this.eventDescription = eventDescription;
+    }
+
+    public Float getEventLatitude() {
+        return eventLatitude;
+    }
+    public void setEventLatitude(Float eventLatitude) {
+        this.eventLatitude = eventLatitude;
+    }
+
+    public Float getEventLongitude() {
+        return eventLongitude;
+    }
+    public void setEventLongitude(Float eventLongitude) {
+        this.eventLongitude = eventLongitude;
+    }
+
+    public String getEventLimit() {
+        return eventLimit;
+    }
+    public void setEventLimit(String eventLimit) {
+        this.eventLimit = eventLimit;
     }
 
     public User getUser() {

@@ -1,6 +1,6 @@
 package controller;
 
-import controller.exception.NotAuthorizedException;
+import view.exception.NotAuthorizedException;
 import database.exception.DBException;
 import database.model.User;
 import database.services.EventService;
@@ -10,7 +10,6 @@ import database.services.UserService;
  * Класс, описывающий общую логику взаимодействия представления и модели приложения
  */
 public abstract class Controller {
-    protected static final Validator validator = new Validator();
     protected static final UserService userService = new UserService();
     protected static final EventService eventService = new EventService();
 

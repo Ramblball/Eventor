@@ -1,3 +1,4 @@
+import database.tasks.EventRemoveTask;
 import database.utils.HibernateSessionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.telegram.telegrambots.ApiContextInitializer;
@@ -14,13 +15,10 @@ import view.dialog.Dialog;
  */
 public class Main {
     private static final Logger logger = LogManager.getLogger(Main.class);
+    private static final EventRemoveTask databaseCleaner = new EventRemoveTask();
 
     public static void main(String[] args) {
-        HibernateSessionFactory.getSessionFactory();
-        ApiContextInitializer.init();
-        Dialog dialog = Dialog.Unknown;
-        DefaultDialog defaultDialog = DefaultDialog.Unknown;
-        Command command = Command.Unknown;
+        init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
         try {
             telegramBotsApi.registerBot(new TelegramBot());
@@ -29,5 +27,21 @@ public class Main {
             e.printStackTrace();
             logger.error("Ошибка инициализации бота", e);
         }
+    }
+
+    /**
+     * Метод для инициализации контекста приложения
+     *  Подключение базы данных
+     *  Задача удаления прошедших мероприятий
+     *  Команд и диалогов
+     *  Контекст бота
+     */
+    private static void init() {
+        HibernateSessionFactory.getSessionFactory();
+        databaseCleaner.init();
+        Dialog dialog = Dialog.Unknown;
+        DefaultDialog defaultDialog = DefaultDialog.Unknown;
+        Command command = Command.Unknown;
+        ApiContextInitializer.init();
     }
 }
