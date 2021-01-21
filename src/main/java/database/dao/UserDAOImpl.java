@@ -1,48 +1,71 @@
 package database.dao;
 
-import database.model.Event;
+import database.DBLiterals;
 import database.model.User;
+import database.utils.HibernateSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import database.utils.HibernateSessionFactory;
 
-import java.util.List;
+/**
+ * Класс запросов к базе данных к таблице пользователей
+ */
+public class UserDAOImpl implements DAO<User>{
 
-public class UserDAOImpl {
+    /**
+     * Метод создания сессии работы с пользователем
+     * @return            Сессия взаимодействия с базой данных
+     */
+    private Session openSession(){
+        return HibernateSessionFactory.getSessionFactory().openSession();
+    }
 
+    /**
+     * Метод для отправки запроса на поиск по уникальному идентификатору
+     * @param id            Уникальный идентификатор пользователя
+     * @return              Объект пользователя
+     */
+    @Override
     public User findById(int id) {
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+        try (Session session = openSession()) {
+            session.enableFetchProfile(DBLiterals.USER_WITH_CREATED);
+            session.enableFetchProfile(DBLiterals.USERS_WITH_SUBSCRIBES);
+            session.enableFetchProfile(DBLiterals.EVENT_WITH_SUBSCRIBERS);
             return session.get(User.class, id);
         }
     }
 
-    public void save(User user) {
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+    /**
+     * Метод отправляющий запрос на создание пользователя
+     * @param entity          Объект пользователя
+     */
+    @Override
+    public void create(User entity) {
+        try (Session session = openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.save(user);
+            session.save(entity);
             transaction.commit();
         }
     }
 
-    public void update(User user) {
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()){
+    /**
+     * Метод для отправки запроса на обновление пользователя
+     * @param entity          Объект пользователя
+     */
+    @Override
+    public void update(User entity) {
+        try (Session session = openSession()){
             Transaction transaction = session.beginTransaction();
-            session.update(user);
+            session.update(entity);
             transaction.commit();
         }
     }
 
-    public void delete(User user) {
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
+    @Override
+    public void remove(User entity) {
+        try (Session session = openSession()){
             Transaction transaction = session.beginTransaction();
-            session.delete(user);
+            session.remove(entity);
             transaction.commit();
-        }
-    }
-
-    public List<User> findAll() {
-        try (Session session = HibernateSessionFactory.getSessionFactory().openSession()) {
-            return (List<User>) session.createQuery("FROM User").list();
         }
     }
 }

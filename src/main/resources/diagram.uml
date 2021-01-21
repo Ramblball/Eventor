@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="1486.2815680046442" y="660.0">view.commands.ICommand</node>
+    <node x="820.0444444444447" y="850.0">controller.EventController</node>
+    <node x="990.9680759411519" y="550.0">view.exception.NotAuthorizedException</node>
+    <node x="833.9680759411519" y="380.0">database.exception.DBException</node>
+    <node x="1130.0151028458718" y="660.0">controller.Controller</node>
+    <node x="862.6708466746917" y="240.0">database.utils.EventQuery</node>
+    <node x="1756.7815680046442" y="550.0">view.exception.LongFieldException</node>
+    <node x="369.90399173476044" y="380.0">database.dao.EventDAOImpl</node>
+    <node x="2600.3371235602" y="380.0">view.TelegramKeyboard</node>
+    <node x="2809.013492063492" y="380.0">view.Formatter</node>
+    <node x="452.53909039678365" y="550.0">database.services.EventService</node>
+    <node x="0.0" y="660.0">database.tasks.EventRemoveTask</node>
+    <node x="3133.713492063492" y="380.0">view.UserStateCache</node>
+    <node x="3091.903594909364" y="660.0">view.TelegramBot</node>
+    <node x="1244.4680759411522" y="550.0">database.services.UserService</node>
+    <node x="2995.463492063492" y="380.0">view.dialog.Dialog.MainMap</node>
+    <node x="1424.7436507936509" y="990.0">view.commands.Command</node>
+    <node x="266.0" y="240.0">database.utils.HibernateSessionFactory</node>
+    <node x="1259.8581380158312" y="850.0">controller.UserController</node>
+    <node x="2452.3371235602" y="380.0">view.dialog.DefaultDialog.DefaultMap</node>
+    <node x="3077.903594909364" y="550.0">view.dialog.Dialog</node>
+    <node x="1899.578594909364" y="380.0">view.exception.ValidationException</node>
+    <node x="702.8484361792051" y="240.0">database.dao.DAO</node>
+    <node x="3000.303594909364" y="120.0">view.TelegramMessage</node>
+    <node x="321.40399173476044" y="0.0">database.model.Event</node>
+    <node x="1968.7815680046442" y="550.0">view.exception.ParseException</node>
+    <node x="3034.5454498492954" y="240.0">view.Progress</node>
+    <node x="1244.4680759411522" y="380.0">database.dao.UserDAOImpl</node>
+    <node x="2660.3285949093643" y="240.0">view.dialog.IDialog</node>
+    <node x="2864.263492063492" y="850.0">view.dialog.DefaultDialog</node>
+    <node x="2148.781568004644" y="550.0">view.exception.OutOfFieldBorderException</node>
+    <node x="1895.4579365079367" y="660.0">view.Validator</node>
+    <node x="1554.2942561711802" y="850.0">view.commands.Command.Commands</node>
+    <node x="1552.7815680046442" y="550.0">view.exception.PastTimeException</node>
+    <node x="629.9680759411519" y="380.0">database.exception.NotFoundException</node>
+    <node x="3270.7314421366036" y="650.8879023307435">Main</node>
+    <node x="1166.5984361792052" y="120.0">database.model.User</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="view.dialog.Dialog" target="view.Formatter">
+      <point x="-24.0" y="-15.0" />
+      <point x="3101.903594909364" y="470.0" />
+      <point x="2884.013492063492" y="470.0" />
+      <point x="15.0" y="15.0" />
+    </edge>
+    <edge source="view.dialog.DefaultDialog" target="view.Progress">
+      <point x="42.75" y="-15.0" />
+      <point x="2983.013492063492" y="710.0" />
+      <point x="2939.513492063492" y="710.0" />
+      <point x="2939.513492063492" y="360.0" />
+      <point x="3068.1454498492953" y="360.0" />
+      <point x="-22.399999999999864" y="15.0" />
+    </edge>
+    <edge source="database.utils.HibernateSessionFactory" target="database.model.Event">
+      <point x="-58.0" y="-15.0" />
+      <point x="324.0" y="100.0" />
+      <point x="365.40399173476044" y="100.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="view.dialog.Dialog" target="view.TelegramMessage">
+      <point x="33.59999999999991" y="-15.0" />
+      <point x="3159.503594909364" y="520.0" />
+      <point x="3304.213492063492" y="520.0" />
+      <point x="3304.213492063492" y="190.0" />
+      <point x="3145.394504000273" y="190.0" />
+      <point x="61.09090909090901" y="15.0" />
+    </edge>
+    <edge source="view.dialog.Dialog" target="view.TelegramBot">
+      <point x="19.200000000000045" y="15.0" />
+      <point x="3145.103594909364" y="640.0" />
+      <point x="3193.903594909364" y="640.0" />
+      <point x="34.0" y="-15.0" />
+    </edge>
+    <edge source="Main" target="view.TelegramBot">
+      <point x="22.85714285714289" y="-15.0" />
+      <point x="1499.600793650794" y="1050.0" />
+      <point x="3193.903594909364" y="1050.0" />
+      <point x="34.0" y="15.0" />
+    </edge>
+    <edge source="view.exception.LongFieldException" target="view.exception.ValidationException">
+      <point x="-48.0" y="-15.0" />
+      <point x="1804.7815680046442" y="520.0" />
+      <point x="1955.1341504649195" y="520.0" />
+      <point x="-44.44444444444446" y="15.0" />
+    </edge>
+    <edge source="controller.UserController" target="controller.Controller">
+      <point x="-40.0" y="-15.0" />
+      <point x="1299.8581380158312" y="820.0" />
+      <point x="1242.0151028458718" y="820.0" />
+      <point x="48.0" y="15.0" />
+    </edge>
+    <edge source="database.tasks.EventRemoveTask" target="database.services.EventService">
+      <point x="-56.0" y="-15.0" />
+      <point x="28.0" y="620.0" />
+      <point x="470.53909039678365" y="620.0" />
+      <point x="-54.0" y="15.0" />
+    </edge>
+    <edge source="view.commands.ICommand" target="view.TelegramMessage">
+      <point x="0.0" y="-15.0" />
+      <point x="1542.2815680046442" y="190.0" />
+      <point x="3038.485413091182" y="190.0" />
+      <point x="-45.81818181818198" y="15.0" />
+    </edge>
+    <edge source="Main" target="view.dialog.Dialog">
+      <point x="34.28571428571422" y="-15.0" />
+      <point x="1511.029365079365" y="1060.0" />
+      <point x="3238.403594909364" y="1060.0" />
+      <point x="3238.403594909364" y="630.0" />
+      <point x="3164.303594909364" y="630.0" />
+      <point x="38.40000000000009" y="15.0" />
+    </edge>
+    <edge source="controller.Controller" target="database.services.EventService">
+      <point x="-53.333333333333485" y="-15.0" />
+      <point x="1140.6817695125383" y="630.0" />
+      <point x="542.5390903967836" y="630.0" />
+      <point x="18.0" y="15.0" />
+    </edge>
+    <edge source="database.dao.UserDAOImpl" target="database.model.User">
+      <point x="45.333333333333485" y="-15.0" />
+      <point x="1357.8014092744856" y="360.0" />
+      <point x="1339.9331450600691" y="360.0" />
+      <point x="1339.9331450600691" y="210.0" />
+      <point x="1215.487325068094" y="210.0" />
+      <point x="8.888888888888687" y="15.0" />
+    </edge>
+    <edge source="controller.EventController" target="database.model.User">
+      <point x="-37.333333333333485" y="-15.0" />
+      <point x="866.7111111111112" y="810.0" />
+      <point x="211.5" y="810.0" />
+      <point x="211.5" y="350.0" />
+      <point x="233.5" y="350.0" />
+      <point x="233.5" y="190.0" />
+      <point x="1171.0428806236496" y="190.0" />
+      <point x="-35.55555555555566" y="15.0" />
+    </edge>
+    <edge source="controller.Controller" target="database.model.User">
+      <point x="10.666666666666515" y="-15.0" />
+      <point x="1204.6817695125383" y="620.0" />
+      <point x="1225.468075941152" y="620.0" />
+      <point x="1225.468075941152" y="220.0" />
+      <point x="1206.5984361792052" y="220.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="view.Validator" target="view.exception.LongFieldException">
+      <point x="-15.0" y="-15.0" />
+      <point x="1940.4579365079367" y="630.0" />
+      <point x="1852.7815680046442" y="630.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="view.dialog.DefaultDialog" target="view.UserStateCache">
+      <point x="52.25" y="-15.0" />
+      <point x="2992.513492063492" y="810.0" />
+      <point x="3048.2035949093643" y="810.0" />
+      <point x="3048.2035949093643" y="500.0" />
+      <point x="3173.713492063492" y="500.0" />
+      <point x="-40.0" y="15.0" />
+    </edge>
+    <edge source="view.UserStateCache" target="view.TelegramMessage">
+      <point x="60.0" y="-15.0" />
+      <point x="3273.713492063492" y="360.0" />
+      <point x="3266.471637123561" y="360.0" />
+      <point x="3266.471637123561" y="200.0" />
+      <point x="3130.1217767275457" y="200.0" />
+      <point x="45.818181818181756" y="15.0" />
+    </edge>
+    <edge source="view.dialog.DefaultDialog" target="view.dialog.DefaultDialog.DefaultMap">
+      <point x="-14.25" y="-15.0" />
+      <point x="2926.013492063492" y="770.0" />
+      <point x="2516.3371235602" y="770.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="view.commands.Command" target="view.TelegramMessage">
+      <point x="3.7142857142857792" y="-15.0" />
+      <point x="1480.4579365079367" y="900.0" />
+      <point x="1475.7815680046442" y="900.0" />
+      <point x="1475.7815680046442" y="180.0" />
+      <point x="3023.212685818455" y="180.0" />
+      <point x="-61.09090909090901" y="15.0" />
+    </edge>
+    <edge source="controller.EventController" target="controller.Controller">
+      <point x="56.0" y="-15.0" />
+      <point x="960.0444444444447" y="820.0" />
+      <point x="1146.0151028458718" y="820.0" />
+      <point x="-48.0" y="15.0" />
+    </edge>
+    <edge source="database.services.EventService" target="database.model.Event">
+      <point x="-61.71428571428578" y="-15.0" />
+      <point x="462.82480468249787" y="530.0" />
+      <point x="222.5" y="530.0" />
+      <point x="222.5" y="70.0" />
+      <point x="341.40399173476044" y="70.0" />
+      <point x="-24.0" y="15.0" />
+    </edge>
+    <edge source="controller.UserController" target="database.exception.DBException">
+      <point x="13.333333333333258" y="-15.0" />
+      <point x="1353.1914713491647" y="810.0" />
+      <point x="1397.4317695125387" y="810.0" />
+      <point x="1397.4317695125387" y="520.0" />
+      <point x="956.368075941152" y="520.0" />
+      <point x="54.40000000000009" y="15.0" />
+    </edge>
+    <edge source="database.services.EventService" target="database.exception.DBException">
+      <point x="61.71428571428578" y="-15.0" />
+      <point x="586.2533761110694" y="520.0" />
+      <point x="847.5680759411518" y="520.0" />
+      <point x="-54.40000000000009" y="15.0" />
+    </edge>
+    <edge source="controller.EventController" target="database.exception.NotFoundException">
+      <point x="-18.666666666666515" y="-15.0" />
+      <point x="885.3777777777782" y="800.0" />
+      <point x="767.9680759411519" y="800.0" />
+      <point x="46.0" y="15.0" />
+    </edge>
+    <edge source="view.Progress" target="view.TelegramMessage">
+      <point x="-28.0" y="-15.0" />
+      <point x="3062.5454498492954" y="220.0" />
+      <point x="3084.303594909364" y="220.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="view.commands.Command" target="view.commands.ICommand">
+      <point x="11.14285714285711" y="-15.0" />
+      <point x="1487.8865079365082" y="920.0" />
+      <point x="1499.8285949093638" y="920.0" />
+      <point x="1499.8285949093638" y="830.0" />
+      <point x="1504.948234671311" y="830.0" />
+      <point x="-37.33333333333326" y="15.0" />
+    </edge>
+    <edge source="view.exception.ParseException" target="view.exception.ValidationException">
+      <point x="-40.0" y="-15.0" />
+      <point x="2008.7815680046442" y="530.0" />
+      <point x="1999.578594909364" y="530.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="view.exception.PastTimeException" target="view.exception.ValidationException">
+      <point x="-46.0" y="-15.0" />
+      <point x="1598.7815680046442" y="500.0" />
+      <point x="1910.6897060204751" y="500.0" />
+      <point x="-88.88888888888891" y="15.0" />
+    </edge>
+    <edge source="controller.UserController" target="view.exception.NotAuthorizedException">
+      <point x="-13.333333333333258" y="-15.0" />
+      <point x="1326.5248046824981" y="810.0" />
+      <point x="1278.322033948958" y="810.0" />
+      <point x="1278.322033948958" y="600.0" />
+      <point x="1177.6347426078185" y="600.0" />
+      <point x="74.66666666666652" y="15.0" />
+    </edge>
+    <edge source="Main" target="database.tasks.EventRemoveTask">
+      <point x="-34.28571428571422" y="-15.0" />
+      <point x="1442.4579365079367" y="1060.0" />
+      <point x="90.6708466746918" y="1060.0" />
+      <point x="90.6708466746918" y="830.0" />
+      <point x="42.0" y="830.0" />
+      <point x="-42.0" y="15.0" />
+    </edge>
+    <edge source="database.services.EventService" target="database.dao.EventDAOImpl">
+      <point x="-41.14285714285734" y="-15.0" />
+      <point x="483.3962332539263" y="520.0" />
+      <point x="405.90399173476044" y="520.0" />
+      <point x="-36.0" y="15.0" />
+    </edge>
+    <edge source="database.services.EventService" target="database.exception.NotFoundException">
+      <point x="41.14285714285734" y="-15.0" />
+      <point x="565.681947539641" y="510.0" />
+      <point x="675.9680759411519" y="510.0" />
+      <point x="-46.0" y="15.0" />
+    </edge>
+    <edge source="view.dialog.DefaultDialog" target="view.Validator">
+      <point x="-71.25" y="-15.0" />
+      <point x="2869.013492063492" y="830.0" />
+      <point x="1925.4579365079367" y="830.0" />
+      <point x="-30.0" y="15.0" />
+    </edge>
+    <edge source="view.commands.Command" target="database.utils.EventQuery">
+      <point x="-11.14285714285711" y="-15.0" />
+      <point x="1465.600793650794" y="920.0" />
+      <point x="1460.9244251475013" y="920.0" />
+      <point x="1460.9244251475013" y="290.0" />
+      <point x="977.8708466746915" y="290.0" />
+      <point x="51.19999999999982" y="15.0" />
+    </edge>
+    <edge source="database.model.Event" target="database.model.User">
+      <point x="24.0" y="15.0" />
+      <point x="389.40399173476044" y="80.0" />
+      <point x="1206.5984361792052" y="80.0" />
+      <point x="0.0" y="-15.0" />
+    </edge>
+    <edge source="view.dialog.DefaultDialog" target="view.commands.Command">
+      <point x="0.0" y="15.0" />
+      <point x="2940.263492063492" y="970.0" />
+      <point x="1525.029365079365" y="970.0" />
+      <point x="48.28571428571422" y="-15.0" />
+    </edge>
+    <edge source="view.dialog.Dialog" target="view.UserStateCache">
+      <point x="24.0" y="-15.0" />
+      <point x="3149.903594909364" y="510.0" />
+      <point x="3253.713492063492" y="510.0" />
+      <point x="40.000000000000114" y="15.0" />
+    </edge>
+    <edge source="view.dialog.DefaultDialog" target="view.exception.ValidationException">
+      <point x="-52.25" y="-15.0" />
+      <point x="2888.013492063492" y="810.0" />
+      <point x="2407.281568004644" y="810.0" />
+      <point x="2407.281568004644" y="500.0" />
+      <point x="2088.467483798253" y="500.0" />
+      <point x="88.88888888888891" y="15.0" />
+    </edge>
+    <edge source="database.dao.EventDAOImpl" target="database.utils.EventQuery">
+      <point x="60.0" y="-15.0" />
+      <point x="501.90399173476044" y="350.0" />
+      <point x="875.4708466746919" y="350.0" />
+      <point x="-51.19999999999982" y="15.0" />
+    </edge>
+    <edge source="view.exception.OutOfFieldBorderException" target="view.exception.ValidationException">
+      <point x="62.0" y="-15.0" />
+      <point x="2334.781568004644" y="510.0" />
+      <point x="2066.2452615760308" y="510.0" />
+      <point x="66.66666666666669" y="15.0" />
+    </edge>
+    <edge source="database.services.UserService" target="database.model.User">
+      <point x="51.0" y="-15.0" />
+      <point x="1363.4680759411522" y="530.0" />
+      <point x="1422.606964830041" y="530.0" />
+      <point x="1422.606964830041" y="200.0" />
+      <point x="1224.376213956983" y="200.0" />
+      <point x="17.77777777777783" y="15.0" />
+    </edge>
+    <edge source="database.dao.EventDAOImpl" target="database.model.Event">
+      <point x="-36.0" y="-15.0" />
+      <point x="405.90399173476044" y="340.0" />
+      <point x="255.5" y="340.0" />
+      <point x="255.5" y="90.0" />
+      <point x="357.40399173476044" y="90.0" />
+      <point x="-8.0" y="15.0" />
+    </edge>
+    <edge source="view.dialog.DefaultDialog" target="view.dialog.IDialog">
+      <point x="-23.75" y="-15.0" />
+      <point x="2916.513492063492" y="780.0" />
+      <point x="2441.8371235602" y="780.0" />
+      <point x="2441.8371235602" y="350.0" />
+      <point x="2673.3285949093643" y="350.0" />
+      <point x="-39.0" y="15.0" />
+    </edge>
+    <edge source="view.dialog.Dialog" target="view.dialog.Dialog.MainMap">
+      <point x="4.7999999999999545" y="-15.0" />
+      <point x="3130.7035949093643" y="440.0" />
+      <point x="3047.463492063492" y="440.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="view.dialog.Dialog" target="view.commands.Command">
+      <point x="-38.40000000000009" y="15.0" />
+      <point x="3087.503594909364" y="630.0" />
+      <point x="2809.8371235602" y="630.0" />
+      <point x="2809.8371235602" y="950.0" />
+      <point x="1510.1722222222224" y="950.0" />
+      <point x="33.42857142857133" y="-15.0" />
+    </edge>
+    <edge source="Main" target="view.commands.Command">
+      <point x="0.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="controller.EventController" target="view.exception.NotAuthorizedException">
+      <point x="37.333333333333485" y="-15.0" />
+      <point x="941.3777777777782" y="810.0" />
+      <point x="1049.4887006156246" y="810.0" />
+      <point x="1049.4887006156246" y="640.0" />
+      <point x="1028.3014092744852" y="640.0" />
+      <point x="-74.66666666666674" y="15.0" />
+    </edge>
+    <edge source="view.dialog.Dialog" target="view.dialog.IDialog">
+      <point x="-4.7999999999999545" y="-15.0" />
+      <point x="3121.103594909364" y="450.0" />
+      <point x="2984.963492063492" y="450.0" />
+      <point x="2984.963492063492" y="340.0" />
+      <point x="2725.3285949093643" y="340.0" />
+      <point x="13.0" y="15.0" />
+    </edge>
+    <edge source="view.dialog.Dialog" target="view.Progress">
+      <point x="14.400000000000091" y="-15.0" />
+      <point x="3140.303594909364" y="430.0" />
+      <point x="3123.213492063492" y="430.0" />
+      <point x="3123.213492063492" y="360.0" />
+      <point x="3090.5454498492954" y="360.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="database.services.UserService" target="database.dao.UserDAOImpl">
+      <point x="-17.0" y="-15.0" />
+      <point x="1295.4680759411522" y="530.0" />
+      <point x="1278.4680759411522" y="530.0" />
+      <point x="-34.0" y="15.0" />
+    </edge>
+    <edge source="database.tasks.EventRemoveTask" target="database.exception.DBException">
+      <point x="56.0" y="-15.0" />
+      <point x="140.0" y="640.0" />
+      <point x="703.1708466746917" y="640.0" />
+      <point x="703.1708466746917" y="530.0" />
+      <point x="874.7680759411521" y="530.0" />
+      <point x="-27.199999999999818" y="15.0" />
+    </edge>
+    <edge source="view.dialog.Dialog" target="view.dialog.DefaultDialog">
+      <point x="-19.200000000000045" y="15.0" />
+      <point x="3106.7035949093643" y="640.0" />
+      <point x="3079.153594909364" y="640.0" />
+      <point x="3079.153594909364" y="820.0" />
+      <point x="3002.013492063492" y="820.0" />
+      <point x="61.75" y="-15.0" />
+    </edge>
+    <edge source="view.commands.Command" target="controller.EventController">
+      <point x="-48.28571428571422" y="-15.0" />
+      <point x="1428.4579365079367" y="970.0" />
+      <point x="862.0444444444447" y="970.0" />
+      <point x="-42.0" y="15.0" />
+    </edge>
+    <edge source="controller.Controller" target="database.services.UserService">
+      <point x="32.0" y="-15.0" />
+      <point x="1226.0151028458718" y="630.0" />
+      <point x="1278.4680759411522" y="630.0" />
+      <point x="-34.0" y="15.0" />
+    </edge>
+    <edge source="database.model.User" target="database.model.Event">
+      <point x="-32.0" y="-15.0" />
+      <point x="1174.5984361792052" y="100.0" />
+      <point x="373.40399173476044" y="100.0" />
+      <point x="8.0" y="15.0" />
+    </edge>
+    <edge source="controller.EventController" target="database.exception.DBException">
+      <point x="0.0" y="-15.0" />
+      <point x="904.0444444444447" y="830.0" />
+      <point x="901.9680759411519" y="830.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="database.dao.EventDAOImpl" target="database.utils.HibernateSessionFactory">
+      <point x="-12.0" y="-15.0" />
+      <point x="429.90399173476044" y="330.0" />
+      <point x="382.0" y="330.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="view.Validator" target="view.exception.OutOfFieldBorderException">
+      <point x="45.0" y="-15.0" />
+      <point x="2000.4579365079367" y="640.0" />
+      <point x="2272.781568004644" y="640.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="view.dialog.DefaultDialog" target="view.Formatter">
+      <point x="33.25" y="-15.0" />
+      <point x="2973.513492063492" y="720.0" />
+      <point x="2843.763492063492" y="720.0" />
+      <point x="2843.763492063492" y="530.0" />
+      <point x="2854.013492063492" y="530.0" />
+      <point x="-15.0" y="15.0" />
+    </edge>
+    <edge source="controller.EventController" target="database.utils.EventQuery">
+      <point x="18.666666666666515" y="-15.0" />
+      <point x="922.7111111111112" y="800.0" />
+      <point x="980.4680759411519" y="800.0" />
+      <point x="980.4680759411519" y="360.0" />
+      <point x="926.6708466746917" y="360.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="view.dialog.DefaultDialog" target="view.TelegramMessage">
+      <point x="-42.75" y="-15.0" />
+      <point x="2897.513492063492" y="800.0" />
+      <point x="2422.8371235602" y="800.0" />
+      <point x="2422.8371235602" y="200.0" />
+      <point x="3053.7581403639097" y="200.0" />
+      <point x="-30.545454545454504" y="15.0" />
+    </edge>
+    <edge source="view.commands.Command" target="controller.UserController">
+      <point x="-33.42857142857133" y="-15.0" />
+      <point x="1443.3150793650798" y="950.0" />
+      <point x="1299.8581380158312" y="950.0" />
+      <point x="-40.0" y="15.0" />
+    </edge>
+    <edge source="view.dialog.DefaultDialog" target="view.TelegramKeyboard">
+      <point x="-4.75" y="-15.0" />
+      <point x="2935.513492063492" y="760.0" />
+      <point x="2635.845449849295" y="760.0" />
+      <point x="2635.845449849295" y="530.0" />
+      <point x="2622.3371235602" y="530.0" />
+      <point x="-66.0" y="15.0" />
+    </edge>
+    <edge source="view.Validator" target="view.exception.PastTimeException">
+      <point x="-45.0" y="-15.0" />
+      <point x="1910.4579365079367" y="640.0" />
+      <point x="1644.7815680046442" y="640.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="view.UserStateCache" target="view.Progress">
+      <point x="-59.999999999999886" y="-15.0" />
+      <point x="3153.713492063492" y="350.0" />
+      <point x="3112.945449849295" y="350.0" />
+      <point x="22.399999999999977" y="15.0" />
+    </edge>
+    <edge source="database.services.EventService" target="database.utils.EventQuery">
+      <point x="20.57142857142844" y="-15.0" />
+      <point x="545.1105189682121" y="500.0" />
+      <point x="619.4680759411519" y="500.0" />
+      <point x="619.4680759411519" y="360.0" />
+      <point x="901.0708466746918" y="360.0" />
+      <point x="-25.59999999999991" y="15.0" />
+    </edge>
+    <edge source="view.dialog.DefaultDialog" target="view.TelegramBot">
+      <point x="71.25" y="-15.0" />
+      <point x="3011.513492063492" y="830.0" />
+      <point x="3125.903594909364" y="830.0" />
+      <point x="-34.0" y="15.0" />
+    </edge>
+    <edge source="database.dao.EventDAOImpl" target="database.model.User">
+      <point x="12.0" y="-15.0" />
+      <point x="453.90399173476044" y="330.0" />
+      <point x="508.5" y="330.0" />
+      <point x="508.5" y="210.0" />
+      <point x="1188.8206584014274" y="210.0" />
+      <point x="-17.77777777777783" y="15.0" />
+    </edge>
+    <edge source="view.commands.Command" target="view.commands.Command.Commands">
+      <point x="26.0" y="-15.0" />
+      <point x="1502.7436507936509" y="940.0" />
+      <point x="1610.2942561711802" y="940.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="controller.EventController" target="database.model.Event">
+      <point x="-56.0" y="-15.0" />
+      <point x="848.0444444444447" y="820.0" />
+      <point x="200.5" y="820.0" />
+      <point x="200.5" y="60.0" />
+      <point x="333.40399173476044" y="60.0" />
+      <point x="-32.0" y="15.0" />
+    </edge>
+    <edge source="database.dao.UserDAOImpl" target="database.dao.DAO">
+      <point x="0.0" y="-15.0" />
+      <point x="1312.4680759411522" y="310.0" />
+      <point x="756.8484361792051" y="310.0" />
+      <point x="18.0" y="15.0" />
+    </edge>
+    <edge source="view.dialog.Dialog" target="view.TelegramKeyboard">
+      <point x="-43.200000000000045" y="-15.0" />
+      <point x="3082.7035949093643" y="490.0" />
+      <point x="2710.3371235602" y="490.0" />
+      <point x="22.0" y="15.0" />
+    </edge>
+    <edge source="view.Validator" target="view.exception.ParseException">
+      <point x="15.0" y="-15.0" />
+      <point x="1970.4579365079367" y="630.0" />
+      <point x="2048.781568004644" y="630.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="controller.UserController" target="database.model.User">
+      <point x="40.0" y="-15.0" />
+      <point x="1379.8581380158312" y="820.0" />
+      <point x="1431.4958537189298" y="820.0" />
+      <point x="1431.4958537189298" y="190.0" />
+      <point x="1233.2651028458718" y="190.0" />
+      <point x="26.666666666666515" y="15.0" />
+    </edge>
+    <edge source="database.services.EventService" target="database.model.User">
+      <point x="0.0" y="-15.0" />
+      <point x="524.5390903967836" y="490.0" />
+      <point x="554.6708466746918" y="490.0" />
+      <point x="554.6708466746918" y="220.0" />
+      <point x="1197.7095472903166" y="220.0" />
+      <point x="-8.888888888888687" y="15.0" />
+    </edge>
+    <edge source="database.dao.UserDAOImpl" target="database.utils.HibernateSessionFactory">
+      <point x="-45.333333333333485" y="-15.0" />
+      <point x="1267.1347426078187" y="320.0" />
+      <point x="459.3333333333335" y="320.0" />
+      <point x="77.33333333333348" y="15.0" />
+    </edge>
+    <edge source="database.utils.HibernateSessionFactory" target="database.model.User">
+      <point x="58.0" y="-15.0" />
+      <point x="440.0" y="200.0" />
+      <point x="1179.9317695125387" y="200.0" />
+      <point x="-26.666666666666515" y="15.0" />
+    </edge>
+    <edge source="view.commands.Command" target="view.dialog.DefaultDialog">
+      <point x="40.85714285714289" y="-15.0" />
+      <point x="1517.600793650794" y="960.0" />
+      <point x="2889.5968253968254" y="960.0" />
+      <point x="-50.66666666666674" y="15.0" />
+    </edge>
+    <edge source="Main" target="view.dialog.DefaultDialog">
+      <point x="11.428571428571331" y="-15.0" />
+      <point x="1488.1722222222224" y="1040.0" />
+      <point x="2990.930158730159" y="1040.0" />
+      <point x="50.66666666666674" y="15.0" />
+    </edge>
+    <edge source="database.services.UserService" target="database.exception.DBException">
+      <point x="-51.0" y="-15.0" />
+      <point x="1261.4680759411522" y="530.0" />
+      <point x="929.1680759411518" y="530.0" />
+      <point x="27.199999999999818" y="15.0" />
+    </edge>
+    <edge source="view.TelegramBot" target="view.dialog.Dialog">
+      <point x="-34.0" y="-15.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="database.dao.EventDAOImpl" target="database.dao.DAO">
+      <point x="36.0" y="-15.0" />
+      <point x="477.90399173476044" y="340.0" />
+      <point x="720.8484361792051" y="340.0" />
+      <point x="-18.0" y="15.0" />
+    </edge>
+    <edge source="view.commands.Command.Commands" target="view.commands.ICommand">
+      <point x="0.0" y="-15.0" />
+      <point x="1610.2942561711802" y="830.0" />
+      <point x="1579.6149013379775" y="830.0" />
+      <point x="37.33333333333326" y="15.0" />
+    </edge>
+    <edge source="view.dialog.DefaultDialog.DefaultMap" target="view.dialog.IDialog">
+      <point x="0.0" y="-15.0" />
+      <point x="2516.3371235602" y="360.0" />
+      <point x="2699.3285949093643" y="360.0" />
+      <point x="-13.0" y="15.0" />
+    </edge>
+    <edge source="controller.Controller" target="view.exception.NotAuthorizedException">
+      <point x="-10.666666666666515" y="-15.0" />
+      <point x="1183.3484361792052" y="610.0" />
+      <point x="1102.968075941152" y="610.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="Main" target="database.utils.HibernateSessionFactory">
+      <point x="-11.428571428571331" y="-15.0" />
+      <point x="1465.3150793650798" y="1040.0" />
+      <point x="178.5" y="1040.0" />
+      <point x="178.5" y="360.0" />
+      <point x="304.6666666666665" y="360.0" />
+      <point x="-77.33333333333348" y="15.0" />
+    </edge>
+    <edge source="view.dialog.Dialog.MainMap" target="view.dialog.IDialog">
+      <point x="0.0" y="-15.0" />
+      <point x="3047.463492063492" y="330.0" />
+      <point x="2751.3285949093643" y="330.0" />
+      <point x="39.0" y="15.0" />
+    </edge>
+  </edges>
+  <settings layout="Tree" zoom="0.535990481856038" x="1671.0" y="555.0" />
+  <SelectedNodes>
+    <node>Main</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
